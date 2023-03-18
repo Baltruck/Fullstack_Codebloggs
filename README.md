@@ -1,5 +1,5 @@
 # Collaboration et Conception
- Collaboration et Conception
+ Jeremy Gagnon et Sébastien Doyon
 ## How To Run
 Create an Atlas URI connection parameter in `mern/server/config.env` with your Atlas URI:
 ```
