@@ -1,11 +1,22 @@
 .connection-card {
     width: 100%;
     max-width: 400px;
-    border-radius: 15px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+.connection-card .card-title {
+    color: #000; 
+  }
+
+.register-card {
+    width: 100%;
+    max-width: 700px;
+    border-radius: 20px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  .connection-card .card-title {
+.register-card .card-title {
     color: #000; 
   }
 
@@ -17,6 +28,7 @@
 .form-control {
     text-align: center;
     background-color: #B5B5F7;
+    border-radius: 20px;
   }
 
 .mainFromLogo {
@@ -67,11 +79,12 @@
     animation: border-animation 3s infinite;
   }
   
+  /* Font for body */
   body {
     font-family: 'Roboto Slab', serif;
     /* font-family: 'Noto Serif Georgian', serif; */
   }
-  
+  /* Font for title and more */
   .dusterA {
     font-family: 'DusterABThick', sans-serif;
     font-size: 2.5em;

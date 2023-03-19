@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Form, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './login.css';
+import './customStyle.css';
 
 const Connection = () => {
   const [email, setEmail] = useState('');
@@ -13,10 +13,10 @@ const Connection = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center">
+    <Container className="d-flex justify-content-center align-items-center vh-100">
       <Card className="connection-card mainFromLogo animated-border">
         <Card.Body>
-          <Card.Title className="text-center  card-title">Login</Card.Title>
+          <Card.Title className="text-center  card-title dusterA">Login</Card.Title>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email" className="form-field">
               {/* <Form.Label>Email</Form.Label> */}

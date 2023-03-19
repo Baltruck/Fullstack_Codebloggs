@@ -4,6 +4,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from './components/themeContext';
 import './components/theme.css';
+import './fonts/fonts.css';
 
 
 
