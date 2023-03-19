@@ -1,4 +1,7 @@
 const express = require("express");
+const mongoose = require('mongoose');
+const {UserModel, SessionModel, PostModel, CommentModel} = require("../db/schemas") //import schemas
+const { ObjectId, Int32 } = require('mongodb');
 
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
