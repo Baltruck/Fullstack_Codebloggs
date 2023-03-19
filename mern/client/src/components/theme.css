@@ -1,0 +1,17 @@
+:root {
+    --mainFromLogo: #8C8CEC;
+    --compColor: #ECEC8C;
+    --textColor-dark: #FFFFFF;
+    --textColor-light: #000000;
+  }
+  
+  body.light {
+    background-color: #FFFFFF;
+    color: var(--textColor-light);
+  }
+  
+  body.dark {
+    background-color: #000000;
+    color: var(--textColor-dark);
+  }
+  
