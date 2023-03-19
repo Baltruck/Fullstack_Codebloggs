@@ -1,7 +1,6 @@
 const express = require("express");
-const mongoose = require('mongoose');
-const {UserModel, SessionModel, PostModel, CommentModel} = require("../db/schemas") //import schemas
-const { ObjectId, Int32 } = require('mongodb');
+const UserModel = require("../db/schemas") //import schemas
+// const { ObjectId, Int32 } = require('mongodb');
 
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
@@ -14,6 +13,36 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
+
+const emailValidator = (req, res, next) => {
+  return 0;
+}
+
+recordRoutes.route("/user").post(async (req, res) => {
+  console.log("APi HITT")
+  const user = new UserModel({
+    // _id: req.body._id,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    birthday: req.body.birthday,
+    email: req.body.email,
+    password: req.body.password,
+    status: req.body.status,
+    location: req.body.location,
+    occupation: req.body.occupation,
+    auth_level: req.body.auth_level,
+  });
+
+  try {
+    console.log("Good");
+    const savedUser = await user.save();
+    res.json(savedUser);
+  } catch (error) {
+    console.log("Shit");
+    console.error(error);
+    res.status(500).send('Inscprition not processed');
+  }
+});
 
 // This section will help you get a list of all the records.
 recordRoutes.route("/record").get(function (req, res) {
