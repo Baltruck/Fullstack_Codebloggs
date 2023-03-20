@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './customStyle.css';
+// import { format } from 'date-fns';
+// import { DayPicker } from 'react-day-picker';
+// import Calendar from 'react-calendar';
 
-const Connection = () => {
+const Register = () => {
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [birthday, setBirthday] = useState('');
@@ -13,6 +16,8 @@ const Connection = () => {
   const [occupation, setOccupation] = useState('');
 //   const [status, setStatus] = useState('');
 //   const [auth_level, setAuthLevel] = useState('');
+
+    
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -125,4 +130,4 @@ const Connection = () => {
   );
 };
 
-export default Connection;
+export default Register;
