@@ -3,7 +3,7 @@ import { Card, Form, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './customStyle.css';
 import Cookies from 'js-cookie';
-
+import { v4 as uuidv4 } from 'uuid';
 
 const Connection = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +21,10 @@ const Connection = () => {
           if (userData && userData.first_name && userData.last_name) {
             const userName = `${userData.first_name} ${userData.last_name}`;
             Cookies.set('userName', userName);
+
+            // Generate and set a unique token for the user
+          const userToken = uuidv4();
+          Cookies.set('userToken', userToken);
     
             // Redirigez l'utilisateur vers la page d'accueil ou la page souhaitée
             // window.location.replace('/');
