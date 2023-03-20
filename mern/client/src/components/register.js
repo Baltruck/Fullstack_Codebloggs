@@ -9,10 +9,10 @@ const Connection = () => {
   const [birthday, setBirthday] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [status, setStatus] = useState('');
   const [location, setLocation] = useState('');
   const [occupation, setOccupation] = useState('');
-  const [auth_level, setAuthLevel] = useState('');
+//   const [status, setStatus] = useState('');
+//   const [auth_level, setAuthLevel] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +29,7 @@ const Connection = () => {
               <Col>
                 <Form.Group controlId="first_name" className="form-field">
                     <Form.Control
+                        required
                         type="first_name"
                         placeholder="First Name"
                         value={first_name}
@@ -39,6 +40,7 @@ const Connection = () => {
               <Col>
                 <Form.Group controlId="last_name" className="form-field">
                     <Form.Control
+                        required
                         type="last_name"
                         placeholder="Last Name"
                         value={last_name}
@@ -51,6 +53,7 @@ const Connection = () => {
             <Col>     
                 <Form.Group controlId="email" className="form-field">
                     <Form.Control
+                        required
                         type="email"
                         placeholder="Email"
                         value={email}
@@ -61,6 +64,7 @@ const Connection = () => {
             <Col>
                 <Form.Group controlId="birthday" className="form-field">
                     <Form.Control
+                        required
                         type="birthday"
                         placeholder="Birthday"
                         value={birthday}
@@ -73,6 +77,7 @@ const Connection = () => {
             <Col>
                 <Form.Group controlId="password" className="form-field">
                     <Form.Control
+                        required
                         type="password"
                         placeholder="Password"
                         value={password}
@@ -83,6 +88,7 @@ const Connection = () => {
             <Col>
                 <Form.Group controlId="occupation" className="form-field">
                     <Form.Control
+                        required
                         type="occupation"
                         placeholder="Occupation"
                         value={occupation}
@@ -95,6 +101,7 @@ const Connection = () => {
             <Col> 
                 <Form.Group controlId="location" className="form-field">
                     <Form.Control
+                        required
                         type="location"
                         placeholder="Location"
                         value={location}
@@ -109,6 +116,9 @@ const Connection = () => {
                 </Button>
             </div>
           </Form>
+          <div className="text-center mt-3">
+            <Link className="custom-link" to="/register">Have an account? Login now!</Link>
+          </div>
         </Card.Body>
       </Card>
     </Container>

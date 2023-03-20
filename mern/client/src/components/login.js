@@ -2,15 +2,40 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './customStyle.css';
+import Cookies from 'js-cookie';
+
 
 const Connection = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+        const response = await fetch(`http://localhost:5000/login?email=${email}&password=${password}`);
+        
+        if (response.ok) {
+          const userData = await response.json();
     
-  };
+          if (userData && userData.first_name && userData.last_name) {
+            const userName = `${userData.first_name} ${userData.last_name}`;
+            Cookies.set('userName', userName);
+    
+            // Redirigez l'utilisateur vers la page d'accueil ou la page souhaitée
+            // window.location.replace('/');
+          } else {
+            // Gérer le cas où l'utilisateur n'a pas été trouvé ou les données sont incorrectes
+          }
+        } else {
+          // Gérer les erreurs HTTP (par exemple, le statut 404, 500, etc.)
+        }
+      } catch (error) {
+        // Gérer les erreurs de réseau ou les erreurs de connexion au serveur
+      }
+    };
+    
+  
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
