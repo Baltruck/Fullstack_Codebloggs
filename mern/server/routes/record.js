@@ -1,6 +1,7 @@
 const express = require("express");
 const {UserModel} = require("../db/schemas") //import schemas
 const validator = require('validator');
+const { v4: uuidv4 } = require('uuid');
 
 // const { ObjectId, Int32 } = require('mongodb');
 
@@ -17,24 +18,44 @@ const e = require("express");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
-
+// Middlewares Definitions
 const emailValidator = (req, res, next) => {
   const email = req.body.email;
   console.log("EMAIL")
   console.log(email)
 
   if (validator.isEmail(email)) {
-    console.log('Email is valid!');
+    // console.log('Email is valid!');
     next();
   } else {
-    console.log('Email is not valid.');
+    // console.log('Email is not valid.');
     return res.send({message: "Invalid email"})
   }
   
 }
 
-recordRoutes.use("/signup", emailValidator);
+const createSession = async (req, res, next) => {
+  let db_connect = dbo.getDb();
+  const {email, password} = req.body;
+  const user = await db_connect.collection("User").findOne({ email });
 
+  // await db_connect.collection("Session").deleteMany({ user: user.email });
+
+  const session_token = uuidv4();
+  const session = { session_id: session_token,
+     user: {first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
+      session_date: new Date() };
+
+  await db_connect.collection("Session").insertOne(session);
+  
+  next();
+}
+
+// Middleware Uses
+recordRoutes.use("/signup", emailValidator);
+recordRoutes.use("/login", createSession);
+
+// Our routes
 recordRoutes.route("/signup").post(async (req, response) => {
   let db_connect = dbo.getDb();
   const user = new UserModel({
@@ -56,24 +77,25 @@ recordRoutes.route("/signup").post(async (req, response) => {
   });
 });
 
-// recordRoutes.route("/login").post( async (req, response) => {
-//   let db_connect = dbo.getDb();
+recordRoutes.route("/login").post( async (req, res) => {
+  let db_connect = dbo.getDb();
 
-//   const {email, password} = req.body;
-//   const users = await db_connect.collection("User").findOne({ email });
+  const {email, password} = req.body;
+  const user = await db_connect.collection("User").findOne({ email });
+  console.log(user)
 
-//   if (!users) {
-//     return res.status(400).json({ message: "No user found" });
-//   } else if ( users && password !== users.password) {
-//     return res.status(400).json({ message: "Wrong password" });
-//   }
+  if (!user) {
+    return res.status(400).json({ message: "No user found" });
+  } else if ( user && password !== user.password) {
+    return res.status(400).json({ message: "Wrong password" });
+  }
+  return res.send({message: "Login Successful"})
 
+});
+
+recordRoutes.route("/logout").get( async (res, req) => {
   
-
-
-
-
-// })
+});
 
 // recordRoutes.route("/new-article").post( async (req, res ) => {
 //   let db_connect = dbo.getDb();

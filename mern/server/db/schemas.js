@@ -7,15 +7,15 @@ const { use } = require('../routes/record');
 
 const userSchema = new mongoose.Schema({
 //   _id: {type: ObjectId, require: true},
-  first_name: {type: String, require: true, maxlength: 60},
-  last_name: {type: String, require: true,maxlength: 60},
-  birthday: {type: String, require: true}, //type date
-  email: {type: String, require: true},
-  password: {type: String, require: true},
-  status: {type: String, require: true, maxlength: 20},
-  location: {type: String, require: true, maxlength: 40},
-  occupation: {type: String, require: true, maxlength: 20},
-  auth_level: {type: String, require: true, default: "user", maxlength: 10},
+  first_name: {type: String, required: true, maxlength: 60},
+  last_name: {type: String, required: true, maxlength: 60},
+  birthday: {type: String, required: true}, //type date
+  email: {type: String, required: true},
+  password: {type: String, required: true},
+  status: {type: String, required: true},
+  location: {type: String, required: true, maxlength: 60},
+  occupation: {type: String, required: true, maxlength: 60},
+  auth_level: {type: String, required: true, default: "user"},
 });
 
 // const sessionSchema = new mongoose.Schema({
