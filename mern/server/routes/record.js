@@ -34,29 +34,29 @@ const emailValidator = (req, res, next) => {
   
 }
 
-const createSession = async (req, res, next) => {
-  let db_connect = dbo.getDb();
-  const {email, password} = req.body;
-  const user = await db_connect.collection("User").findOne({ email });
+// const createSession = async (req, res, next) => {
+//   let db_connect = dbo.getDb();
+//   const {email, password} = req.body;
+//   const user = await db_connect.collection("User").findOne({ email });
 
-  // await db_connect.collection("Session").deleteMany({ user: user.email });
+//   await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
 
-  const session_token = uuidv4();
-  const session = { session_id: session_token,
-     user: {first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
-      session_date: new Date() };
+//   const session_token = uuidv4();
+//   const session = { session_id: session_token,
+//      user: {first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
+//       session_date: new Date() };
 
-  await db_connect.collection("Session").insertOne(session);
-  
-  next();
-}
+//   await db_connect.collection("Session").insertOne(session);
 
-// Middleware Uses
+//   next();
+// }
+
+// Middleware CAll
 recordRoutes.use("/signup", emailValidator);
-recordRoutes.use("/login", createSession);
+// recordRoutes.use("/login", createSession);
 
 // Our routes
-recordRoutes.route("/signup").post(async (req, response) => {
+recordRoutes.route("/signup").post( async (req, response) => {
   let db_connect = dbo.getDb();
   const user = new UserModel({
     // _id: req.body._id,
@@ -79,22 +79,34 @@ recordRoutes.route("/signup").post(async (req, response) => {
 
 recordRoutes.route("/login").post( async (req, res) => {
   let db_connect = dbo.getDb();
-
   const {email, password} = req.body;
   const user = await db_connect.collection("User").findOne({ email });
-  console.log(user)
 
   if (!user) {
     return res.status(400).json({ message: "No user found" });
   } else if ( user && password !== user.password) {
     return res.status(400).json({ message: "Wrong password" });
   }
+
+  await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
+
+  const session_token = uuidv4();
+  const session = { session_id: session_token,
+     user: {first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
+      session_date: new Date() };
+
+  await db_connect.collection("Session").insertOne(session);
+
+
   return res.send({message: "Login Successful"})
 
 });
 
 recordRoutes.route("/logout").get( async (res, req) => {
-  
+  let db_connect = dbo.getDb();
+
+  await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
+
 });
 
 // recordRoutes.route("/new-article").post( async (req, res ) => {
@@ -133,18 +145,8 @@ recordRoutes.route("/logout").get( async (res, req) => {
 
 // })
 
-// recordRoutes.route("/session").post( async (req, res ) => {
-//     let db_connect = dbo.getDb();
-//   let myobj = {
-//     name: req.body.name,
-//     position: req.body.position,
-//     level: req.body.level,
-//   };
-//   db_connect.collection("Session").insertOne(myobj, function (err, res) {
-//     if (err) throw err;
-//     response.json(res);
-//   });
-// });
+
+
 
 
 
