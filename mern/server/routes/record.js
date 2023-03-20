@@ -34,26 +34,8 @@ const emailValidator = (req, res, next) => {
   
 }
 
-// const createSession = async (req, res, next) => {
-//   let db_connect = dbo.getDb();
-//   const {email, password} = req.body;
-//   const user = await db_connect.collection("User").findOne({ email });
-
-//   await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
-
-//   const session_token = uuidv4();
-//   const session = { session_id: session_token,
-//      user: {first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
-//       session_date: new Date() };
-
-//   await db_connect.collection("Session").insertOne(session);
-
-//   next();
-// }
-
 // Middleware CAll
 recordRoutes.use("/signup", emailValidator);
-// recordRoutes.use("/login", createSession);
 
 // Our routes
 recordRoutes.route("/signup").post( async (req, response) => {
@@ -78,6 +60,7 @@ recordRoutes.route("/signup").post( async (req, response) => {
 });
 
 recordRoutes.route("/login").post( async (req, res) => {
+
   let db_connect = dbo.getDb();
   const {email, password} = req.body;
   const user = await db_connect.collection("User").findOne({ email });
@@ -103,7 +86,23 @@ recordRoutes.route("/login").post( async (req, res) => {
 });
 
 recordRoutes.route("/logout").get( async (res, req) => {
+
   let db_connect = dbo.getDb();
+  let cacheToken = req.query.token;
+  console.log("TOKEN")
+  console.log(cacheToken);
+  db_connect
+  .collection("Session")
+  .deleteOne({session_id: cacheToken}, function (err, result) {
+    if (err) {
+      res.status(500).json({ status: "error", message: "Failed to delete token" });
+    } else if (!result) {
+      res.json({status: "ok", data: {valid: false, user: null, message: "Invalid token"}});
+    } else {
+      res.json({status: "ok", data: { message: "Session deleted"}});
+    }
+});
+
 
   await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
 
