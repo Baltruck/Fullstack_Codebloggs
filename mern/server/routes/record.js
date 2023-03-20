@@ -1,5 +1,7 @@
 const express = require("express");
-const UserModel = require("../db/schemas") //import schemas
+const {UserModel} = require("../db/schemas") //import schemas
+const validator = require('validator');
+
 // const { ObjectId, Int32 } = require('mongodb');
 
 // recordRoutes is an instance of the express router.
@@ -9,17 +11,32 @@ const recordRoutes = express.Router();
 
 // This will help us connect to the database
 const dbo = require("../db/conn");
+const { response } = require("express");
+const e = require("express");
 
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
 
 const emailValidator = (req, res, next) => {
-  return 0;
+  const email = req.body.email;
+  console.log("EMAIL")
+  console.log(email)
+
+  if (validator.isEmail(email)) {
+    console.log('Email is valid!');
+    next();
+  } else {
+    console.log('Email is not valid.');
+    return res.send({message: "Invalid email"})
+  }
+  
 }
 
-recordRoutes.route("/user").post(async (req, res) => {
-  console.log("APi HITT")
+recordRoutes.use("/signup", emailValidator);
+
+recordRoutes.route("/signup").post(async (req, response) => {
+  let db_connect = dbo.getDb();
   const user = new UserModel({
     // _id: req.body._id,
     first_name: req.body.first_name,
@@ -32,85 +49,151 @@ recordRoutes.route("/user").post(async (req, res) => {
     occupation: req.body.occupation,
     auth_level: req.body.auth_level,
   });
-
-  try {
-    console.log("Good");
-    const savedUser = await user.save();
-    res.json(savedUser);
-  } catch (error) {
-    console.log("Shit");
-    console.error(error);
-    res.status(500).send('Inscprition not processed');
-  }
-});
-
-// This section will help you get a list of all the records.
-recordRoutes.route("/record").get(function (req, res) {
-  let db_connect = dbo.getDb("employees");
-  db_connect
-    .collection("records")
-    .find({})
-    .toArray(function (err, result) {
-      if (err) throw err;
-      res.json(result);
-    });
-});
-
-// This section will help you get a single record by id
-recordRoutes.route("/record/:id").get(function (req, res) {
-  let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
-  db_connect
-      .collection("records")
-      .findOne(myquery, function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      });
-});
-
-// This section will help you create a new record.
-recordRoutes.route("/record/add").post(function (req, response) {
-  let db_connect = dbo.getDb();
-  let myobj = {
-    name: req.body.name,
-    position: req.body.position,
-    level: req.body.level,
-  };
-  db_connect.collection("records").insertOne(myobj, function (err, res) {
+  console.log(user)
+  db_connect.collection("User").insertOne(user, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
 });
 
-// This section will help you update a record by id.
-recordRoutes.route("/update/:id").post(function (req, response) {
-  let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
-  let newvalues = {
-    $set: {
-      name: req.body.name,
-      position: req.body.position,
-      level: req.body.level,
-    },
-  };
-  db_connect
-    .collection("records")
-    .updateOne(myquery, newvalues, function (err, res) {
-      if (err) throw err;
-      console.log("1 document updated");
-      response.json(res);
-    });
-});
+// recordRoutes.route("/login").post( async (req, response) => {
+//   let db_connect = dbo.getDb();
 
-// This section will help you delete a record
-recordRoutes.route("/:id").delete((req, response) => {
-  let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
-  db_connect.collection("records").deleteOne(myquery, function (err, obj) {
-    if (err) throw err;
-    console.log("1 document deleted");
-    response.json(obj);
-  });
-});
+//   const {email, password} = req.body;
+//   const users = await db_connect.collection("User").findOne({ email });
+
+//   if (!users) {
+//     return res.status(400).json({ message: "No user found" });
+//   } else if ( users && password !== users.password) {
+//     return res.status(400).json({ message: "Wrong password" });
+//   }
+
+  
+
+
+
+
+// })
+
+// recordRoutes.route("/new-article").post( async (req, res ) => {
+//   let db_connect = dbo.getDb();
+//   const userId = "caca";
+//   const article = new PostModel({
+//     content: req.body.content,
+//     user_id: userId,
+//     likes: req.body.likes,
+//     time_stamp: req.body.time_stamp,
+//     comments: req.body.comments,
+//   });
+//   console.log(user)
+//   db_connect.collection("Post").insertOne(article, function (err, res) {
+//     if (err) throw err;
+//     response.json(res);
+//   });
+
+// })
+
+// recordRoutes.route("/new-comment").post( async (req, res ) => {
+//   let db_connect = dbo.getDb();
+//   const userId = "caca";
+//   const postId = 1;
+//   const comment = new CommentModel({
+//     content: req.body.content,
+//     user_id: userId,
+//     post_id: postId,
+//     time_stamp: req.body.time_stamp,
+//   });
+//   console.log(user)
+//   db_connect.collection("Comment").insertOne(comment, function (err, res) {
+//     if (err) throw err;
+//     response.json(res);
+//   });
+
+// })
+
+// recordRoutes.route("/session").post( async (req, res ) => {
+//     let db_connect = dbo.getDb();
+//   let myobj = {
+//     name: req.body.name,
+//     position: req.body.position,
+//     level: req.body.level,
+//   };
+//   db_connect.collection("Session").insertOne(myobj, function (err, res) {
+//     if (err) throw err;
+//     response.json(res);
+//   });
+// });
+
+
+
+
+// // This section will help you get a list of all the records.
+// recordRoutes.route("/record").get(function (req, res) {
+//   let db_connect = dbo.getDb("employees");
+//   db_connect
+//     .collection("records")
+//     .find({})
+//     .toArray(function (err, result) {
+//       if (err) throw err;
+//       res.json(result);
+//     });
+// });
+
+// // This section will help you get a single record by id
+// recordRoutes.route("/record/:id").get(function (req, res) {
+//   let db_connect = dbo.getDb();
+//   let myquery = { _id: ObjectId( req.params.id )};
+//   db_connect
+//       .collection("records")
+//       .findOne(myquery, function (err, result) {
+//         if (err) throw err;
+//         res.json(result);
+//       });
+// });
+
+// // This section will help you create a new record.
+// recordRoutes.route("/record/add").post(function (req, response) {
+//   let db_connect = dbo.getDb();
+//   let myobj = {
+//     name: req.body.name,
+//     position: req.body.position,
+//     level: req.body.level,
+//   };
+//   db_connect.collection("records").insertOne(myobj, function (err, res) {
+//     if (err) throw err;
+//     response.json(res);
+//   });
+// });
+
+// // This section will help you update a record by id.
+// recordRoutes.route("/update/:id").post(function (req, response) {
+//   let db_connect = dbo.getDb();
+//   let myquery = { _id: ObjectId( req.params.id )};
+//   let newvalues = {
+//     $set: {
+//       name: req.body.name,
+//       position: req.body.position,
+//       level: req.body.level,
+//     },
+//   };
+//   db_connect
+//     .collection("records")
+//     .updateOne(myquery, newvalues, function (err, res) {
+//       if (err) throw err;
+//       console.log("1 document updated");
+//       response.json(res);
+//     });
+// });
+
+// // This section will help you delete a record
+// recordRoutes.route("/:id").delete((req, response) => {
+//   let db_connect = dbo.getDb();
+//   let myquery = { _id: ObjectId( req.params.id )};
+//   db_connect.collection("records").deleteOne(myquery, function (err, obj) {
+//     if (err) throw err;
+//     console.log("1 document deleted");
+//     response.json(obj);
+//   });
+// });
 
 module.exports = recordRoutes;
