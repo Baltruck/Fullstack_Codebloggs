@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 import { useTheme } from './themeContext';
+import "./navbarStyles.css";
+import Post from "./post";
+
 
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
@@ -11,12 +15,37 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
   const { darkMode, toggleTheme } = useTheme(); 
   const themeClass = darkMode ? 'dark' : 'light';
+
+  const [showPost, setShowPost] = useState(false);
+
+  const handleShowPost = () => {
+    setShowPost(true);
+  };
+
+  const handleClosePost = () => {
+    setShowPost(false);
+  };
+
   return (
     <div>
-      <nav className={`navbar navbar-expand-lg ${darkMode ? 'navbar-custom-dark' : 'navbar-custom-light'} animated-border-navbar`}>
-        <NavLink className="navbar-brand" to="/">
-        <img style={{"width" : 10 + '%'}} src={process.env.PUBLIC_URL + "/CodeBloggs graphic.png"}></img>
-        </NavLink>
+      <nav
+        className={`navbar navbar-expand-lg ${
+          darkMode ? "navbar-custom-dark" : "navbar-custom-light"
+        } animated-border-navbar`}
+      >
+        <div className="logo-container">
+          <NavLink className="navbar-brand" to="/">
+            <img
+              style={{ width: 10 + "%" }}
+              src={process.env.PUBLIC_URL + "/CodeBloggs graphic.png"}
+            ></img>
+          </NavLink>
+          <img
+            className={`text-image ${themeClass}`}
+            src={process.env.PUBLIC_URL + "/CodeBloggsV2.png"}
+            alt="Text Image"
+          />
+        </div>
         <button
           className="navbar-toggler"
           type="button"
@@ -28,22 +57,38 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
+  
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav ml-auto">
+          <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              {/* <NavLink className="nav-link" to="/create">
-                Create Record
-              </NavLink> */}
+              <button className="custom-submit-btn custom-post-btn" onClick={handleShowPost}>
+                Post
+              </button>
             </li>
+            </ul>
+            <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <button className="nav-link btn btn-link" onClick={toggleTheme}>
-                Change mode : {darkMode ? 'dark' : 'light'}
+                Change mode : {darkMode ? "dark" : "light"}
               </button>
             </li>
           </ul>
         </div>
       </nav>
+      <Modal show={showPost} onHide={handleClosePost} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Post />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClosePost}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
+  
 }
