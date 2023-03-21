@@ -166,7 +166,7 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
   });
 });
 
-recordRoutes.route("get-articles").get( async (req, res) => {
+recordRoutes.route("/get-articles").get( async (req, res) => {
   let db_connect = dbo.getDb("CodeBlogg");
   db_connect
     .collection("Post")

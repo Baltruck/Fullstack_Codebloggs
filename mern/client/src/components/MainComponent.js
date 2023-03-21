@@ -12,6 +12,31 @@ const Main = () => {
   const [loading, setLoading] = useState(false);
   const firstName = Cookies.get("first_name");
   const lastName = Cookies.get("last_name");
+  const [userPosts, setUserPosts] = useState([]);
+
+//Get all Post by user
+const loadUserArticles = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/get-articles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: userInfo.user_id, // Utilisez l'user_id stocké dans userInfo
+      }),
+    });
+
+    if (response.ok) {
+      const posts = await response.json();
+      setUserPosts(posts);
+    } else {
+      console.error("Error fetching user posts");
+    }
+  } catch (error) {
+    console.error("Error fetching user posts:", error);
+  }
+};
 
   // Convert Date to ISO String
 const formatDate = (dateString) => {
@@ -63,7 +88,7 @@ const formatDate = (dateString) => {
     const userName = Cookies.get("userName");
     if (userName) {
       const nameParts = userName.split(" ");
-        
+  
       if (nameParts.length === 2) {
         const firstInitial = nameParts[0].charAt(0).toUpperCase();
         const secondInitial = nameParts[1].charAt(0).toUpperCase();
@@ -83,7 +108,7 @@ const formatDate = (dateString) => {
         body: JSON.stringify({
           first_name: firstName, // Ajoutez cette ligne
           last_name: lastName, // Ajoutez cette ligne
-          }),
+        }),
       })
         .then((response) => {
           if (response.ok) {
@@ -94,12 +119,18 @@ const formatDate = (dateString) => {
         })
         .then((data) => {
           setUserInfo(data.UserInfo);
+  
+          // Ajoutez cette partie ici
+          if (data.UserInfo.user_id) {
+            loadUserArticles();
+          }
         })
         .catch((error) => {
           console.error("Error fetching user info:", error);
         });
     }
   }, []);
+  
   
   
 
@@ -158,7 +189,17 @@ const formatDate = (dateString) => {
         </Card>
       </div>
       <div className="right-column">
-      </div>
+  {userPosts.map((post) => (
+    <Card key={post._id} className="post-card mainFromLogo animated-border">
+      <Card.Body>
+        <Card.Text>{post.content}</Card.Text>
+        <Card.Text>Likes: {post.likes}</Card.Text>
+        <Card.Text>Comments: {post.comments.length}</Card.Text>
+        <Card.Text>Timestamp: {formatDate(post.time_stamp)}</Card.Text>
+      </Card.Body>
+    </Card>
+  ))}
+</div>
     </div>
   );
 };
