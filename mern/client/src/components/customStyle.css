@@ -89,6 +89,11 @@
     border: 1px solid #ECEC8C;
     animation: border-animation 3s infinite;
   }
+
+.animated-border-initials-container {
+  border: 1px solid #ECEC8C;
+    animation: border-animation 3s infinite;
+}
   
   /* Font for body */
   body {
@@ -210,3 +215,24 @@
     font-weight: bold;
   }
   
+  .alert-text-centered {
+    text-align: center;
+  }
+  
+  .initials-container {
+    width: 200px;
+    height: 200px;
+    background-color: #ECEC8C;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Style Script', cursive;
+    font-size: 80px;
+    font-weight: bolder;
+    margin-left: 35%;
+    margin-top: 5%;
+    margin-bottom: 7%;
+  }
+   
