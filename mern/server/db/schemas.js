@@ -25,13 +25,13 @@ const userSchema = new mongoose.Schema({
 //     user: { require: true},
 // })
 
-// const postSchema = new mongoose.Schema({
-//     content: {type: String, require: true},
-//     // user_id: {type: User, require: true}, //type user?
-//     likes: {type: Int32, require: true, default: 0},
-//     time_stamp: {type: String, require: true},
-//     comments: {type: Comment, require: true},
-// })
+const postSchema = new mongoose.Schema({
+    content: {type: String, required: true},
+    user_id: {type: String, require: true}, //type user?
+    likes: {type: Number, required: true, default: 0},
+    time_stamp: {type: String, required: true},
+    comments: {type: String, required: true, default: null},
+})
 
 // const commentSchema = new mongoose.Schema({
 //     // _id: {type: ObjectId, require: true},
@@ -43,10 +43,10 @@ const userSchema = new mongoose.Schema({
 // })
 
 const UserModel = mongoose.model('User', userSchema);
-// const SessionModel = mongoose.model('Session', schema);
-// const PostModel = mongoose.model('Post', schema);
-// const CommentModel = mongoose.model('Comment', schema);
+// const SessionModel = mongoose.model('Session', sessionSchema);
+const PostModel = mongoose.model('Post', postSchema);
+// const CommentModel = mongoose.model('Comment', commentSchema);
 
-module.exports = {UserModel};
+module.exports = {UserModel, PostModel};
 
 
