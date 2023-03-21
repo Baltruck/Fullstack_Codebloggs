@@ -3,6 +3,7 @@ import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { subYears } from "date-fns";
 
 import './customStyle.css';
 
@@ -16,6 +17,9 @@ const Register = () => {
   const [occupation, setOccupation] = useState('');
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
+  const currentYear = new Date().getFullYear();
+  const minYear = 1920;
+  const maxDate = new Date();
 
 
     
@@ -141,13 +145,18 @@ const Register = () => {
           <Row>
             <Col> 
             <Form.Group controlId="birthday" className="form-field">
-                  <DatePicker
-                    selected={birthday}
-                    onChange={(date) => setBirthday(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Choose your birthday"
-                    className="date-picker-control"
-                  />
+            <DatePicker
+  selected={birthday}
+  onChange={(date) => setBirthday(date)}
+  dateFormat="dd/MM/yyyy"
+  placeholderText="Choose your birthday"
+  className="date-picker-control"
+  showMonthDropdown
+  showYearDropdown
+  scrollableYearDropdown
+  yearDropdownItemNumber={80}
+  maxDate={new Date()}
+/>
                 </Form.Group>
             </Col>
           </Row>
