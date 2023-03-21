@@ -32,7 +32,7 @@ const emailValidator = (req, res, next) => {
     return res.send({message: "Invalid email"})
   }
   
-}
+};
 
 // Middleware CAll
 recordRoutes.use("/signup", emailValidator);
@@ -103,9 +103,9 @@ recordRoutes.route("/login").post( async (req, res) => {
 recordRoutes.route("/status").patch( async (req, response ) => {
   let db_connect = dbo.getDb();
   const session_id = req.body.session_id;
-  // const session_id = req.query.session_id;
+  // const session_id = req.query.session_id; //token from the front end
   const statusUpdate = req.body.status;
-  user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
   console.log(user.user.status);
   if (!user) {
     return response.status(400).json({ message: "No user found" });
@@ -118,12 +118,15 @@ recordRoutes.route("/status").patch( async (req, response ) => {
     response.send( {message: "Status Updated"});
     }
   
-})
+});
 
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
-  const session_id = req.query.session_id;
-  // const userId = "caca";
+  const session_id = req.body.session_id;
+  // const session_id = req.query.session_id; //token from the front end
+  const statusUpdate = req.body.status;
+  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  console.log(user);
   const currentDate = new Date();
   const hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
@@ -132,15 +135,15 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
 
   const article = new PostModel({
     content: req.body.content,
-    user_id: userId,
+    user_id: user,
     time_stamp: timeString,
   });
   console.log(article)
   db_connect.collection("Post").insertOne(article, function (err, res) {
     if (err) throw err;
-    response.send.json(res);
+    response.send(res);
   });
-})
+});
 
 recordRoutes.route("get-articles").get( async (req, res) => {
   let db_connect = dbo.getDb("CodeBlogg");
@@ -152,13 +155,33 @@ recordRoutes.route("get-articles").get( async (req, res) => {
       res.json(result);
     });
   
-})
+});
 
-recordRoutes.route("/new-comment").post( async (req, response ) => {
+recordRoutes.route("/new-comment").patch( async (req, response ) => {
   let db_connect = dbo.getDb();
+  const post_id = ObjectId(req.body.post_id);
+  // const post_id = req.query.post_id; //token from the front end
+  const session_id = req.body.session_id;
+  // const session_id = req.query.session_id; //token from the front end
+  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  console.log("USER");
+  console.log(user);
 
-  const userId = "caca";
-  const postId = '1';
+  const post = await db_connect.collection("Post").findOne( {_id: post_id});
+  console.log("POST content");
+  console.log(post);
+
+  if (!post || !user) {
+    return response.status(400).json({ message: "Invalid request" });
+  }
+
+  const userId = user; //devrait être la personne qui publie le commentaire
+  const postId = post;
+  // console.log("UserId");
+  // console.log(userId);
+  // console.log("PostId");
+  // console.log(postId);
+
   const currentDate = new Date();
   const hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
@@ -174,12 +197,14 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
 
   console.log(comment);
 
-  db_connect.collection("Comment").insertOne(comment, function (err, res) {
-    if (err) throw err;
-    response.json(res);
-  });
+  await db_connect.collection("Post").updateOne(
+    { _id: post_id}, //post._id not userid
+    { $push: { comments: comment } }
+    );
+  response.send( {message: "Comment  Posted"});
+  
 
-})
+});
 
 recordRoutes.route("get-comments").get( async (req, res) => {
   let db_connect = dbo.getDb("CodeBlogg");
@@ -191,12 +216,23 @@ recordRoutes.route("get-comments").get( async (req, res) => {
       res.json(result);
     });
   
-})
+});
 
-
-
-
-
+//fetch userobject, postobject for now
+recordRoutes.route("/userInfo").post( async (req, response) => {//change to get
+  let db_connect = dbo.getDb();
+  const session_id = req.body.session_id;
+  // const session_id = req.query.session_id; //token from the front end
+  // const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  // console.log(user);
+  const post = await db_connect.collection("Post").findOne( {["user_id.session_id"]: session_id}); //already includes the user
+  // console.log("POST content")
+  // console.log(post.content);
+  if (!post) {
+    return response.status(400).json({ message: "Invalid session" });
+  }
+  response.send({UserInfo: post});
+});
 
 // // This section will help you get a list of all the records.
 // recordRoutes.route("/record").get(function (req, res) {
