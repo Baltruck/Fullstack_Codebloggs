@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Dropdown, Nav } from "react-bootstrap";
 import { useTheme } from './themeContext';
 import "./navbarStyles.css";
 import Post from "./post";
@@ -19,6 +19,27 @@ export default function Navbar() {
   const { darkMode, toggleTheme } = useTheme(); 
   const themeClass = darkMode ? 'dark' : 'light';
   const userName = Cookies.get('userName');
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const handleShowLogoutConfirm = () => {
+    setShowLogoutConfirm(true);
+  };
+  
+  const handleAccountSettingClick = () => {
+    alert('GG you clicked it!');
+  };
+
+  const handleCloseLogoutConfirm = () => {
+    setShowLogoutConfirm(false);
+  };
+  
+  const handleLogout = () => {
+    Cookies.remove('userName');
+    Cookies.remove('userToken');
+    // Redirigez l'utilisateur vers la page de connexion ou la page souhaitée
+    // window.location.replace('/login');
+  };
+  
 
   const [showPost, setShowPost] = useState(false);
 
@@ -63,24 +84,34 @@ export default function Navbar() {
         </button>
   
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <button className="custom-submit-btn custom-post-btn" onClick={handleShowPost}>
-                Post
-              </button>
-            </li>
-            </ul>
-            <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <button className="nav-link btn btn-link" onClick={toggleTheme}>
-                Change mode : {darkMode ? "dark" : "light"}
-              </button>
-            </li>
-            <li className="nav-item">
-              <span className="nav-link">{userName}</span>
-          </li>
-          </ul>
-        </div>
+        <Nav className="mr-auto">
+      <Nav.Item>
+        <Button className="custom-submit-btn custom-post-btn" onClick={handleShowPost}>
+          Post
+        </Button>
+      </Nav.Item>
+    </Nav>
+    <Nav className="mr-auto">
+      <Nav.Item>
+        <Button className="custom-submit-btn" onClick={toggleTheme}>
+          Change mode : {darkMode ? "dark" : "light"}
+        </Button>
+      </Nav.Item>
+      <Nav.Item>
+        <span className="nav-link">{userName}</span>
+      </Nav.Item>
+      <Nav.Item>
+        <Dropdown>
+          <Dropdown.Toggle as={Nav.Link}>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+          <Dropdown.Item onClick={handleShowLogoutConfirm}>Disconnect</Dropdown.Item>
+          <Dropdown.Item onClick={handleAccountSettingClick}>Account Setting</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Nav.Item>
+    </Nav>
+           </div>
       </nav>
       <Modal show={showPost} onHide={handleClosePost} centered>
         <Modal.Header closeButton>
@@ -95,6 +126,20 @@ export default function Navbar() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal show={showLogoutConfirm} onHide={handleCloseLogoutConfirm} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Confirm Logout</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>Are you sure you want to disconnect?</Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseLogoutConfirm}>
+      Cancel
+    </Button>
+    <Button variant="danger" onClick={handleLogout}>
+      Disconnect
+    </Button>
+  </Modal.Footer>
+</Modal>
     </div>
   );
   
