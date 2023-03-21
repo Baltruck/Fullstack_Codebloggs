@@ -1,0 +1,69 @@
+:root {
+    --mainFromLogo: #8C8CEC;
+    --compColor: #ECEC8C;
+    --textColor-dark: #FFFFFF;
+    --textColor-light: #000000;
+    --border-color-light: #8C8CEC;
+    --border-color-dark: #ECEC8C;
+  }
+  
+  body.light {
+    background-color: #FFFFFF;
+    color: var(--textColor-light);
+  }
+  
+  body.dark {
+    background-color: #000000;
+    color: var(--textColor-dark);
+  }
+  
+  .navbar-custom-dark {
+    background-color: #0e0d0d;
+    border-color: #ECEC8C;
+    border-bottom : 1px solid #ECEC8C;
+  }
+  
+  .navbar-custom-dark .nav-link {
+    color: #ECEC8C !important;
+  }
+  
+  .navbar-custom-dark .nav-link:hover {
+    color: #cccccc !important;
+  }
+  
+  .navbar-custom-light {
+    background-color: #fcfce2; 
+    border-color: #8C8CEC;
+    border-bottom: 1px solid #8C8CEC;
+  }
+  
+  .navbar-custom-light .nav-link {
+    color: #8C8CEC !important;
+  }
+  
+  .navbar-custom-light .nav-link:hover {
+    color: #cccccc !important;
+  }
+
+  .sidebar-light {
+    background-color: #fcfce2;
+    color: #000;
+    border-right: 1px solid var(--border-color-light);
+  }
+  
+  .sidebar-dark {
+    background-color: #0e0d0d;
+    color: #ECEC8C;
+    border-right: 1px solid var(--border-color-dark);
+  }
+  
+  
+  .sidebar-dark .sidebar-item a {
+    color: #ECEC8C;
+  }
+  
+  .sidebar-dark .sidebar-item a:hover {
+    background-color: #333333;
+    color: #ffffff;
+  }
+  

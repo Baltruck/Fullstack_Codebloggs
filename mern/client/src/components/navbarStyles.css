@@ -1,0 +1,29 @@
+.navbar-custom {
+    z-index: 2000;
+    position: sticky;
+    top: -0px;
+  }
+
+.logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .text-image {
+    margin-left: -50%; 
+    width: 300px; 
+    height: auto; 
+  }
+  
+  .dark .text-image {
+    filter: invert(1);
+  }
+
+  .custom-post-btn {
+    font-size: 1.4rem;
+    font-weight: bolder;
+    padding: 5px 20px;
+    width: auto;
+    height: auto;
+  }
+  
