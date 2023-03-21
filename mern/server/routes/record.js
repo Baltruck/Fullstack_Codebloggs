@@ -158,6 +158,7 @@ recordRoutes.route("get-articles").get( async (req, res) => {
 });
 
 recordRoutes.route("/new-comment").patch( async (req, response ) => {
+
   let db_connect = dbo.getDb();
   const post_id = ObjectId(req.body.post_id);
   // const post_id = req.query.post_id; //token from the front end
@@ -206,7 +207,7 @@ recordRoutes.route("/new-comment").patch( async (req, response ) => {
 
 });
 
-recordRoutes.route("get-comments").get( async (req, res) => {
+recordRoutes.route("/get-comments").get( async (req, res) => {
   let db_connect = dbo.getDb("CodeBlogg");
   db_connect
     .collection("Comment")
@@ -219,20 +220,54 @@ recordRoutes.route("get-comments").get( async (req, res) => {
 });
 
 //fetch userobject, postobject for now
-recordRoutes.route("/userInfo").post( async (req, response) => {//change to get
+recordRoutes.route("/userInfo").post(async (req, response) => {
   let db_connect = dbo.getDb();
   const session_id = req.body.session_id;
-  // const session_id = req.query.session_id; //token from the front end
-  // const user = await db_connect.collection("Session").findOne( {session_id: session_id});
-  // console.log(user);
-  const post = await db_connect.collection("Post").findOne( {["user_id.session_id"]: session_id}); //already includes the user
-  // console.log("POST content")
-  // console.log(post.content);
-  if (!post) {
+  const postCursor = await db_connect.collection("Post").find({ ["user_id.session_id"]: session_id });
+  const postArray = await postCursor.toArray();
+  if (postArray.length === 0) {
     return response.status(400).json({ message: "Invalid session" });
   }
-  response.send({UserInfo: post});
+  response.send({ UserInfo: postArray });
 });
+
+recordRoutes.route("/like").patch( async (req, response) => {
+  
+    let db_connect = dbo.getDb();
+    const post_id = ObjectId(req.body.post_id);
+    // const session_id = req.query.session_id; //token from the front end
+    const post = await db_connect.collection("Post").find( {_id: post_id}); 
+
+    if (!post) {
+      return response.status(400).json({ message: "Invalid Post" });
+    }
+
+    await db_connect.collection("Post").updateOne(
+      { _id: post_id},
+      { $inc: { likes: 1 } }
+      );
+    response.send( {message: "Comment  Liked"});
+      
+
+  
+
+})
+
+// recordRoutes.route("/userInfo").post( async (req, response) => {//change to get
+//   let db_connect = dbo.getDb();
+//   const session_id = req.body.session_id;
+//   // const session_id = req.query.session_id; //token from the front end
+//   // const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+//   // console.log(user);
+//   const post = await db_connect.collection("Post").find( {["user_id.session_id"]: session_id}); //already includes the user
+//   // console.log("POST content")
+//   // console.log(post.content);
+//   if (!post) {
+//     return response.status(400).json({ message: "Invalid session" });
+//   }
+//   response.send({UserInfo: post});
+// });
+
 
 // // This section will help you get a list of all the records.
 // recordRoutes.route("/record").get(function (req, res) {
