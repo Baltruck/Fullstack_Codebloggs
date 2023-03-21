@@ -77,32 +77,53 @@ recordRoutes.route("/login").post( async (req, res) => {
   return res.send({message: "Login Successful", User: session});
 });
 
-recordRoutes.route("/logout").get( async (req, res) => {
+// recordRoutes.route("/logout").get( async (req, res) => {
 
+//   let db_connect = dbo.getDb();
+//   let cacheToken = req.query.token; //grabs the token from the browser
+//   console.log("TOKEN")
+//   console.log(cacheToken);
+//   db_connect
+//   .collection("Session")
+//   .deleteOne({session_id: cacheToken}, function (err, result) {
+//     if (err) {
+//       res.status(500).json({ status: "error", message: "Failed to delete token" });
+//     } else if (!result) {
+//       res.json({status: "ok", data: {valid: false, user: null, message: "Invalid token"}});
+//     } else {
+//       res.json({status: "ok", data: { message: "Session deleted"}});
+//     }
+// });
+
+
+//   await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
+
+// });
+
+recordRoutes.route("/status").patch( async (req, response ) => {
   let db_connect = dbo.getDb();
-  let cacheToken = req.query.token; //grabs the token from the browser
-  console.log("TOKEN")
-  console.log(cacheToken);
-  db_connect
-  .collection("Session")
-  .deleteOne({session_id: cacheToken}, function (err, result) {
-    if (err) {
-      res.status(500).json({ status: "error", message: "Failed to delete token" });
-    } else if (!result) {
-      res.json({status: "ok", data: {valid: false, user: null, message: "Invalid token"}});
-    } else {
-      res.json({status: "ok", data: { message: "Session deleted"}});
+  const session_id = req.body.session_id;
+  // const session_id = req.query.session_id;
+  const statusUpdate = req.body.status;
+  user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  console.log(user.user.status);
+  if (!user) {
+    return response.status(400).json({ message: "No user found" });
+  }else if (user) {
+    // user.user.status = statusUpdate;
+    await db_connect.collection("Session").updateOne(
+      { session_id: session_id },
+      { $set: { "user.status": statusUpdate } }
+    );
+    response.send( {message: "Status Updated"});
     }
-});
-
-
-  await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
-
-});
+  
+})
 
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
-  const userId = "caca";
+  const session_id = req.query.session_id;
+  // const userId = "caca";
   const currentDate = new Date();
   const hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();

@@ -20,7 +20,7 @@ const postSchema = new mongoose.Schema({
     user_id: {type: String, require: true}, //type user?
     likes: {type: Number, required: true, default: 0},
     time_stamp: {type: String, required: true},
-    comments: {type: String, required: true, default: null},
+    comments: {type: Array, required: true, default: null},
 })
 
 const commentSchema = new mongoose.Schema({
