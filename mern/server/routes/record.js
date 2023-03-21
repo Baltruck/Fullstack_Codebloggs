@@ -157,13 +157,17 @@ recordRoutes.route("get-articles").get( async (req, res) => {
   
 });
 
-recordRoutes.route("/new-comment").patch( async (req, response ) => {
+recordRoutes.route("/new-comment").post( async (req, response ) => {
 
   let db_connect = dbo.getDb();
+
+  //Post commented on
   const post_id = ObjectId(req.body.post_id);
   // const post_id = req.query.post_id; //token from the front end
+  //User making the comment
   const session_id = req.body.session_id;
   // const session_id = req.query.session_id; //token from the front end
+
   const user = await db_connect.collection("Session").findOne( {session_id: session_id});
   console.log("USER");
   console.log(user);
@@ -197,29 +201,34 @@ recordRoutes.route("/new-comment").patch( async (req, response ) => {
   });
 
   console.log(comment);
-
+  //append the comment to the post comment list
   await db_connect.collection("Post").updateOne(
     { _id: post_id}, //post._id not userid
     { $push: { comments: comment } }
     );
-  response.send( {message: "Comment  Posted"});
-  
-
-});
-
-recordRoutes.route("/get-comments").get( async (req, res) => {
-  let db_connect = dbo.getDb("CodeBlogg");
-  db_connect
-    .collection("Comment")
-    .find({}) //add the user _id and the post _id {user._id: ..., post._id: ...}
-    .toArray(function (err, result) {
+  //add the comment to the db
+  await db_connect.collection("Comment").insertOne(comment, function (err, res) {
       if (err) throw err;
-      res.json(result);
+      response.send(res);
     });
-  
+    
+
 });
+
+// recordRoutes.route("/get-comments").get( async (req, res) => {
+//   let db_connect = dbo.getDb("CodeBlogg");
+//   db_connect
+//     .collection("Comment")
+//     .find({}) //add the user _id and the post _id {user._id: ..., post._id: ...}
+//     .toArray(function (err, result) {
+//       if (err) throw err;
+//       res.json(result);
+//     });
+  
+// });
 
 //fetch userobject, postobject for now
+
 recordRoutes.route("/userInfo").post(async (req, response) => {
   let db_connect = dbo.getDb();
   const session_id = req.body.session_id;
@@ -232,16 +241,13 @@ recordRoutes.route("/userInfo").post(async (req, response) => {
 });
 
 recordRoutes.route("/like").patch( async (req, response) => {
-  
+
     let db_connect = dbo.getDb();
     const post_id = ObjectId(req.body.post_id);
-    // const session_id = req.query.session_id; //token from the front end
     const post = await db_connect.collection("Post").find( {_id: post_id}); 
-
     if (!post) {
       return response.status(400).json({ message: "Invalid Post" });
     }
-
     await db_connect.collection("Post").updateOne(
       { _id: post_id},
       { $inc: { likes: 1 } }
