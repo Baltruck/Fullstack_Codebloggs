@@ -1,9 +1,6 @@
 const { ObjectId, Int32 } = require('mongodb');
 const mongoose = require('mongoose');
 const { use } = require('../routes/record');
-// mongoose.connect('mongodb://localhost/myDatabase', { useNewUrlParser: true });
-
-
 
 const userSchema = new mongoose.Schema({
 //   _id: {type: ObjectId, require: true},
@@ -18,13 +15,6 @@ const userSchema = new mongoose.Schema({
   auth_level: {type: String, required: true, default: "user"},
 });
 
-// const sessionSchema = new mongoose.Schema({
-//     _id: {type: ObjectId, require: true},
-//     session_id: {type: String},
-//     session_date: {type: Date, require: true},
-//     user: { require: true},
-// })
-
 const postSchema = new mongoose.Schema({
     content: {type: String, required: true},
     user_id: {type: String, require: true}, //type user?
@@ -33,20 +23,26 @@ const postSchema = new mongoose.Schema({
     comments: {type: String, required: true, default: null},
 })
 
-// const commentSchema = new mongoose.Schema({
-//     // _id: {type: ObjectId, require: true},
-//     content: {type: String, require: true},
-//     post_id: {type: String},
-//     user_id: {type: User, require: true},
-//     likes: {type: Int32, require: true, default: 0},
-//     times_stamp: {type: String, require: true},
+const commentSchema = new mongoose.Schema({
+    content: {type: String, require: true},
+    post_id: {type: String},
+    user_id: {type: String, require: true},
+    likes: {type: Number, require: true, default: 0},
+    times_stamp: {type: String, require: true},
+})
+
+// const sessionSchema = new mongoose.Schema({
+//     _id: {type: ObjectId, require: true},
+//     session_id: {type: String},
+//     session_date: {type: Date, require: true},
+//     user: { require: true},
 // })
 
 const UserModel = mongoose.model('User', userSchema);
-// const SessionModel = mongoose.model('Session', sessionSchema);
 const PostModel = mongoose.model('Post', postSchema);
-// const CommentModel = mongoose.model('Comment', commentSchema);
+const CommentModel = mongoose.model('Comment', commentSchema);
+// const SessionModel = mongoose.model('Session', sessionSchema);
 
-module.exports = {UserModel, PostModel};
+module.exports = {UserModel, PostModel, CommentModel};
 
 

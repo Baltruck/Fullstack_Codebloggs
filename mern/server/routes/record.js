@@ -1,5 +1,5 @@
 const express = require("express");
-const {UserModel, PostModel} = require("../db/schemas") //import schemas
+const {UserModel, PostModel, CommentModel} = require("../db/schemas") //import schemas
 const validator = require('validator');
 const { v4: uuidv4 } = require('uuid');
 
@@ -77,10 +77,10 @@ recordRoutes.route("/login").post( async (req, res) => {
   return res.send({message: "Login Successful"})
 });
 
-recordRoutes.route("/logout").get( async (res, req) => {
+recordRoutes.route("/logout").get( async (req, res) => {
 
   let db_connect = dbo.getDb();
-  let cacheToken = req.query.token;
+  let cacheToken = req.query.token; //grabs the token from the browser
   console.log("TOKEN")
   console.log(cacheToken);
   db_connect
@@ -121,24 +121,56 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
   });
 })
 
-// recordRoutes.route("/new-comment").post( async (req, res ) => {
-//   let db_connect = dbo.getDb();
-//   const userId = "caca";
-//   const postId = 1;
-//   const comment = new CommentModel({
-//     content: req.body.content,
-//     user_id: userId,
-//     post_id: postId,
-//     time_stamp: req.body.time_stamp,
-//   });
-//   console.log(user)
-//   db_connect.collection("Comment").insertOne(comment, function (err, res) {
-//     if (err) throw err;
-//     response.json(res);
-//   });
+recordRoutes.route("get-articles").get( async (req, res) => {
+  let db_connect = dbo.getDb("CodeBlogg");
+  db_connect
+    .collection("Post")
+    .find({}) //add the user _id
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  
+})
 
-// })
+recordRoutes.route("/new-comment").post( async (req, response ) => {
+  let db_connect = dbo.getDb();
 
+  const userId = "caca";
+  const postId = '1';
+  const currentDate = new Date();
+  const hours = currentDate.getHours();
+  const minutes = currentDate.getMinutes();
+  const seconds = currentDate.getSeconds();
+  const timeString = `${hours}:${minutes}:${seconds}`;
+
+  const comment = new CommentModel({
+    content: req.body.content,
+    user_id: userId,
+    post_id: postId,
+    time_stamp: timeString,
+  });
+
+  console.log(comment);
+
+  db_connect.collection("Comment").insertOne(comment, function (err, res) {
+    if (err) throw err;
+    response.json(res);
+  });
+
+})
+
+recordRoutes.route("get-comments").get( async (req, res) => {
+  let db_connect = dbo.getDb("CodeBlogg");
+  db_connect
+    .collection("Comment")
+    .find({}) //add the user _id and the post _id {user._id: ..., post._id: ...}
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  
+})
 
 
 
