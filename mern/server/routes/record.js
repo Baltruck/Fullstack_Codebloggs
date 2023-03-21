@@ -99,26 +99,47 @@ recordRoutes.route("/login").post( async (req, res) => {
 //   await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
 
 // });
+//OLD
+// recordRoutes.route("/status").patch( async (req, response ) => {
+//   let db_connect = dbo.getDb();
+//   const session_id = req.body.session_id;
+//   // const session_id = req.query.session_id; //token from the front end
+//   const statusUpdate = req.body.status;
+//   const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+//   console.log(user.user.status);
+//   if (!user) {
+//     return response.status(400).json({ message: "No user found" });
+//   }else if (user) {
+//     // user.user.status = statusUpdate;
+//     await db_connect.collection("Session").updateOne(
+//       { session_id: session_id },
+//       { $set: { "user.status": statusUpdate } }
+//     );
+//     response.send( {message: "Status Updated"});
+//     }
+  
+// });
 
-recordRoutes.route("/status").patch( async (req, response ) => {
+recordRoutes.route("/status").patch(async (req, response) => {
   let db_connect = dbo.getDb();
-  const session_id = req.body.session_id;
-  // const session_id = req.query.session_id; //token from the front end
+  const first_name = req.body.first_name;
+  const last_name = req.body.last_name;
   const statusUpdate = req.body.status;
-  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
-  console.log(user.user.status);
+
+  const user = await db_connect.collection("User").findOne({ first_name: first_name, last_name: last_name });
+  console.log(user.status);
+
   if (!user) {
     return response.status(400).json({ message: "No user found" });
-  }else if (user) {
-    // user.user.status = statusUpdate;
-    await db_connect.collection("Session").updateOne(
-      { session_id: session_id },
-      { $set: { "user.status": statusUpdate } }
+  } else {
+    await db_connect.collection("User").updateOne(
+      { first_name: first_name, last_name: last_name },
+      { $set: { "status": statusUpdate } }
     );
-    response.send( {message: "Status Updated"});
-    }
-  
+    response.send({ message: "Status Updated" });
+  }
 });
+
 
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
@@ -228,17 +249,39 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
 // });
 
 //fetch userobject, postobject for now
+//OLD
+// recordRoutes.route("/userInfo").post(async (req, response) => {
+//   let db_connect = dbo.getDb();
+//   const session_id = req.body.session_id;
+//   const sessionCursor = await db_connect.collection("Session").find({ session_id: session_id });
+//   const sessionArray = await sessionCursor.toArray();
+//   if (sessionArray.length === 0) {
+//     return response.status(400).json({ message: "Invalid session" });
+//   }
+//   response.send({ UserInfo: sessionArray[0].user });
+// });
 
+//NEW
 recordRoutes.route("/userInfo").post(async (req, response) => {
   let db_connect = dbo.getDb();
-  const session_id = req.body.session_id;
-  const postCursor = await db_connect.collection("Post").find({ ["user_id.session_id"]: session_id });
-  const postArray = await postCursor.toArray();
-  if (postArray.length === 0) {
-    return response.status(400).json({ message: "Invalid session" });
+  const first_name = req.body.first_name;
+  const last_name = req.body.last_name;
+  console.log('first_name:', first_name); // Log first_name
+  console.log('last_name:', last_name); // Log last_name
+
+  const userCursor = await db_connect.collection("User").findOne({ first_name: first_name, last_name: last_name });
+
+  if (!userCursor) {
+    console.log('User not found'); // Log user not found
+    return response.status(404).json({ message: "User not found" });
   }
-  response.send({ UserInfo: postArray });
+
+  response.send({ UserInfo: userCursor });
 });
+
+
+
+
 
 recordRoutes.route("/like").patch( async (req, response) => {
 

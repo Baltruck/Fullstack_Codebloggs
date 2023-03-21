@@ -33,6 +33,8 @@ const Connection = () => {
             // Set the user's session token
             Cookies.set('userToken', userData.session_id);
             Cookies.set('auth_level', userData.user.auth_level);
+            Cookies.set('first_name', userData.user.first_name);
+            Cookies.set('last_name', userData.user.last_name);
     
             // Redirect the user to the home page or the desired page
             window.location.replace('/');
