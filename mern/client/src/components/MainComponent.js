@@ -13,6 +13,14 @@ const Main = () => {
   const firstName = Cookies.get("first_name");
   const lastName = Cookies.get("last_name");
 
+  // Convert Date to ISO String
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toISOString().substring(0, 10);
+};
+
+
   const handleUpdateStatus = async () => {
     setLoading(true);
     try {
@@ -26,7 +34,7 @@ const Main = () => {
           first_name: firstName,
           last_name: lastName,
           status: newStatus,
-      }),
+        }),
       });
   
       setLoading(false);
@@ -34,19 +42,13 @@ const Main = () => {
       setNewStatus("");
   
       if (response.ok) {
-        // Relancez le GET /userinfo pour mettre à jour le statut dans la page
-        const userInfoResponse = await fetch("http://localhost:5000/userInfo", {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("userToken")}`,
-          },
+        // Mise à jour de l'état userInfo avec le nouveau statut
+        setUserInfo((prevUserInfo) => {
+          return {
+            ...prevUserInfo,
+            status: newStatus,
+          };
         });
-  
-        if (userInfoResponse.ok) {
-          const userInfoData = await userInfoResponse.json();
-          setUserInfo(userInfoData);
-        } else {
-          // Gérer les erreurs HTTP (par exemple, les codes de statut 404, 500, etc.)
-        }
       } else {
         // Gérer les erreurs HTTP (par exemple, les codes de statut 404, 500, etc.)
       }
@@ -148,7 +150,7 @@ const Main = () => {
           <Card.Body>
           <p className="text-black">First Name: {userInfo.first_name}</p>
           <p className="text-black">Last Name: {userInfo.last_name}</p>
-          <p className="text-black">Birthday: {userInfo.birthday}</p>
+          <p className="text-black">Birthday: {formatDate(userInfo.birthday)}</p>
           <p className="text-black">Email: {userInfo.email}</p>
           <p className="text-black">Location: {userInfo.location}</p>
           <p className="text-black">Occupation: {userInfo.occupation}</p>
