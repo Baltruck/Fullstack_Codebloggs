@@ -1,5 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { Modal, Button, Dropdown, Nav } from "react-bootstrap";
 import { useTheme } from './themeContext';
+import "./navbarStyles.css";
+import Post from "./post";
+import Cookies from 'js-cookie';
+
+
+
 
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
@@ -11,12 +18,59 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
   const { darkMode, toggleTheme } = useTheme(); 
   const themeClass = darkMode ? 'dark' : 'light';
+  const userName = Cookies.get('userName');
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const handleShowLogoutConfirm = () => {
+    setShowLogoutConfirm(true);
+  };
+  
+  const handleAccountSettingClick = () => {
+    alert('GG you clicked it!');
+  };
+
+  const handleCloseLogoutConfirm = () => {
+    setShowLogoutConfirm(false);
+  };
+  
+  const handleLogout = () => {
+    Cookies.remove('userName');
+    Cookies.remove('userToken');
+    // Redirigez l'utilisateur vers la page de connexion ou la page souhaitée
+    // window.location.replace('/login');
+  };
+  
+
+  const [showPost, setShowPost] = useState(false);
+
+  const handleShowPost = () => {
+    setShowPost(true);
+  };
+
+  const handleClosePost = () => {
+    setShowPost(false);
+  };
+
   return (
     <div>
-      <nav className={`navbar navbar-expand-lg navbar-light bg-light ${themeClass}`}>
-        <NavLink className="navbar-brand" to="/">
-        <img style={{"width" : 25 + '%'}} src="https://d3cy9zhslanhfa.cloudfront.net/media/3800C044-6298-4575-A05D5C6B7623EE37/4B45D0EC-3482-4759-82DA37D8EA07D229/webimage-8A27671A-8A53-45DC-89D7BF8537F15A0D.png"></img>
-        </NavLink>
+      <nav
+        className={`navbar navbar-expand-lg ${
+          darkMode ? "navbar-custom-dark" : "navbar-custom-light"
+        } animated-border-navbar`}
+      >
+        <div className="logo-container">
+          <NavLink className="navbar-brand" to="/">
+            <img
+              style={{ width: 10 + "%" }}
+              src={process.env.PUBLIC_URL + "/CodeBloggs graphic.png"}
+            ></img>
+          </NavLink>
+          <img
+            className={`text-image ${themeClass}`}
+            src={process.env.PUBLIC_URL + "/CodeBloggsV2.png"}
+            alt="Text Image"
+          />
+        </div>
         <button
           className="navbar-toggler"
           type="button"
@@ -28,22 +82,65 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
+  
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/create">
-                Create Record
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link btn btn-link" onClick={toggleTheme}>
-                Change mode : {darkMode ? 'dark' : 'light'}
-              </button>
-            </li>
-          </ul>
-        </div>
+        <Nav className="mr-auto">
+      <Nav.Item>
+        <Button className="custom-submit-btn custom-post-btn" onClick={handleShowPost}>
+          Post
+        </Button>
+      </Nav.Item>
+    </Nav>
+    <Nav className="mr-auto">
+      <Nav.Item>
+        <Button className="custom-submit-btn" onClick={toggleTheme}>
+          Change mode : {darkMode ? "dark" : "light"}
+        </Button>
+      </Nav.Item>
+      <Nav.Item>
+        <span className="nav-link">{userName}</span>
+      </Nav.Item>
+      <Nav.Item>
+        <Dropdown>
+          <Dropdown.Toggle as={Nav.Link}>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+          <Dropdown.Item onClick={handleShowLogoutConfirm}>Disconnect</Dropdown.Item>
+          <Dropdown.Item onClick={handleAccountSettingClick}>Account Setting</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Nav.Item>
+    </Nav>
+           </div>
       </nav>
+      <Modal show={showPost} onHide={handleClosePost} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Post />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClosePost}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showLogoutConfirm} onHide={handleCloseLogoutConfirm} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Confirm Logout</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>Are you sure you want to disconnect?</Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseLogoutConfirm}>
+      Cancel
+    </Button>
+    <Button variant="danger" onClick={handleLogout}>
+      Disconnect
+    </Button>
+  </Modal.Footer>
+</Modal>
     </div>
   );
+  
 }

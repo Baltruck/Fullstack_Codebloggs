@@ -3,6 +3,8 @@
     --compColor: #ECEC8C;
     --textColor-dark: #FFFFFF;
     --textColor-light: #000000;
+    --border-color-light: #8C8CEC;
+    --border-color-dark: #ECEC8C;
   }
   
   body.light {
@@ -15,3 +17,30 @@
     color: var(--textColor-dark);
   }
   
+  .navbar-custom-dark {
+    background-color: #0e0d0d;
+    border-color: #ECEC8C;
+    border-bottom : 1px solid #ECEC8C;
+  }
+  
+  .navbar-custom-dark .nav-link {
+    color: #ECEC8C !important;
+  }
+  
+  .navbar-custom-dark .nav-link:hover {
+    color: #cccccc !important;
+  }
+  
+  .navbar-custom-light {
+    background-color: #fcfce2; 
+    border-color: #8C8CEC;
+    border-bottom: 1px solid #8C8CEC;
+  }
+  
+  .navbar-custom-light .nav-link {
+    color: #8C8CEC !important;
+  }
+  
+  .navbar-custom-light .nav-link:hover {
+    color: #cccccc !important;
+  }
