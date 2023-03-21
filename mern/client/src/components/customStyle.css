@@ -210,3 +210,7 @@
     font-weight: bold;
   }
   
+  .alert-text-centered {
+    text-align: center;
+  }
+  

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -14,6 +14,10 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [location, setLocation] = useState('');
   const [occupation, setOccupation] = useState('');
+  const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
+
+
     
 
   const handleSubmit = async (e) => {
@@ -37,13 +41,23 @@ const Register = () => {
     const data = await response.json();
     console.log(data);
   
-    
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+      navigate('/login');
+    }, 5000);
   };
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
       <Card className="register-card mainFromLogo animated-border">
         <Card.Body>
+        {showAlert && (
+  <div className="alert alert-success alert-text-centered" role="alert">
+    Registration completed! Redirecting to login now...
+  </div>
+)}
+
           <Card.Title className="text-center  card-title dusterA">Register</Card.Title>
           <Form onSubmit={handleSubmit}>
           <Row>
