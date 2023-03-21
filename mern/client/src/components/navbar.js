@@ -3,6 +3,9 @@ import { Modal, Button } from "react-bootstrap";
 import { useTheme } from './themeContext';
 import "./navbarStyles.css";
 import Post from "./post";
+import Cookies from 'js-cookie';
+
+
 
 
 // We import bootstrap to make our application look better.
@@ -15,6 +18,7 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
   const { darkMode, toggleTheme } = useTheme(); 
   const themeClass = darkMode ? 'dark' : 'light';
+  const userName = Cookies.get('userName');
 
   const [showPost, setShowPost] = useState(false);
 
@@ -72,6 +76,9 @@ export default function Navbar() {
                 Change mode : {darkMode ? "dark" : "light"}
               </button>
             </li>
+            <li className="nav-item">
+              <span className="nav-link">{userName}</span>
+          </li>
           </ul>
         </div>
       </nav>
