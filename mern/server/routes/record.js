@@ -74,7 +74,7 @@ recordRoutes.route("/login").post( async (req, res) => {
      user: {first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
       session_date: new Date() };
   await db_connect.collection("Session").insertOne(session);
-  return res.send({message: "Login Successful"})
+  return res.send({message: "Login Successful", User: session});
 });
 
 recordRoutes.route("/logout").get( async (req, res) => {

@@ -15,33 +15,37 @@ const Connection = () => {
     e.preventDefault();
 
     try {
-        const response = await fetch(`http://localhost:5000/login?email=${email}&password=${password}`);
+        const response = await fetch(`http://localhost:5000/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
         
         if (response.ok) {
-          const userData = await response.json();
+          const { message, User: userData } = await response.json();
     
-          if (userData && userData.first_name && userData.last_name) {
-            const userName = `${userData.first_name} ${userData.last_name}`;
+          if (userData && userData.user.first_name && userData.user.last_name) {
+            const userName = `${userData.user.first_name} ${userData.user.last_name}`;
             Cookies.set('userName', userName);
 
-            // Generate and set a unique token for the user
-          const userToken = uuidv4();
-          Cookies.set('userToken', userToken);
-          Cookies.set('auth_level', userData.auth_level);
+            // Set the user's session token
+            Cookies.set('userToken', userData.session_id);
+            Cookies.set('auth_level', userData.user.auth_level);
     
-            // Redirigez l'utilisateur vers la page d'accueil ou la page souhaitée
-            // window.location.replace('/');
+            // Redirect the user to the home page or the desired page
+            window.location.replace('/');
           } else {
-            // Gérer le cas où l'utilisateur n'a pas été trouvé ou les données sont incorrectes
+            // Handle the case where the user was not found or the data is incorrect
           }
         } else {
-          // Gérer les erreurs HTTP (par exemple, le statut 404, 500, etc.)
+          // Handle HTTP errors (e.g., status 404, 500, etc.)
         }
       } catch (error) {
-        // Gérer les erreurs de réseau ou les erreurs de connexion au serveur
+        // Handle network errors or server connection errors
       }
     };
-    
   
 
   return (

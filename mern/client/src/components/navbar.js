@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Modal, Button, Dropdown, Nav } from "react-bootstrap";
 import { useTheme } from './themeContext';
 import "./navbarStyles.css";
@@ -12,13 +13,14 @@ import Cookies from 'js-cookie';
 import "bootstrap/dist/css/bootstrap.css";
 
 // We import NavLink to utilize the react router.
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 
 // Here, we display our Navbar
 export default function Navbar() {
   const { darkMode, toggleTheme } = useTheme(); 
   const themeClass = darkMode ? 'dark' : 'light';
   const userName = Cookies.get('userName');
+  const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleShowLogoutConfirm = () => {
@@ -38,6 +40,7 @@ export default function Navbar() {
     Cookies.remove('userToken');
     // Redirigez l'utilisateur vers la page de connexion ou la page souhaitée
     // window.location.replace('/login');
+    navigate('/login');
   };
   
 
