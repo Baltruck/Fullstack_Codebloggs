@@ -85,6 +85,10 @@
     border: 1px solid #ECEC8C;
     animation: border-animation 3s infinite;
   }
+  .animated-border-sideBar {
+    border: 1px solid #ECEC8C;
+    animation: border-animation 3s infinite;
+  }
   
   /* Font for body */
   body {

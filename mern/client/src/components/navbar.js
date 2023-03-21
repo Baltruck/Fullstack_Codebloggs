@@ -54,7 +54,7 @@ export default function Navbar() {
   return (
     <div>
       <nav
-        className={`navbar navbar-expand-lg ${
+        className={`navbar navbar-expand-lg navbar-custom ${
           darkMode ? "navbar-custom-dark" : "navbar-custom-light"
         } animated-border-navbar`}
       >
