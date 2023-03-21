@@ -41,6 +41,7 @@ export default function Navbar() {
     // Redirigez l'utilisateur vers la page de connexion ou la page souhaitée
     // window.location.replace('/login');
     navigate('/login');
+    handleCloseLogoutConfirm();
   };
   
 
@@ -104,15 +105,21 @@ export default function Navbar() {
         <span className="nav-link">{userName}</span>
       </Nav.Item>
       <Nav.Item>
-        <Dropdown>
-          <Dropdown.Toggle as={Nav.Link}>
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-          <Dropdown.Item onClick={handleShowLogoutConfirm}>Disconnect</Dropdown.Item>
-          <Dropdown.Item onClick={handleAccountSettingClick}>Account Setting</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </Nav.Item>
+  {userName ? (
+    <Dropdown>
+      <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={handleShowLogoutConfirm}>Disconnect</Dropdown.Item>
+        <Dropdown.Item onClick={handleAccountSettingClick}>Account Setting</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  ) : (
+    <NavLink className="nav-link" to="/login">
+      Please Login
+    </NavLink>
+  )}
+</Nav.Item>
+
     </Nav>
            </div>
       </nav>
@@ -130,7 +137,7 @@ export default function Navbar() {
         </Modal.Footer>
       </Modal>
       <Modal show={showLogoutConfirm} onHide={handleCloseLogoutConfirm} centered>
-  <Modal.Header closeButton>
+  <Modal.Header>
     <Modal.Title>Confirm Logout</Modal.Title>
   </Modal.Header>
   <Modal.Body>Are you sure you want to disconnect?</Modal.Body>

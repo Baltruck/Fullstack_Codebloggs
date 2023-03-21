@@ -26,14 +26,14 @@ const App = () => {
   }, [themeClass]);
 
   // ACTIVATE AFTER LOGIN
-  // useEffect(() => {
-  //   const token = Cookies.get('token');
-  //   if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
-  //     navigate('/login');
-  //   } else if (token && (location.pathname === '/login' || location.pathname === '/register')) {
-  //     navigate('/');
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    const token = Cookies.get('userToken');
+    if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
+      navigate('/login');
+    } else if (token && (location.pathname === '/login' || location.pathname === '/register')) {
+      navigate('/');
+    }
+  }, [location]);
 
   return (
     <div>
