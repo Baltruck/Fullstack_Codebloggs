@@ -17,18 +17,18 @@ const userSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema({
     content: {type: String, required: true},
-    user_id: {type: String, require: true}, //type user?
+    user_id: {type: Object, require: true},
     likes: {type: Number, required: true, default: 0},
     time_stamp: {type: String, required: true},
-    comments: {type: String, required: true, default: null},
+    comments: {type: Array, required: true, default: null},
 })
 
 const commentSchema = new mongoose.Schema({
-    content: {type: String, require: true},
-    post_id: {type: String},
-    user_id: {type: String, require: true},
-    likes: {type: Number, require: true, default: 0},
-    times_stamp: {type: String, require: true},
+    content: {type: String, required: true},
+    post_id: {type: Object, required: true},
+    user_id: {type: Object, required: true},
+    likes: {type: Number, required: true, default: 0},
+    times_stamp: {type: String, required: true},
 })
 
 // const sessionSchema = new mongoose.Schema({
