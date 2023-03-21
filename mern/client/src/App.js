@@ -10,6 +10,7 @@ import Edit from "./components/edit";
 import Create from "./components/create";
 import Login from "./components/login";
 import Register from "./components/register";
+import Main from "./components/MainComponent";
 
 const App = () => {
   const { darkMode } = useTheme();
@@ -37,7 +38,7 @@ const App = () => {
       <Navbar />
       <div style={{ margin: 20 }}>
       <Routes>
-        <Route exact path="/" element={<RecordList />} />
+        <Route exact path="/" element={<Main />} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/create" element={<Create />} />
         <Route path="/login" element={<Login />} />
