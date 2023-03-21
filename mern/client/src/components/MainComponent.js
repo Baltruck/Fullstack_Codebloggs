@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import "./mainComponent.css";
 
@@ -11,30 +10,46 @@ const Main = () => {
   const [showModal, setShowModal] = useState(false);
   const [newStatus, setNewStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const firstName = Cookies.get("first_name");
+  const lastName = Cookies.get("last_name");
 
   const handleUpdateStatus = async () => {
     setLoading(true);
     try {
-      await axios.patch(
-        "/status",
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("userToken")}`,
-          },
-        }
-      );
+      const response = await fetch("http://localhost:5000/status", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${Cookies.get("userToken")}`,
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          status: newStatus,
+      }),
+      });
+  
       setLoading(false);
       setShowModal(false);
       setNewStatus("");
   
-      // Relancez le GET /userinfo pour mettre à jour le statut dans la page
-      const response = await axios.get("/userinfo", {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("userToken")}`,
-        },
-      });
-      setUserInfo(response.data);
+      if (response.ok) {
+        // Relancez le GET /userinfo pour mettre à jour le statut dans la page
+        const userInfoResponse = await fetch("http://localhost:5000/userInfo", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("userToken")}`,
+          },
+        });
+  
+        if (userInfoResponse.ok) {
+          const userInfoData = await userInfoResponse.json();
+          setUserInfo(userInfoData);
+        } else {
+          // Gérer les erreurs HTTP (par exemple, les codes de statut 404, 500, etc.)
+        }
+      } else {
+        // Gérer les erreurs HTTP (par exemple, les codes de statut 404, 500, etc.)
+      }
     } catch (error) {
       setLoading(false);
       console.error("Error updating status:", error);
@@ -46,9 +61,7 @@ const Main = () => {
     const userName = Cookies.get("userName");
     if (userName) {
       const nameParts = userName.split(" ");
-      console.log("UserName:", userName);
-      console.log("nameParts:", nameParts);
-     
+        
       if (nameParts.length === 2) {
         const firstInitial = nameParts[0].charAt(0).toUpperCase();
         const secondInitial = nameParts[1].charAt(0).toUpperCase();
@@ -57,22 +70,36 @@ const Main = () => {
         console.log("User initials:", userInitials);
       }
     }
-    const token = Cookies.get("userToken");
-    if (token) {
-      axios
-        .get("/userinfo", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+    // const token = Cookies.get("userToken");
+    if (firstName && lastName) {
+      fetch("http://localhost:5000/userInfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          first_name: firstName, // Ajoutez cette ligne
+          last_name: lastName, // Ajoutez cette ligne
+          }),
+      })
         .then((response) => {
-          setUserInfo(response.data);
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Error fetching user info");
+          }
+        })
+        .then((data) => {
+          setUserInfo(data.UserInfo);
         })
         .catch((error) => {
           console.error("Error fetching user info:", error);
         });
     }
   }, []);
+  
+  
 
   return (
     <div className="main-container">
