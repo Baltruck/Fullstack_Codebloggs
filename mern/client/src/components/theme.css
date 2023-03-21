@@ -44,3 +44,26 @@
   .navbar-custom-light .nav-link:hover {
     color: #cccccc !important;
   }
+
+  .sidebar-light {
+    background-color: #fcfce2;
+    color: #000;
+    border-right: 1px solid var(--border-color-light);
+  }
+  
+  .sidebar-dark {
+    background-color: #0e0d0d;
+    color: #ECEC8C;
+    border-right: 1px solid var(--border-color-dark);
+  }
+  
+  
+  .sidebar-dark .sidebar-item a {
+    color: #ECEC8C;
+  }
+  
+  .sidebar-dark .sidebar-item a:hover {
+    background-color: #333333;
+    color: #ffffff;
+  }
+  

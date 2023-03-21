@@ -1,0 +1,10 @@
+.flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+.main-content {
+    margin-left: 150px !important; 
+    padding-top: 0px; 
+  }
+  

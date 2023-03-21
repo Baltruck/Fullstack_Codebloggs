@@ -27,6 +27,7 @@ const Connection = () => {
             // Generate and set a unique token for the user
           const userToken = uuidv4();
           Cookies.set('userToken', userToken);
+          Cookies.set('auth_level', userData.auth_level);
     
             // Redirigez l'utilisateur vers la page d'accueil ou la page souhaitée
             // window.location.replace('/');

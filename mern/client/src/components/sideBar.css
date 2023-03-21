@@ -1,0 +1,45 @@
+.sidebar {
+    position: fixed;
+    top: 56px; 
+    left: 0;
+    height: calc(100%); /* La hauteur totale moins la hauteur de la Navbar */
+    width: 150px;
+    background-color: #f8f9fa;
+    padding-top: 0; /* Ajustez cette valeur à 0 */
+    z-index: 1000;
+    overflow-y: auto;
+    margin-top: -56px;
+  }
+  
+  
+  .sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-item {
+    padding: 8px 16px;
+  }
+  
+  .sidebar-item:first-child {
+    margin-top: 100px; /* Ajoutez cette ligne */
+  }
+  
+  .sidebar-item a {
+    color: #000;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .sidebar-item a:hover {
+    background-color: #e8e9ea;
+    color: #000;
+  }
+
+  .sidebar-item .active {
+    color: #8c8cec !important;
+    font-weight: bolder !important;
+    
+  }
+  
