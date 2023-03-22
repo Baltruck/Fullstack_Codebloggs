@@ -166,10 +166,11 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
 
 recordRoutes.route("/get-articles").get( async (req, response) => {//returns user's post
   let db_connect = dbo.getDb("CodeBlogg");
-  const user_id = ObjectId(req.body.user_id);
+  // const user_id = ObjectId(req.body.user_id);
+  const userEmail = req.body.email;
   const usersPost = await db_connect
   .collection("Post")
-  .find({ ["user_id._id"]: user_id })
+  .find({ ["user_id.email"]: userEmail })
   .toArray(function (err, result)
    {if (err) throw err;
     response.json(result);});
