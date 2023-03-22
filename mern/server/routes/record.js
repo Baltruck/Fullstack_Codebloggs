@@ -146,7 +146,7 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
   // const session_id = req.query.session_id; //token from the front end
   const statusUpdate = req.body.status;
   const user = await db_connect.collection("Session").findOne( {session_id: session_id});
-  console.log(user);
+  // console.log(user.user);
   const currentDate = new Date();
   // const hours = currentDate.getHours();
   // const minutes = currentDate.getMinutes();
@@ -155,10 +155,10 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
 
   const article = new PostModel({
     content: req.body.content,
-    user_id: user,
+    user_id: user.user,
     time_stamp: currentDate,
   });
-  console.log(article)
+  // console.log(article)
   db_connect.collection("Post").insertOne(article, function (err, res) {
     if (err) throw err;
     response.send(res);
@@ -200,18 +200,18 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
   // const session_id = req.query.session_id; //token from the front end
 
   const user = await db_connect.collection("Session").findOne( {session_id: session_id});
-  // console.log("USER");
-  // console.log(user);
+  console.log("USER");
+  console.log(user);
 
   const post = await db_connect.collection("Post").findOne( {_id: post_id});
-  // console.log("POST content");
-  // console.log(post);
+  console.log("POST content");
+  console.log(post);
 
   if (!post || !user) {
     return response.status(400).json({ message: "Invalid request" });
   }
 
-  const userId = user; //devrait être la personne qui publie le commentaire
+  const userId = user.user;
   const postId = post;
   // console.log("UserId");
   // console.log(userId);
@@ -219,16 +219,16 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
   // console.log(postId);
 
   const currentDate = new Date();
-  const hours = currentDate.getHours();
-  const minutes = currentDate.getMinutes();
-  const seconds = currentDate.getSeconds();
-  const timeString = `${hours}:${minutes}:${seconds}`;
+  // const hours = currentDate.getHours();
+  // const minutes = currentDate.getMinutes();
+  // const seconds = currentDate.getSeconds();
+  // const timeString = `${hours}:${minutes}:${seconds}`;
 
   const comment = new CommentModel({
     content: req.body.content,
     user_id: userId,
     post_id: postId,
-    time_stamp: timeString,
+    times_stamp: currentDate,
   });
 
   console.log(comment);
@@ -327,7 +327,7 @@ recordRoutes.route("/like-comment").patch( async (req, response) => {
     );
 
   const updatedComment = await db_connect.collection("Comment").findOne({_id: comment_id});
-  
+
   await db_connect.collection("Post").updateOne(
     {_id: post_id, "comments._id": comment_id},
     {$set: {"comments.$.likes": updatedComment.likes}}
