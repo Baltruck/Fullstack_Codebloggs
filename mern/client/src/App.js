@@ -14,6 +14,7 @@ import Register from "./components/register";
 import Main from "./components/MainComponent";
 import Blogg from "./components/blogg";
 import Network from "./components/network";
+import AdminPage from "./components/admin";
 import './App.css';
 
 const App = () => {
@@ -50,6 +51,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/blogg" element={<Blogg />} />
         <Route path="/network" element={<Network />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
       </div>
     </div>

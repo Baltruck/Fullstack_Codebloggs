@@ -273,15 +273,32 @@
     flex-wrap: wrap;
    }
 
+  .admin-card-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .admin-page-container {
+    display: flex;
+    flex-direction: row; 
+    /* justify-content: space-around; */
+    padding: 1rem;
+  }
+
   .user-card {
     width: 30%;
     margin-left: 1%;
     margin-bottom: 1%;
   }
   
-  /* blogg-card {
-    margin-left: 1%;
+  .admin-card {
+    width: 400px;
+    text-align: center;
+    aspect-ratio: 1 / 1;
+    margin-left: 12%;
+    margin-right: 5%;
     margin-bottom: 1%;
-  } */
+    margin-top: 10%;
+  }
+  
   
    
