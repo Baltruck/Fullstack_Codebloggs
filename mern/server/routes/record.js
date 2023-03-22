@@ -142,10 +142,9 @@ recordRoutes.route("/status").patch(async (req, response) => {
 
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
-  const session_id = req.body.session_id;
-  // const session_id = req.query.session_id; //token from the front end
-  const statusUpdate = req.body.status;
-  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  const userEmail = req.body.email;
+  const content = req.body.content;
+  const user = await db_connect.collection("User").findOne({ email: userEmail });
   // console.log(user.user);
   const currentDate = new Date();
   // const hours = currentDate.getHours();
@@ -154,8 +153,8 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
   // const timeString = `${hours}:${minutes}:${seconds}`;
 
   const article = new PostModel({
-    content: req.body.content,
-    user_id: user.user,
+    content: content,
+    user_id: user,
     time_stamp: currentDate,
   });
   // console.log(article)
@@ -196,10 +195,10 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
   const post_id = ObjectId(req.body.post_id);
   // const post_id = req.query.post_id; //token from the front end
   //User making the comment
-  const session_id = req.body.session_id;
+  const userEmail = req.body.email;
   // const session_id = req.query.session_id; //token from the front end
 
-  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  const user = await db_connect.collection("User").findOne( {email: userEmail});
   console.log("USER");
   console.log(user);
 
@@ -211,7 +210,7 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
     return response.status(400).json({ message: "Invalid request" });
   }
 
-  const userId = user.user;
+  const userId = user;
   const postId = post;
   // console.log("UserId");
   // console.log(userId);
@@ -240,7 +239,7 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
   //add the comment to the db
   await db_connect.collection("Comment").insertOne(comment, function (err, res) {
       if (err) throw err;
-      response.send(res);
+      response.send( {res});
     });
     
 
