@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   birthday: {type: String, required: true}, //type date
   email: {type: String, required: true},
   password: {type: String, required: true},
-  status: {type: String, required: true},
+  status: {type: String, required: true, default: "23 years old designer from San Francisco"},
   location: {type: String, required: true, maxlength: 60},
   occupation: {type: String, required: true, maxlength: 60},
   auth_level: {type: String, required: true, default: "user"},
