@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 // We import all the components we need in our app
 import Navbar from "./components/navbar";
 import Sidebar from './components/sideBar';
-import RecordList from "./components/recordList";
 import Edit from "./components/edit";
 import Create from "./components/create";
 import Login from "./components/login";
@@ -15,6 +14,7 @@ import Main from "./components/MainComponent";
 import Blogg from "./components/blogg";
 import Network from "./components/network";
 import AdminPage from "./components/admin";
+import NewPost from "./components/newPost";
 import './App.css';
 
 const App = () => {
