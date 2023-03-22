@@ -20,14 +20,6 @@ const Main = () => {
   const [lastPostDate, setLastPostDate] = useState("");
   const [likedPosts, setLikedPosts] = useState([]);
 
-  // const loadUserArticles = () => {
-  //   // Utilisez les données de Post en fonction de l'user_id
-  //   const userPosts = Post.filter((post) => post.user_id === userInfo.user_id);
-
-  //   // Mettez à jour l'état avec les articles de l'utilisateur
-  //   setUserPosts(userPosts);
-  // };
-
   //Get all Post by user
   const loadUserArticles = async () => {
     try {
@@ -37,7 +29,7 @@ const Main = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: userInfo.user_id, // Utilisez l'user_id stocké dans userInfo
+          email: email,
         }),
       });
 
@@ -80,11 +72,10 @@ const Main = () => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${Cookies.get("userToken")}`,
+          
         },
         body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
+          email: email,
           status: newStatus,
         }),
       });
@@ -138,7 +129,7 @@ const Main = () => {
 
     // update the number of likes in the database
     // Check avec backend pour savoir comment mettre à jour les likes
-    const updateLikesURL = `http://localhost:5000/update-likes/${selectedPost._id}`;
+    const updateLikesURL = `http://localhost:5000/like/${selectedPost._id}`;
     try {
       const response = await fetch(updateLikesURL, {
         method: "PATCH",
@@ -177,8 +168,6 @@ const Main = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // first_name: firstName,
-          // last_name: lastName,
           email: email,
         }),
       })
