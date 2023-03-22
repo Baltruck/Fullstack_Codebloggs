@@ -37,7 +37,7 @@ const emailValidator = (req, res, next) => {
 // Middleware CAll
 recordRoutes.use("/signup", emailValidator);
 
-// Our routes
+// User creation and login /********************** *//********************** *//********************** */
 recordRoutes.route("/signup").post( async (req, response) => {
   let db_connect = dbo.getDb();
   const user = new UserModel({
@@ -120,26 +120,31 @@ recordRoutes.route("/login").post( async (req, res) => {
   
 // });
 
+// User creation and login /********************** *//********************** *//********************** */
+
+// User creation and login /********************** *//********************** *//********************** */
+
+
 recordRoutes.route("/status").patch(async (req, response) => {
   let db_connect = dbo.getDb();
-  const first_name = req.body.first_name;
-  const last_name = req.body.last_name;
+  const userEmail = req.body.email;
   const statusUpdate = req.body.status;
 
-  const user = await db_connect.collection("User").findOne({ first_name: first_name, last_name: last_name });
+  const user = await db_connect.collection("User").findOne({ email: userEmail});
   // console.log(user.status);
 
   if (!user) {
     return response.status(400).json({ message: "No user found" });
   } else {
     await db_connect.collection("User").updateOne(
-      { first_name: first_name, last_name: last_name },
+      { email: userEmail },
       { $set: { "status": statusUpdate } }
     );
     response.send({ message: "Status Updated" });
   }
 });
 
+// Article (Blog Post) Section /********************** *//********************** *//********************** */
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
   const userEmail = req.body.email;
@@ -154,7 +159,7 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
 
   const article = new PostModel({
     content: content,
-    user_id: user,
+    user_id: user._id,
     time_stamp: currentDate,
   });
   // console.log(article)
@@ -164,7 +169,7 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
   });
 });
 
-recordRoutes.route("/get-articles").get( async (req, response) => {//returns user's post
+recordRoutes.route("/get-articles").post( async (req, response) => {//returns user's post
   let db_connect = dbo.getDb("CodeBlogg");
   // const user_id = ObjectId(req.body.user_id);
   const userEmail = req.body.email;
@@ -187,7 +192,7 @@ recordRoutes.route("/get-posts").get( (req, response) => {//returns all posts
   });
 
 })
-
+// Comment Section /********************** *//********************** *//********************** */
 recordRoutes.route("/new-comment").post( async (req, response ) => {
 
   let db_connect = dbo.getDb();
@@ -211,8 +216,8 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
     return response.status(400).json({ message: "Invalid request" });
   }
 
-  const userId = user;
-  const postId = post;
+  const userId = user._id;
+  const postId = post._id;
   // console.log("UserId");
   // console.log(userId);
   // console.log("PostId");
@@ -272,7 +277,9 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
 // });
 
 //NEW
-recordRoutes.route("/userInfo").get(async (req, response) => {//change to get
+
+//Get user informations
+recordRoutes.route("/userInfo").post(async (req, response) => {//change to get
   let db_connect = dbo.getDb();
   const userEmail = req.body.email;
   const user = await db_connect.collection("User").findOne({ email: userEmail });
@@ -283,6 +290,30 @@ recordRoutes.route("/userInfo").get(async (req, response) => {//change to get
   response.send({ UserInfo: user });
 });
 
+recordRoutes.route("/userOfPost/:userId").get(async (req, response) => {
+  let db_connect = dbo.getDb();
+  const userId = ObjectId(req.params.userId);
+  // console.log(userId);
+  const user = await db_connect.collection("User").findOne({ _id: userId });
+  if (!user) {
+    console.log('User not found'); // Log user not found
+    return response.status(404).json({ message: "User not found" });
+  }
+  response.send({ UserInfo: user });
+});
+
+recordRoutes.route("/get-all-users").get(async (req, response) => {
+  let db_connect = dbo.getDb("CodeBlogg");
+  db_connect
+  .collection("User")
+  .find({})
+  .toArray(function (err, result) {
+    if (err) throw err;
+    response.json(result);
+  });
+});
+
+// Likes Section /********************** *//********************** *//********************** */
 recordRoutes.route("/like").patch( async (req, response) => {
 
     let db_connect = dbo.getDb();
@@ -353,7 +384,6 @@ recordRoutes.route("/like-comment").patch( async (req, response) => {
   
   return response.send({ message: "Comment not liked" });
   });
-
 
 // recordRoutes.route("/userInfo").post( async (req, response) => {//change to get
 //   let db_connect = dbo.getDb();
