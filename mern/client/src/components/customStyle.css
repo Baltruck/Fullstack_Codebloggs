@@ -235,4 +235,53 @@
     margin-top: 5%;
     margin-bottom: 7%;
   }
+
+  .small-initials-container {
+    width: 150px;
+    height: 150px;
+    background-color: #ECEC8C;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Style Script', cursive;
+    font-size: 60px;
+    font-weight: bolder;
+    /* margin-left: 35%; */
+    /* margin-top: 5%; */
+    margin-bottom: 7%;
+    margin-top: 13%;
+    margin-left: -3%;
+  }
+
+  .inside-post-container {
+    background-color: #ECEC8C;
+    padding: 10px;
+    border-radius: 20px;
+    margin-left: 2%;
+    margin-bottom: 3%;
+  }
+
+  .network-container {
+   display: flex;
+   flex-wrap: wrap;
+  }
+
+  .blogg-container {
+    display: flex;
+    flex-wrap: wrap;
+   }
+
+  .user-card {
+    width: 30%;
+    margin-left: 1%;
+    margin-bottom: 1%;
+  }
+  
+  /* blogg-card {
+    margin-left: 1%;
+    margin-bottom: 1%;
+  } */
+  
    

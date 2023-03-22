@@ -12,6 +12,8 @@ import Create from "./components/create";
 import Login from "./components/login";
 import Register from "./components/register";
 import Main from "./components/MainComponent";
+import Blogg from "./components/blogg";
+import Network from "./components/network";
 import './App.css';
 
 const App = () => {
@@ -46,6 +48,8 @@ const App = () => {
         <Route path="/create" element={<Create />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/blogg" element={<Blogg />} />
+        <Route path="/network" element={<Network />} />
       </Routes>
       </div>
     </div>

@@ -29,7 +29,7 @@ const Sidebar = ({ user }) => {
               </NavLink>
             </li>
             <li className="sidebar-item">
-              <NavLink to="/blog" activeClassName="active-link">
+              <NavLink to="/blogg" activeClassName="active-link">
                 Blogg
               </NavLink>
             </li>
