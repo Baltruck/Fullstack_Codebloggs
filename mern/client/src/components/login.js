@@ -35,6 +35,7 @@ const Connection = () => {
             Cookies.set('auth_level', userData.user.auth_level);
             Cookies.set('first_name', userData.user.first_name);
             Cookies.set('last_name', userData.user.last_name);
+            Cookies.set('email', userData.user.email);
     
             // Redirect the user to the home page or the desired page
             window.location.replace('/');
