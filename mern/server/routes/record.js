@@ -127,7 +127,7 @@ recordRoutes.route("/status").patch(async (req, response) => {
   const statusUpdate = req.body.status;
 
   const user = await db_connect.collection("User").findOne({ first_name: first_name, last_name: last_name });
-  console.log(user.status);
+  // console.log(user.status);
 
   if (!user) {
     return response.status(400).json({ message: "No user found" });
@@ -140,43 +140,52 @@ recordRoutes.route("/status").patch(async (req, response) => {
   }
 });
 
-
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
-  const session_id = req.body.session_id;
-  // const session_id = req.query.session_id; //token from the front end
-  const statusUpdate = req.body.status;
-  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
-  console.log(user);
+  const userEmail = req.body.email;
+  const content = req.body.content;
+  const user = await db_connect.collection("User").findOne({ email: userEmail });
+  // console.log(user.user);
   const currentDate = new Date();
-  const hours = currentDate.getHours();
-  const minutes = currentDate.getMinutes();
-  const seconds = currentDate.getSeconds();
-  const timeString = `${hours}:${minutes}:${seconds}`;
+  // const hours = currentDate.getHours();
+  // const minutes = currentDate.getMinutes();
+  // const seconds = currentDate.getSeconds();
+  // const timeString = `${hours}:${minutes}:${seconds}`;
 
   const article = new PostModel({
-    content: req.body.content,
+    content: content,
     user_id: user,
-    time_stamp: timeString,
+    time_stamp: currentDate,
   });
-  console.log(article)
+  // console.log(article)
   db_connect.collection("Post").insertOne(article, function (err, res) {
     if (err) throw err;
     response.send(res);
   });
 });
 
-recordRoutes.route("get-articles").get( async (req, res) => {
+recordRoutes.route("/get-articles").get( async (req, response) => {//returns user's post
+  let db_connect = dbo.getDb("CodeBlogg");
+  const user_id = ObjectId(req.body.user_id);
+  const usersPost = await db_connect
+  .collection("Post")
+  .find({ ["user_id._id"]: user_id })
+  .toArray(function (err, result)
+   {if (err) throw err;
+    response.json(result);});
+});
+
+recordRoutes.route("/get-posts").get( (req, response) => {//returns all posts
   let db_connect = dbo.getDb("CodeBlogg");
   db_connect
-    .collection("Post")
-    .find({}) //add the user _id
-    .toArray(function (err, result) {
-      if (err) throw err;
-      res.json(result);
-    });
-  
-});
+  .collection("Post")
+  .find({})
+  .toArray(function (err, result) {
+    if (err) throw err;
+    response.json(result);
+  });
+
+})
 
 recordRoutes.route("/new-comment").post( async (req, response ) => {
 
@@ -186,10 +195,10 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
   const post_id = ObjectId(req.body.post_id);
   // const post_id = req.query.post_id; //token from the front end
   //User making the comment
-  const session_id = req.body.session_id;
+  const userEmail = req.body.email;
   // const session_id = req.query.session_id; //token from the front end
 
-  const user = await db_connect.collection("Session").findOne( {session_id: session_id});
+  const user = await db_connect.collection("User").findOne( {email: userEmail});
   console.log("USER");
   console.log(user);
 
@@ -201,7 +210,7 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
     return response.status(400).json({ message: "Invalid request" });
   }
 
-  const userId = user; //devrait être la personne qui publie le commentaire
+  const userId = user;
   const postId = post;
   // console.log("UserId");
   // console.log(userId);
@@ -209,16 +218,16 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
   // console.log(postId);
 
   const currentDate = new Date();
-  const hours = currentDate.getHours();
-  const minutes = currentDate.getMinutes();
-  const seconds = currentDate.getSeconds();
-  const timeString = `${hours}:${minutes}:${seconds}`;
+  // const hours = currentDate.getHours();
+  // const minutes = currentDate.getMinutes();
+  // const seconds = currentDate.getSeconds();
+  // const timeString = `${hours}:${minutes}:${seconds}`;
 
   const comment = new CommentModel({
     content: req.body.content,
     user_id: userId,
     post_id: postId,
-    time_stamp: timeString,
+    times_stamp: currentDate,
   });
 
   console.log(comment);
@@ -230,13 +239,13 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
   //add the comment to the db
   await db_connect.collection("Comment").insertOne(comment, function (err, res) {
       if (err) throw err;
-      response.send(res);
+      response.send( {res});
     });
     
 
 });
 
-// recordRoutes.route("/get-comments").get( async (req, res) => {
+// recordRoutes.route("/get-comments").get( async (req, res) => { //in the posts
 //   let db_connect = dbo.getDb("CodeBlogg");
 //   db_connect
 //     .collection("Comment")
@@ -262,31 +271,24 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
 // });
 
 //NEW
-recordRoutes.route("/userInfo").post(async (req, response) => {
+recordRoutes.route("/userInfo").get(async (req, response) => {//change to get
   let db_connect = dbo.getDb();
-  const first_name = req.body.first_name;
-  const last_name = req.body.last_name;
-  console.log('first_name:', first_name); // Log first_name
-  console.log('last_name:', last_name); // Log last_name
-
-  const userCursor = await db_connect.collection("User").findOne({ first_name: first_name, last_name: last_name });
-
-  if (!userCursor) {
+  const userEmail = req.body.email;
+  const user = await db_connect.collection("User").findOne({ email: userEmail });
+  if (!user) {
     console.log('User not found'); // Log user not found
     return response.status(404).json({ message: "User not found" });
   }
-
-  response.send({ UserInfo: userCursor });
+  response.send({ UserInfo: user });
 });
-
-
-
-
 
 recordRoutes.route("/like").patch( async (req, response) => {
 
     let db_connect = dbo.getDb();
     const post_id = ObjectId(req.body.post_id);
+    const comment_id = ObjectId(req.body.comment_id);
+
+    // const likes = req.body.likes;
     const post = await db_connect.collection("Post").find( {_id: post_id}); 
     if (!post) {
       return response.status(400).json({ message: "Invalid Post" });
@@ -295,12 +297,62 @@ recordRoutes.route("/like").patch( async (req, response) => {
       { _id: post_id},
       { $inc: { likes: 1 } }
       );
-    response.send( {message: "Comment  Liked"});
+
+    const updatedPost = await db_connect.collection("Post").findOne({_id: post_id});
+
+    //update the comment collection with the new likes
+    await db_connect.collection("Comment").updateOne(
+      {_id: comment_id, "post_id._id": post_id._id},
+      {$set: {"post_id.likes": updatedPost.likes}}
+    );
+    
+    response.send( {message: "Post  Liked"});
       
+});
+
+recordRoutes.route("/like-comment").patch( async (req, response) => {
+
+  let db_connect = dbo.getDb();
+  const post_id = ObjectId(req.body.post_id);
+  const comment_id = ObjectId(req.body.comment_id);
+  const post = await db_connect.collection("Post").findOne( {_id: post_id}); 
+  if (!post) {
+    return response.status(400).json({ message: "Invalid Post" });
+  }
+
+  await db_connect.collection("Comment").updateOne(
+    { _id: comment_id},
+    { $inc: { likes: 1 } }
+    );
+
+  const updatedComment = await db_connect.collection("Comment").findOne({_id: comment_id});
+
+  await db_connect.collection("Post").updateOne(
+    {_id: post_id, "comments._id": comment_id},
+    {$set: {"comments.$.likes": updatedComment.likes}}
+  );
 
   
+  return response.send( {message: "Comment Liked"}); //updater la collection post avec le nouveau like
 
-})
+  // console.log(post.comments[0]._id)
+  // console.log(post.comments.length); //5
+
+  // for (let i = 0; i < post.comments.length; i++) {
+  //   if (comment_id.equals(post.comments[i]._id)) {
+  //     // console.log("Comment found!!!");
+  //     // console.log("DB COMMENT");
+  //     // console.log(post.comments[i]._id);
+  //     await db_connect.collection("Post").updateOne(
+  //       {},
+  //       { $inc: { likes: 1 } });
+  //     return response.send({ message: "Comment Liked" });
+  //   }
+  // }
+  
+  return response.send({ message: "Comment not liked" });
+  });
+
 
 // recordRoutes.route("/userInfo").post( async (req, response) => {//change to get
 //   let db_connect = dbo.getDb();
