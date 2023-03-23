@@ -223,14 +223,14 @@ const Main = () => {
             </Button>
           </Card.Body>
         </Card>
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal show={showModal} onHide={() => setShowModal(false)} contentClassName="status-card main-card mainFromLogo animated-border">
           <Modal.Header>
             <Modal.Title>Update Status</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group controlId="status">
-                <Form.Label>New Status</Form.Label>
+              <Form.Group className="inside-post-container" controlId="status">
+                <Form.Label className="text-black">New Status</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -241,10 +241,10 @@ const Main = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
+            <Button className="custom-close-btn" variant="secondary" onClick={() => setShowModal(false)}>
               Close
             </Button>
-            <Button
+            <Button className="custom-submit-btn"
               variant="primary"
               onClick={handleUpdateStatus}
               disabled={loading}

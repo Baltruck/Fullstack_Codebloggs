@@ -7,7 +7,7 @@ const Network = () => {
     const [userList, setUserList] = useState([]);
   
     useEffect(() => {
-      // remplacer cette ligne par un appel à l'API /get-all/users
+      // remplacer cette ligne par un appel à l'API /get-all-users
       setUserList(HardCodedUsers);
     }, []);
   
@@ -25,7 +25,7 @@ const Network = () => {
           {userList.map((user) => {
             const latestPost = findLatestPost(user.id);
             return (
-              <Card key={user.id} className="user-card status-card mainFromLogo animated-border">
+              <Card key={user.id} className="user-card status-card mainFromLogo animated-border blogg-card">
                 <Card.Body>
                     <div style={{ display: "flex" }} >
               <div className="user-initials small-initials-container animated-border-initials-container">

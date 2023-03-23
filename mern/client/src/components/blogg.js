@@ -66,8 +66,8 @@ const handleLikeClick = async (postId) => {
     try {
       const response = await fetch(`http://localhost:5000/userOfPost/${userId}`);
       const userData = await response.json();
-      const firstInitial = userData.UserInfo.first_name.charAt(0);
-      const lastInitial = userData.UserInfo.last_name.charAt(0);
+      const firstInitial = userData.UserInfo.first_name.charAt(0).toUpperCase();
+      const lastInitial = userData.UserInfo.last_name.charAt(0).toUpperCase();
       return { firstInitial, lastInitial };
     } catch (error) {
       console.error("Error fetching user data:", error);

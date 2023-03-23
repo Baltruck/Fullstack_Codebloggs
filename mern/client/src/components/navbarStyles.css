@@ -20,10 +20,38 @@
   }
 
   .custom-post-btn {
-    font-size: 1.4rem;
-    font-weight: bolder;
+    font-size: 1.4rem !important;
+    font-weight: bolder !important;
     padding: 5px 20px;
-    width: auto;
-    height: auto;
+    border-radius: 30px !important;
+    width: 200%;
+    
   }
+
+  .nav-items-container {
+    /* display: flex; */
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  /* .logo-container {
+    flex: 1;
+    min-width: 15%;
+  } */
+
+
+  .nav-buttons-container{
+    flex: 1;
+    min-width: 15%;
+    margin-left: -299px !important;
+    margin-right: 50px;
+  }
+
+
+  .user-info-container {
+    flex: 1;
+    min-width: 15%;
+  }
+  
   
