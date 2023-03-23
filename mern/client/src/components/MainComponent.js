@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import "./mainComponent.css";
-import { Post, User } from "./hardCoding";
 
 const Main = () => {
   const [initials, setInitials] = useState("");
@@ -21,7 +20,9 @@ const Main = () => {
   const [likedPosts, setLikedPosts] = useState([]);
 
   //Get all Post by user
+  console.log("Calling loadUserArticles");
   const loadUserArticles = async () => {
+    console.log("email in loadUserArticles:", email); 
     try {
       const response = await fetch("http://localhost:5000/get-articles", {
         method: "POST",
@@ -32,11 +33,14 @@ const Main = () => {
           email: email,
         }),
       });
-
+      console.log("Response:", response);
       if (response.ok) {
         const posts = await response.json();
+        console.log("Fetched user posts:", posts);
         setUserPosts(posts);
+        console.log("posts", posts);
         setTotalPosts(posts.length);
+        console.log("totalPosts", totalPosts)
 
         if (posts.length > 0) {
           const latestPost = posts.reduce((latest, post) => {
@@ -53,7 +57,7 @@ const Main = () => {
         console.error("Error fetching user posts");
       }
     } catch (error) {
-      console.error("Error fetching user posts:", error);
+      console.error("Error fetching user posts:", error.message);
     }
   };
 
@@ -160,6 +164,9 @@ const Main = () => {
         console.log("User initials:", userInitials);
       }
     }
+    console.log("firstName:", firstName);
+console.log("lastName:", lastName);
+console.log("email:", email);
 
     if (firstName && lastName) {
       fetch("http://localhost:5000/userInfo", {
@@ -189,6 +196,10 @@ const Main = () => {
           console.error("Error fetching user info:", error);
         });
     }
+  }, []);
+
+  useEffect(() => {
+    loadUserArticles();
   }, []);
 
   return (
