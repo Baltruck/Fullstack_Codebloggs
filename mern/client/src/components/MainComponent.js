@@ -281,7 +281,7 @@ console.log("email:", email);
               <Card
                 key={post._id}
                 className="post-card"
-                onClick={() => handlePostClick(post)}
+                // onClick={() => handlePostClick(post)}
               >
                 <Card.Body>
                 <pre>{JSON.stringify(post.content, null, 2)}</pre>
@@ -299,7 +299,8 @@ console.log("email:", email);
           <Modal.Body>
             <Card className="post-details-card mainFromLogo animated-border">
               <Card.Body>
-                <Card.Text>{selectedPost.content}</Card.Text>
+              <Card.Text>{selectedPost.content.text}</Card.Text>
+
                 <Card.Text>
                   Timestamp: {formatDate(selectedPost.time_stamp)}
                 </Card.Text>
