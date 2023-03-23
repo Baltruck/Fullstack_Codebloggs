@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Modal, Button, Dropdown, Nav } from "react-bootstrap";
 import { useTheme } from './themeContext';
 import "./navbarStyles.css";
@@ -13,8 +13,9 @@ import NewPost from "./newPost";
 // We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
 
-// We import NavLink to utilize the react router.
-// import { NavLink } from "react-router-dom";
+
+
+
 
 // Here, we display our Navbar
 export default function Navbar() {
@@ -24,13 +25,15 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [postContent, setPostContent] = useState("");
+  const location = useLocation();
+  const shouldDisablePostButton = location.pathname === "/login" || location.pathname === "/register";
 
   // Here, we handle the post modal
   const handlePostSubmit = async () => {
     const userEmail = Cookies.get("userEmail");
   
     try {
-      const response = await fetch("/new-article", {
+      const response = await fetch("/new-post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,9 +124,15 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <Nav className="mr-auto">
       <Nav.Item>
-        <Button className="custom-submit-btn custom-post-btn" onClick={handleShowPost}>
-          Post
-        </Button>
+      {!shouldDisablePostButton && (
+      <Button
+    className="custom-submit-btn custom-post-btn"
+    onClick={handleShowPost}
+   
+  >
+    Post
+  </Button>
+)}
       </Nav.Item>
     </Nav>
     <Nav className="mr-auto">
