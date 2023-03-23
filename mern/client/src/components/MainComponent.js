@@ -283,7 +283,9 @@ console.log("email:", email);
                 className="post-card"
                 onClick={() => handlePostClick(post)}
               >
-                <Card.Body>{post.content}</Card.Body>
+                <Card.Body>
+                <pre>{JSON.stringify(post.content, null, 2)}</pre>
+                  </Card.Body>
               </Card>
             ))}
           </Card.Body>
