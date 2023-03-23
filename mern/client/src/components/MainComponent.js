@@ -137,14 +137,14 @@ const Main = () => {
     setLikedPosts((prevLikedPosts) => [...prevLikedPosts, postId]);
 
     // update the number of likes in the database
-    const updateLikesURL = `http://localhost:5000/like/${postId}`;
+    const updateLikesURL = `http://localhost:5000/like`;
     try {
       const response = await fetch(updateLikesURL, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ likes: selectedPost.likes + 1 }),
+        body: JSON.stringify({ post_id: postId }),
       });
 
       if (!response.ok) {
