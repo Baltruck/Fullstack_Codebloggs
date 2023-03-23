@@ -148,10 +148,14 @@ recordRoutes.route("/status").patch(async (req, response) => {
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
   const userEmail = req.body.email;
+  console.log("usermail",userEmail)
   const content = req.body.content;
+  console.log("content",content)
   const user = await db_connect.collection("User").findOne({ email: userEmail });
   // console.log(user.user);
   const currentDate = new Date();
+  console.log("date",currentDate);
+
   // const hours = currentDate.getHours();
   // const minutes = currentDate.getMinutes();
   // const seconds = currentDate.getSeconds();
@@ -160,9 +164,11 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
   const article = new PostModel({
     content: content,
     user_id: user._id,
-    time_stamp: currentDate,
+    time_stamp: currentDate, //add
+    likes: 0, //add
+    comments: [], //add
   });
-  // console.log(article)
+  console.log(article)
   db_connect.collection("Post").insertOne(article, function (err, res) {
     if (err) throw err;
     response.send(res);
