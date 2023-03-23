@@ -37,5 +37,10 @@
     justify-content: flex-end;
     gap: 1rem;
   }
+
+.modal-card {
+  background-color: #8C8CEC;
+  border-radius: 20px;
+}
   
   

@@ -22,7 +22,7 @@ const Main = () => {
   //Get all Post by user
   console.log("Calling loadUserArticles");
   const loadUserArticles = async () => {
-    console.log("email in loadUserArticles:", email); 
+    console.log("email in loadUserArticles:", email);
     try {
       const response = await fetch("http://localhost:5000/get-articles", {
         method: "POST",
@@ -40,7 +40,7 @@ const Main = () => {
         setUserPosts(posts);
         console.log("posts", posts);
         setTotalPosts(posts.length);
-        console.log("totalPosts", totalPosts)
+        console.log("totalPosts", totalPosts);
 
         if (posts.length > 0) {
           const latestPost = posts.reduce((latest, post) => {
@@ -76,7 +76,6 @@ const Main = () => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          
         },
         body: JSON.stringify({
           email: email,
@@ -117,30 +116,35 @@ const Main = () => {
   };
 
   // like button
-  const handleLikeClick = async () => {
+  const handleLikeClick = async (postId) => {
     // Check if user has already liked the post
-    if (likedPosts.includes(selectedPost._id)) {
+    if (likedPosts.includes(postId)) {
       return;
     }
 
     // update the number of likes in the UI
-    setSelectedPost((prevSelectedPost) => {
-      return { ...prevSelectedPost, likes: prevSelectedPost.likes + 1 };
+    setUserPosts((prevUserPosts) => {
+      const newPosts = prevUserPosts.map((post) => {
+        if (post._id === postId) {
+          return { ...post, likes: post.likes + 1 };
+        }
+        return post;
+      });
+      return newPosts;
     });
 
     // Add the post to the list of liked posts
-    setLikedPosts((prevLikedPosts) => [...prevLikedPosts, selectedPost._id]);
+    setLikedPosts((prevLikedPosts) => [...prevLikedPosts, postId]);
 
     // update the number of likes in the database
-    // Check avec backend pour savoir comment mettre à jour les likes
-    const updateLikesURL = `http://localhost:5000/like/${selectedPost._id}`;
+    const updateLikesURL = `http://localhost:5000/like`;
     try {
       const response = await fetch(updateLikesURL, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ likes: selectedPost.likes + 1 }),
+        body: JSON.stringify({ post_id: postId }),
       });
 
       if (!response.ok) {
@@ -165,8 +169,8 @@ const Main = () => {
       }
     }
     console.log("firstName:", firstName);
-console.log("lastName:", lastName);
-console.log("email:", email);
+    console.log("lastName:", lastName);
+    console.log("email:", email);
 
     if (firstName && lastName) {
       fetch("http://localhost:5000/userInfo", {
@@ -208,7 +212,7 @@ console.log("email:", email);
         <div className="initials-container animated-border-initials-container">
           {initials}
         </div>
-        <Card className="status-card mainFromLogo animated-border">
+        <Card className="status-card main-card mainFromLogo animated-border">
           <Card.Body>
             <p className="text-black">Your Status: {userInfo.status}</p>
             <Button
@@ -219,14 +223,14 @@ console.log("email:", email);
             </Button>
           </Card.Body>
         </Card>
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
+        <Modal show={showModal} onHide={() => setShowModal(false)} contentClassName="status-card main-card mainFromLogo animated-border">
+          <Modal.Header>
             <Modal.Title>Update Status</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group controlId="status">
-                <Form.Label>New Status</Form.Label>
+              <Form.Group className="inside-post-container" controlId="status">
+                <Form.Label className="text-black">New Status</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -237,10 +241,10 @@ console.log("email:", email);
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
+            <Button className="custom-close-btn" variant="secondary" onClick={() => setShowModal(false)}>
               Close
             </Button>
-            <Button
+            <Button className="custom-submit-btn"
               variant="primary"
               onClick={handleUpdateStatus}
               disabled={loading}
@@ -250,7 +254,7 @@ console.log("email:", email);
           </Modal.Footer>
         </Modal>
 
-        <Card className="info-card mainFromLogo animated-border">
+        <Card className="info-card main-card mainFromLogo animated-border">
           <Card.Body>
             <p className="text-black">First Name: {userInfo.first_name}</p>
             <p className="text-black">Last Name: {userInfo.last_name}</p>
@@ -275,7 +279,7 @@ console.log("email:", email);
         </Card>
       </div>
       <div className="right-column">
-        <Card className="posts-container-card status-card mainFromLogo animated-border">
+        <Card className="posts-container-card main-card status-card mainFromLogo animated-border">
           <Card.Body>
             {userPosts.map((post) => (
               <Card
@@ -284,20 +288,35 @@ console.log("email:", email);
                 // onClick={() => handlePostClick(post)}
               >
                 <Card.Body>
-                <pre>{JSON.stringify(post.content, null, 2)}</pre>
-                  </Card.Body>
+                  <Card.Text className="text-black">{post.content}</Card.Text>
+                  <Card.Text className="text-black">
+                    {formatDate(post.time_stamp)}
+                  </Card.Text>
+                  <Card.Text className="text-black">
+                    <Button
+                      variant="link"
+                      onClick={() => handleLikeClick(post._id)}
+                    >
+                      👍
+                    </Button>
+                    {post.likes}{" "}
+                  </Card.Text>
+                  <Card.Text className="text-black">
+                    {post.comments.list}
+                  </Card.Text>
+                </Card.Body>
               </Card>
             ))}
           </Card.Body>
         </Card>
       </div>
-      {selectedPost && (
+      {/* {selectedPost && (
         <Modal show={showPostModal} onHide={closeModal}>
           <Modal.Header closeButton>
             <Modal.Title>Post Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Card className="post-details-card mainFromLogo animated-border">
+            <Card className="post-details-card mainFromLogo animated-border register-card">
               <Card.Body>
               <Card.Text>{selectedPost.content.text}</Card.Text>
 
@@ -330,7 +349,7 @@ console.log("email:", email);
             </Button>
           </Modal.Footer>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };
