@@ -32,7 +32,7 @@
   }
   
   .navbar-custom-light {
-    background-color: #fcfce2; 
+    background-color: #f0f0f0; 
     border-color: #8C8CEC;
     border-bottom: 1px solid #8C8CEC;
   }
@@ -46,7 +46,7 @@
   }
 
   .sidebar-light {
-    background-color: #fcfce2;
+    background-color: #f0f0f0;
     color: #000;
     border-right: 1px solid var(--border-color-light);
   }
