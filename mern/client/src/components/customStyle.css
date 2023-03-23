@@ -20,6 +20,25 @@
     color: #000; 
   }
 
+.main-card {
+    width: 100%;
+    /* max-width: 700px; */
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }  
+
+.post-card {
+    width: 100%;
+    /* max-width: 700px; */
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3%;
+    background-color: #ECEC8C;
+    font-size: 1.5em;
+    font-weight: bold;
+    
+  }
+
 .form-field {
     margin-bottom: 2rem; 
     margin-top: 2rem;
