@@ -17,11 +17,13 @@ import AdminPage from "./components/admin";
 import NewPost from "./components/newPost";
 import './App.css';
 
+
 const App = () => {
   const { darkMode } = useTheme();
   const themeClass = darkMode ? 'dark' : 'light';
   const location = useLocation();
   const navigate = useNavigate();
+  
  
   useEffect(() => {
     document.body.classList.remove('dark', 'light'); 

@@ -30,7 +30,7 @@ export default function Navbar() {
     const userEmail = Cookies.get("userEmail");
   
     try {
-      const response = await fetch("/new-post", {
+      const response = await fetch("/new-article", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

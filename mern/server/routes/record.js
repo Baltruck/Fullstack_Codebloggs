@@ -148,10 +148,14 @@ recordRoutes.route("/status").patch(async (req, response) => {
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
   const userEmail = req.body.email;
+  console.log("usermail",userEmail)
   const content = req.body.content;
+  console.log("content",content)
   const user = await db_connect.collection("User").findOne({ email: userEmail });
   // console.log(user.user);
   const currentDate = new Date();
+  console.log("date",currentDate);
+
   // const hours = currentDate.getHours();
   // const minutes = currentDate.getMinutes();
   // const seconds = currentDate.getSeconds();
@@ -160,26 +164,57 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
   const article = new PostModel({
     content: content,
     user_id: user._id,
-    time_stamp: currentDate,
+    time_stamp: currentDate, //add
+    likes: 0, //add
+    comments: [], //add
   });
-  // console.log(article)
+  console.log(article)
   db_connect.collection("Post").insertOne(article, function (err, res) {
     if (err) throw err;
     response.send(res);
   });
 });
 
-recordRoutes.route("/get-articles").post( async (req, response) => {//returns user's post
+// OLD ***********************************************************************************************************
+// recordRoutes.route("/get-articles").post( async (req, response) => {//returns user's post
+//   let db_connect = dbo.getDb("CodeBlogg");
+//   // const user_id = ObjectId(req.body.user_id);
+//   const userEmail = req.body.email;
+//   const usersPost = await db_connect
+//   .collection("Post")
+//   .find({ ["user_id.email"]: userEmail })
+//   .toArray(function (err, result)
+//    {if (err) throw err;
+//     response.json(result);});
+// });
+
+// NEW ***********************************************************************************************************
+recordRoutes.route("/get-articles").post(async (req, response) => {
   let db_connect = dbo.getDb("CodeBlogg");
-  // const user_id = ObjectId(req.body.user_id);
   const userEmail = req.body.email;
-  const usersPost = await db_connect
-  .collection("Post")
-  .find({ ["user_id.email"]: userEmail })
-  .toArray(function (err, result)
-   {if (err) throw err;
-    response.json(result);});
+  console.log("reqbody", req.body);
+
+  // Trouve le user correspondant à l'email dans la db User
+  const user = await db_connect.collection("User").findOne({ email: userEmail });
+
+  if (!user) {
+    // Si aucun utilisateur correspondant n'est trouvé, retourne une erreur
+    response.status(404).json({ message: "User not found" });
+  } else {
+    // Utilise l'_id de l'utilisateur pour rechercher les articles dans la collection "Post"
+    const userPosts = await db_connect
+      .collection("Post")
+      .find({ user_id: user._id })
+      .toArray();
+
+    if (userPosts) {
+      response.json(userPosts);
+    } else {
+      response.status(500).json({ message: "Error fetching user posts" });
+    }
+  }
 });
+
 
 recordRoutes.route("/get-posts").get( (req, response) => {//returns all posts
   let db_connect = dbo.getDb("CodeBlogg");

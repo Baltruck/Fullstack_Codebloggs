@@ -7,7 +7,7 @@ const NewPost = ({ show, handleClose, handleSubmit }) => {
     const [postContent, setPostContent] = useState('');
   
     const handlePostSubmit = async () => {
-      const userEmail = Cookies.get('userEmail');
+      const userEmail = Cookies.get('email');
   
       try {
         const response = await fetch('http://localhost:5000/new-article', {
