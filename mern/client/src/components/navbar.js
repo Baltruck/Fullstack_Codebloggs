@@ -5,6 +5,7 @@ import { useTheme } from './themeContext';
 import "./navbarStyles.css";
 import Post from "./post";
 import Cookies from 'js-cookie';
+import NewPost from "./newPost";
 
 
 
@@ -22,6 +23,36 @@ export default function Navbar() {
   const userName = Cookies.get('userName');
   const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [postContent, setPostContent] = useState("");
+
+  // Here, we handle the post modal
+  const handlePostSubmit = async () => {
+    const userEmail = Cookies.get("userEmail");
+  
+    try {
+      const response = await fetch("/new-article", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          content: postContent,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log("Post submitted successfully");
+        setPostContent("");
+        handleClosePost();
+      } else {
+        console.log("Error submitting post");
+      }
+    } catch (error) {
+      console.error("Error submitting post:", error);
+    }
+  };
+  
 
   const handleShowLogoutConfirm = () => {
     setShowLogoutConfirm(true);
@@ -121,11 +152,16 @@ export default function Navbar() {
 </Nav.Item>
 
     </Nav>
+    <NewPost
+        show={showPost}
+        handleClose={handleClosePost}
+        handleSubmit={handlePostSubmit}
+      />
            </div>
       </nav>
-      <Modal show={showPost} onHide={handleClosePost} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Post</Modal.Title>
+      {/* <Modal show={showPost} onHide={handleClosePost} centered>
+        <Modal.Header>
+          <Modal.Title>Blogg Something!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Post />
@@ -135,7 +171,7 @@ export default function Navbar() {
             Close
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
       <Modal show={showLogoutConfirm} onHide={handleCloseLogoutConfirm} centered>
   <Modal.Header>
     <Modal.Title>Confirm Logout</Modal.Title>

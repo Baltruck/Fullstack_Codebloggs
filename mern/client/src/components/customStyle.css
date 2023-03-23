@@ -235,4 +235,70 @@
     margin-top: 5%;
     margin-bottom: 7%;
   }
+
+  .small-initials-container {
+    width: 150px;
+    height: 150px;
+    background-color: #ECEC8C;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Style Script', cursive;
+    font-size: 60px;
+    font-weight: bolder;
+    /* margin-left: 35%; */
+    /* margin-top: 5%; */
+    margin-bottom: 7%;
+    margin-top: 13%;
+    margin-left: -3%;
+  }
+
+  .inside-post-container {
+    background-color: #ECEC8C;
+    padding: 10px;
+    border-radius: 20px;
+    margin-left: 2%;
+    margin-bottom: 3%;
+  }
+
+  .network-container {
+   display: flex;
+   flex-wrap: wrap;
+  }
+
+  .blogg-container {
+    display: flex;
+    flex-wrap: wrap;
+   }
+
+  .admin-card-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .admin-page-container {
+    display: flex;
+    flex-direction: row; 
+    /* justify-content: space-around; */
+    padding: 1rem;
+  }
+
+  .user-card {
+    width: 30%;
+    margin-left: 1%;
+    margin-bottom: 1%;
+  }
+  
+  .admin-card {
+    width: 400px;
+    text-align: center;
+    aspect-ratio: 1 / 1;
+    margin-left: 12%;
+    margin-right: 5%;
+    margin-bottom: 1%;
+    margin-top: 10%;
+  }
+  
+  
    
