@@ -285,7 +285,7 @@ const Main = () => {
               <Card
                 key={post._id}
                 className="post-card"
-                // onClick={() => handlePostClick(post)}
+                
               >
                 <Card.Body>
                   <Card.Text className="text-black">{post.content}</Card.Text>
@@ -301,55 +301,27 @@ const Main = () => {
                     </Button>
                     {post.likes}{" "}
                   </Card.Text>
-                  <Card.Text className="text-black">
-                    {post.comments.list}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            ))}
-          </Card.Body>
-        </Card>
-      </div>
-      {/* {selectedPost && (
-        <Modal show={showPostModal} onHide={closeModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Post Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Card className="post-details-card mainFromLogo animated-border register-card">
-              <Card.Body>
-              <Card.Text>{selectedPost.content.text}</Card.Text>
-
-                <Card.Text>
-                  Timestamp: {formatDate(selectedPost.time_stamp)}
-                </Card.Text>
-                <Card.Text>
-                  Likes: {selectedPost.likes}{" "}
-                  <span
-                    role="img"
-                    aria-label="thumbs up"
-                    onClick={handleLikeClick}
-                    style={{ cursor: "pointer" }}
+                  <Card.Text className="text-black">Comments:</Card.Text>
+                  <div className="post-comments">
+              {post.comments.map((comment) => (
+                <Card.Text key={comment._id} className="text-black">
+                  {comment.content} - {formatDate(comment.time_stamp)}
+                  <Button
+                    variant="link"
+                    // onClick={() => handleCommentLikeClick(comment._id)}
                   >
                     👍
-                  </span>
+                  </Button>
+                  {comment.likes}
                 </Card.Text>
-                <Card.Text>Comments:</Card.Text>
-                <ul>
-                  {selectedPost.comments.map((comment, index) => (
-                    <li key={index}>{comment}</li>
-                  ))}
-                </ul>
-              </Card.Body>
-            </Card>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )} */}
+              ))}
+            </div>
+          </Card.Body>
+        </Card>
+      ))}
+    </Card.Body>
+  </Card>
+      </div>
     </div>
   );
 };

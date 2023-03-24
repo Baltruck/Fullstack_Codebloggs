@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
 
 const Blogg = () => {
@@ -108,12 +108,21 @@ const handleLikeClick = async (postId) => {
               </span>
             </Card.Text>
             <div className="inside-post-container">
-              <Card.Text className="text-black">Comments:</Card.Text>
-              <ul>
-                {post.comments?.map((comment, index) => (
-                  <li key={index}>{comment.text}</li>
-                ))}
-              </ul>
+            <Card.Text className="text-black">Comments:</Card.Text>
+                  <div className="post-comments">
+              {post.comments.map((comment) => (
+                <Card.Text key={comment._id} className="text-black">
+                  {comment.content} - {formatDate(comment.time_stamp)}
+                  <Button
+                    variant="link"
+                    // onClick={() => handleCommentLikeClick(comment._id)}
+                  >
+                    👍
+                  </Button>
+                  {comment.likes}
+                </Card.Text>
+              ))}
+            </div>
             </div>
           </Card.Body>
         </Card>
