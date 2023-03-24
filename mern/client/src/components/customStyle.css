@@ -1,334 +1,347 @@
+
+.page-container {
+  margin-top: 110px;
+}
+
+.blogg-container {
+  margin-top: 150px;
+}
+
+.network-container {
+  margin-top: 150px;
+}
+
 .connection-card {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
 .connection-card .card-title {
-    color: #000; 
-  }
+  color: #000;
+}
 
 .register-card {
-    width: 100%;
-    max-width: 700px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+  width: 100%;
+  max-width: 700px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .register-card .card-title {
-    color: #000; 
-  }
+  color: #000;
+}
 
 .main-card {
-    /* width: 100%; */
-    border-radius: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }  
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
 .post-card {
-    width: 100%;
-    /* max-width: 700px; */
-    border-radius: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 3%;
-    background-color: #ECEC8C;
-    font-size: 1.5em;
-    font-weight: bold;
-    
-  }
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3%;
+  background-color: #ECEC8C;
+  font-size: 1.5em;
+  font-weight: bold;
+
+}
 
 .form-field {
-    margin-bottom: 2rem; 
-    margin-top: 2rem;
-  }
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
 
 .form-control {
-    text-align: center;
-    background-color: #B5B5F7;
-    border-radius: 20px;
-  }
+  text-align: center;
+  background-color: #B5B5F7;
+  border-radius: 20px;
+}
 
 .mainFromLogo {
-    background-color: #8C8CEC;
+  background-color: #8C8CEC;
 
-  }
+}
 
 .custom-submit-btn {
-    background-color: #ECEC8C;
-    border-color: #ECEC8C;
-    color: #000000;
-    border-radius: 20px;
-  }
+  background-color: #ECEC8C;
+  border-color: #ECEC8C;
+  color: #000000;
+  border-radius: 20px;
+}
 
-  .custom-close-btn {
-    background-color: #000000;
-    border-color: #000000;
-    color: #ffffff;
-    border-radius: 20px;
-  }
+.custom-close-btn {
+  background-color: #000000;
+  border-color: #000000;
+  color: #ffffff;
+  border-radius: 20px;
+}
 
 
 .custon-nav-post {
   width: 100%;
 }
-  
+
 .custom-submit-btn:hover,
 .custom-submit-btn:focus,
 .custom-submit-btn:active,
 .custom-submit-btn:active:focus {
-    background-color: #d4d47a;
-    border-color: #d4d47a;
-  }
+  background-color: #d4d47a;
+  border-color: #d4d47a;
+}
 
 .custom-link {
-    color: #000000;
-  }
-  
+  color: #000000;
+}
+
 .custom-link:hover {
-    color: #ECEC8C;
-    text-decoration: underline;
-  }
-  
-  @keyframes border-animation {
-    0% {
-      border-color: var(--border-color-light);
-      box-shadow: 0 0 20px var(--border-color-light);
-    }
-    50% {
-      border-color: var(--border-color-dark);
-      box-shadow: 0 0 20px var(--border-color-dark);
-    }
-    100% {
-      border-color: var(--border-color-light);
-      box-shadow: 0 0 20px var(--border-color-light);
-    }
-  }
-  
-  
-.animated-border {
-    border: 3px solid #ECEC8C;
-    animation: border-animation 3s infinite;
+  color: #ECEC8C;
+  text-decoration: underline;
+}
+
+@keyframes border-animation {
+  0% {
+    border-color: var(--border-color-light);
+    box-shadow: 0 0 20px var(--border-color-light);
   }
 
+  50% {
+    border-color: var(--border-color-dark);
+    box-shadow: 0 0 20px var(--border-color-dark);
+  }
+
+  100% {
+    border-color: var(--border-color-light);
+    box-shadow: 0 0 20px var(--border-color-light);
+  }
+}
+
+
+.animated-border {
+  border: 3px solid #ECEC8C;
+  animation: border-animation 3s infinite;
+}
+
 .animated-border-navbar {
-    border: 1px solid #ECEC8C;
-    animation: border-animation 3s infinite;
-  }
-  .animated-border-sideBar {
-    border: 1px solid #ECEC8C;
-    animation: border-animation 3s infinite;
-  }
+  border: 1px solid #ECEC8C;
+  animation: border-animation 3s infinite;
+}
+
+.animated-border-sideBar {
+  border: 1px solid #ECEC8C;
+  animation: border-animation 3s infinite;
+}
 
 .animated-border-initials-container {
   border: 1px solid #ECEC8C;
-    animation: border-animation 3s infinite;
+  animation: border-animation 3s infinite;
 }
-  
-  /* Font for body */
-  body {
-    font-family: 'Roboto Slab', serif;
-    /* font-family: 'Noto Serif Georgian', serif; */
-  }
-  /* Font for title and more */
-  .dusterA {
-    font-family: 'DusterABThick', sans-serif;
-    font-size: 2.5em;
-  }
+
+/* Font for body */
+body {
+  font-family: 'Roboto Slab', serif;
+  /* font-family: 'Noto Serif Georgian', serif; */
+}
+
+/* Font for title and more */
+.dusterA {
+  font-family: 'DusterABThick', sans-serif;
+  font-size: 2.5em;
+}
 
 
-  .date-picker-control {
-    display: block;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #B5B5F7;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-  
-  .date-picker-control:focus {
-    border-color: #8c8cec;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(140, 140, 236, 0.25);
-  }
-  
+.date-picker-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #B5B5F7;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 
-  .date-picker {
-    display: block;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-  
-  .date-picker:focus {
-    border-color: #8c8cec;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(140, 140, 236, 0.25);
-  }
-  
+.date-picker-control:focus {
+  border-color: #8c8cec;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(140, 140, 236, 0.25);
+}
 
-  .react-datepicker-wrapper,
-  .react-datepicker__input-container {
-    width: 100%;
-  }
-  
-  .react-datepicker__input-container input {
-    text-align: center;
-    background-color: #B5B5F7;
-    border-radius: 20px;
-    padding: 7px;
-    border: none;
-    width: 100%;
-  }
-  
-  .react-datepicker__input-container input:focus {
-    box-shadow: none;
-  }
-   
-  .react-datepicker {
-    font-family: 'Roboto Slab', serif;
-    border: none;
-    background-color: #B5B5F7;
-    border-radius: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .react-datepicker__triangle {
-    border-bottom-color: #B5B5F7;
-  }
-  
-  .react-datepicker__day-names,
-  .react-datepicker__week {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .react-datepicker__day {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5px;
-    border-radius: 50%;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #000;
-  }
-  
-  .react-datepicker__day:hover {
-    background-color: #ECEC8C;
-    color: #000;
-  }
-  
-  .react-datepicker__day--selected {
-    background-color: #ECEC8C;
-    color: #000;
-  }
-  
-  .react-datepicker__day--today {
-    font-weight: bold;
-  }
-  
-  .alert-text-centered {
-    text-align: center;
-  }
-  
-  .initials-container {
-    width: 200px;
-    height: 200px;
-    background-color: #ECEC8C;
-    color: #000;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Style Script', cursive;
-    font-size: 80px;
-    font-weight: bolder;
-    margin-left: 35%;
-    margin-top: 5%;
-    margin-bottom: 7%;
-  }
 
-  .small-initials-container {
-    width: 150px;
-    height: 150px;
-    background-color: #ECEC8C;
-    color: #000;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Style Script', cursive;
-    font-size: 60px;
-    font-weight: bolder;
-    /* margin-left: 35%; */
-    /* margin-top: 5%; */
-    margin-bottom: 7%;
-    margin-top: 13%;
-    margin-left: -3%;
-  }
+.date-picker {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 
-  .inside-post-container {
-    background-color: #ECEC8C;
-    padding: 10px;
-    border-radius: 20px;
-    margin-left: 2%;
-    margin-bottom: 3%;
-  }
+.date-picker:focus {
+  border-color: #8c8cec;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(140, 140, 236, 0.25);
+}
 
-  .network-container {
-   display: flex;
-   flex-wrap: wrap;
-  }
 
-  .blogg-container {
-    display: flex;
-    flex-wrap: wrap;
-   }
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+}
 
-  .admin-card-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .admin-page-container {
-    display: flex;
-    flex-direction: row; 
-    /* justify-content: space-around; */
-    padding: 1rem;
-  }
+.react-datepicker__input-container input {
+  text-align: center;
+  background-color: #B5B5F7;
+  border-radius: 20px;
+  padding: 7px;
+  border: none;
+  width: 100%;
+}
 
-  .user-card {
-    width: 30%;
-    margin-left: 1%;
-    margin-bottom: 1%;
-  }
-  
-  .admin-card {
-    width: 400px;
-    text-align: center;
-    aspect-ratio: 1 / 1;
-    margin-left: 12%;
-    margin-right: 5%;
-    margin-bottom: 1%;
-    margin-top: 10%;
-  }
+.react-datepicker__input-container input:focus {
+  box-shadow: none;
+}
+
+.react-datepicker {
+  font-family: 'Roboto Slab', serif;
+  border: none;
+  background-color: #B5B5F7;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.react-datepicker__triangle {
+  border-bottom-color: #B5B5F7;
+}
+
+.react-datepicker__day-names,
+.react-datepicker__week {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-datepicker__day {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.react-datepicker__day:hover {
+  background-color: #ECEC8C;
+  color: #000;
+}
+
+.react-datepicker__day--selected {
+  background-color: #ECEC8C;
+  color: #000;
+}
+
+.react-datepicker__day--today {
+  font-weight: bold;
+}
+
+.alert-text-centered {
+  text-align: center;
+}
+
+.initials-container {
+  width: 200px;
+  height: 200px;
+  background-color: #ECEC8C;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Style Script', cursive;
+  font-size: 80px;
+  font-weight: bolder;
+  margin-left: 35%;
+  margin-top: 5%;
+  margin-bottom: 7%;
+}
+
+.small-initials-container {
+  width: 150px;
+  height: 150px;
+  background-color: #ECEC8C;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Style Script', cursive;
+  font-size: 60px;
+  font-weight: bolder;
+  margin-bottom: 7%;
+  margin-top: 13%;
+  margin-left: -3%;
+}
+
+.inside-post-container {
+  background-color: #ECEC8C;
+  padding: 10px;
+  border-radius: 20px;
+  margin-left: 2%;
+  margin-bottom: 3%;
+}
+
+.network-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.blogg-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.admin-card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.admin-page-container {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+}
+
+.user-card {
+  width: 30%;
+  margin-left: 1%;
+  margin-bottom: 1%;
+}
+
+.admin-card {
+  width: 400px;
+  text-align: center;
+  aspect-ratio: 1 / 1;
+  margin-left: 12%;
+  margin-right: 5%;
+  margin-bottom: 1%;
+  margin-top: 10%;
+}
 
 .modal-text-title {
   font-family: 'Roboto Slab', serif;
@@ -338,23 +351,27 @@
   text-align: center !important;
   align-items: center !important;
 }
-  
+
 .new-post-buttons {
   margin-top: 2%;
   margin-bottom: 2%;
 }
 
 .blogg-card {
-  /* width: 26%; */
   margin-left: 2.8%;
   margin-right: 2.8%;
   margin-bottom: 2%;
   border-radius: 20px;
 }
- 
+
 .blogg-container {
   display: flex;
   flex-wrap: wrap;
   margin-left: 2.3%;
 }
-   
+
+.comment-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -7,11 +7,8 @@ import "./mainComponent.css";
 import Post from "./post";
 import Cookies from "js-cookie";
 import NewPost from "./newPost";
-
-// We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
 
-// Here, we display our Navbar
 export default function Navbar() {
   const { darkMode, toggleTheme } = useTheme();
   const themeClass = darkMode ? "dark" : "light";
@@ -66,8 +63,6 @@ export default function Navbar() {
   const handleLogout = () => {
     Cookies.remove("userName");
     Cookies.remove("userToken");
-    // Redirigez l'utilisateur vers la page de connexion ou la page souhaitée
-    // window.location.replace('/login');
     navigate("/login");
     handleCloseLogoutConfirm();
   };
@@ -86,7 +81,7 @@ export default function Navbar() {
     <div>
       <div className="nav-items-container">
         <nav
-          className={`navbar navbar-expand-lg navbar-custom ${
+          className={`navbar navbar-expand-lg navbar-custom navbar-fixed-top ${
             darkMode ? "navbar-custom-dark" : "navbar-custom-light"
           } animated-border-navbar`}
         >
@@ -165,34 +160,24 @@ export default function Navbar() {
           </div>
         </nav>
       </div>
-      {/* <Modal show={showPost} onHide={handleClosePost} centered>
-        <Modal.Header>
-          <Modal.Title>Blogg Something!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Post />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClosePost}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
       <Modal
         show={showLogoutConfirm}
         onHide={handleCloseLogoutConfirm}
         contentClassName="status-card main-card mainFromLogo animated-border"
         centered
       >
-        <Modal.Header style={{border:"0", padding:"1rem 1rem"}}>
+        <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
           <Modal.Title className="modal-text-title">Confirm Logout</Modal.Title>
         </Modal.Header>
         <div className="inside-post-container">
-        <Modal.Body className="text-black" style={{border:"0", padding:"1rem 1rem"}}>
-          Are you sure you want to disconnect?
-        </Modal.Body>
+          <Modal.Body
+            className="text-black"
+            style={{ border: "0", padding: "1rem 1rem" }}
+          >
+            Are you sure you want to disconnect?
+          </Modal.Body>
         </div>
-        <Modal.Footer style={{border:"0", padding:"1rem 1rem"}}>
+        <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
           <Button
             variant="secondary"
             onClick={handleCloseLogoutConfirm}

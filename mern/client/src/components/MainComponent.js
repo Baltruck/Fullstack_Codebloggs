@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import "./mainComponent.css";
 
+// Main component
 const Main = () => {
   const [initials, setInitials] = useState("");
   const [userInfo, setUserInfo] = useState({});
@@ -155,6 +156,7 @@ const Main = () => {
     }
   };
 
+  // Get user info and inbitials
   useEffect(() => {
     const userName = Cookies.get("userName");
     if (userName) {
@@ -207,7 +209,7 @@ const Main = () => {
   }, []);
 
   return (
-    <div className="main-container">
+    <div className="main-container page-container">
       <div className="left-column">
         <div className="initials-container animated-border-initials-container">
           {initials}
@@ -223,7 +225,11 @@ const Main = () => {
             </Button>
           </Card.Body>
         </Card>
-        <Modal show={showModal} onHide={() => setShowModal(false)} contentClassName="status-card main-card mainFromLogo animated-border">
+        <Modal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          contentClassName="status-card main-card mainFromLogo animated-border"
+        >
           <Modal.Header>
             <Modal.Title>Update Status</Modal.Title>
           </Modal.Header>
@@ -241,10 +247,15 @@ const Main = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="custom-close-btn" variant="secondary" onClick={() => setShowModal(false)}>
+            <Button
+              className="custom-close-btn"
+              variant="secondary"
+              onClick={() => setShowModal(false)}
+            >
               Close
             </Button>
-            <Button className="custom-submit-btn"
+            <Button
+              className="custom-submit-btn"
               variant="primary"
               onClick={handleUpdateStatus}
               disabled={loading}
@@ -282,11 +293,7 @@ const Main = () => {
         <Card className="posts-container-card main-card status-card mainFromLogo animated-border">
           <Card.Body>
             {userPosts.map((post) => (
-              <Card
-                key={post._id}
-                className="post-card"
-                
-              >
+              <Card key={post._id} className="post-card">
                 <Card.Body>
                   <Card.Text className="text-black">{post.content}</Card.Text>
                   <Card.Text className="text-black">
@@ -303,24 +310,24 @@ const Main = () => {
                   </Card.Text>
                   <Card.Text className="text-black">Comments:</Card.Text>
                   <div className="post-comments">
-              {post.comments.map((comment) => (
-                <Card.Text key={comment._id} className="text-black">
-                  {comment.content} - {formatDate(comment.time_stamp)}
-                  <Button
-                    variant="link"
-                    // onClick={() => handleCommentLikeClick(comment._id)}
-                  >
-                    👍
-                  </Button>
-                  {comment.likes}
-                </Card.Text>
-              ))}
-            </div>
+                    {post.comments.map((comment) => (
+                      <Card.Text key={comment._id} className="text-black">
+                        {comment.content} - {formatDate(comment.times_stamp)}
+                        <Button
+                          variant="link"
+                          // onClick={() => handleCommentLikeClick(comment._id)}
+                        >
+                          👍
+                        </Button>
+                        {comment.likes}
+                      </Card.Text>
+                    ))}
+                  </div>
+                </Card.Body>
+              </Card>
+            ))}
           </Card.Body>
         </Card>
-      ))}
-    </Card.Body>
-  </Card>
       </div>
     </div>
   );
