@@ -30,3 +30,4 @@ Use at your own risk; not a supported MongoDB product
 TYPE | NOM | DESCRIPTIF
 --- | --- | --- |
 POST | /login | Fetch
+patate
