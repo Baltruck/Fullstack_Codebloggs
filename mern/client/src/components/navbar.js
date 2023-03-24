@@ -111,47 +111,49 @@ export default function Navbar() {
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <Nav className="mr-auto">
-              <Nav.Item>
-                {!shouldDisablePostButton && (
-                  <Button
-                    className="custom-submit-btn custom-post-btn"
-                    onClick={handleShowPost}
-                  >
-                    Post
-                  </Button>
-                )}
-              </Nav.Item>
-            </Nav>
-            <Nav className="mr-auto">
-              <Nav.Item>
-                <Button className="custom-submit-btn" onClick={toggleTheme}>
-                  Change mode : {darkMode ? "dark" : "light"}
-                </Button>
-              </Nav.Item>
-              <Nav.Item>
-                <span className="nav-link">{userName}</span>
-              </Nav.Item>
-              <Nav.Item>
-                {userName ? (
-                  <Dropdown>
-                    <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={handleShowLogoutConfirm}>
-                        Disconnect
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={handleAccountSettingClick}>
-                        Account Setting
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                ) : (
-                  <NavLink className="nav-link" to="/login">
-                    Please Login
-                  </NavLink>
-                )}
-              </Nav.Item>
-            </Nav>
+          <Nav className="mr-auto">
+  <Nav.Item>
+    {!shouldDisablePostButton && (
+      <Button
+        className="custom-submit-btn custom-post-btn post-button"
+        onClick={handleShowPost}
+      >
+        Post
+      </Button>
+    )}
+  </Nav.Item>
+</Nav>
+<Nav className="mr-auto">
+  <Nav.Item>
+    <Button className="custom-submit-btn theme-toggle-button" onClick={toggleTheme}>
+      Change mode : {darkMode ? "dark" : "light"}
+    </Button>
+  </Nav.Item>
+</Nav>
+<div className="user-info-container">
+  <Nav.Item>
+    <span className="nav-link">{userName}</span>
+  </Nav.Item>
+  <Nav.Item>
+    {userName ? (
+      <Dropdown>
+        <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={handleShowLogoutConfirm}>
+            Disconnect
+          </Dropdown.Item>
+          <Dropdown.Item onClick={handleAccountSettingClick}>
+            Account Setting
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    ) : (
+      <NavLink className="nav-link" to="/login">
+        Please Login
+      </NavLink>
+    )}
+  </Nav.Item>
+</div>
             <NewPost
               show={showPost}
               handleClose={handleClosePost}
