@@ -345,41 +345,6 @@ recordRoutes.route("/get-all-users").get(async (req, response) => {
 });
 
 // Likes Section /********************** *//********************** *//********************** */
-
-recordRoutes.route("/like").patch(async (req, response) => {
-  let db_connect = dbo.getDb();
-  const post_id = ObjectId(req.body.post_id);
-  // Rechercher le post correspondant à post_id dans la collection "Post" de la base de données
-  const post = await db_connect.collection("Post").find({ _id: post_id });
-  if (!post) {
-    return response.status(400).json({ message: "Invalid Post" });
-  }
-  // Mettre à jour le post en augmentant le nombre de likes (`likes`) de 1
-  await db_connect.collection("Post").updateOne(
-    { _id: post_id },
-    { $inc: { likes: 1 } }
-  );
-  response.send({ message: "Post Liked" });
-});
-
-// recordRoutes.route("/like").patch( async (req, response) => {
-
-//     let db_connect = dbo.getDb();
-//     const post_id = ObjectId(req.body.post_id);
-//     const comment_id = ObjectId(req.body.comment_id);
-
-//     // const likes = req.body.likes;
-//     const post = await db_connect.collection("Post").find( {_id: post_id}); 
-//     if (!post) {
-//       return response.status(400).json({ message: "Invalid Post" });
-//     }
-//     await db_connect.collection("Post").updateOne(
-//       { _id: post_id},
-//       { $inc: { likes: 1 } }
-//       );
-
-//     const updatedPost = await db_connect.collection("Post").findOne({_id: post_id});
-
 //     //update the comment collection with the new likes
 //     await db_connect.collection("Comment").updateOne(
 //       {_id: comment_id, "post_id._id": post_id._id},
@@ -389,6 +354,26 @@ recordRoutes.route("/like").patch(async (req, response) => {
 //     response.send( {message: "Post  Liked"});
       
 // });
+
+
+recordRoutes.route("/like").patch(async (req, response) => {
+  let db_connect = dbo.getDb();
+  const post_id = ObjectId(req.body.post_id);
+
+  // Rechercher le post correspondant à post_id dans la collection "Post" de la base de données
+  const post = await db_connect.collection("Post").find({ _id: post_id });
+  if (!post) {
+    return response.status(400).json({ message: "Invalid Post" });
+  }
+
+  // Mettre à jour le post en augmentant le nombre de likes (`likes`) de 1
+  await db_connect.collection("Post").updateOne(
+    { _id: post_id },
+    { $inc: { likes: 1 } }
+  );
+
+  response.send({ message: "Post Liked" });
+});
 
 recordRoutes.route("/like-comment").patch( async (req, response) => {
 

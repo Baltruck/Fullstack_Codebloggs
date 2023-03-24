@@ -40,14 +40,14 @@ const NewPost = ({ show, handleClose, handleSubmit }) => {
 
       return (
         <div className="new-post-container">
-          <Card className="new-post-card status-card mainFromLogo animated-border">
+          <Card className="main-card status-card mainFromLogo animated-border">
             <Card.Header>
-              <Card.Title>Blogg Something!</Card.Title>
+              <Card.Title className="modal-text-title">Blogg Something!</Card.Title>
             </Card.Header>
             <Card.Body>
               <Form>
-                <Form.Group>
-                  <Form.Label>Content</Form.Label>
+                <Form.Group className="inside-post-container">
+                  <Form.Label className="text-black">Content</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -57,10 +57,10 @@ const NewPost = ({ show, handleClose, handleSubmit }) => {
                 </Form.Group>
               </Form>
               <div className="new-post-buttons">
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={handleClose} className="custom-close-btn">
                   Close
                 </Button>
-                <Button variant="primary" onClick={handlePostSubmit}>
+                <Button variant="primary" onClick={handlePostSubmit} className="custom-submit-btn">
                   Submit
                 </Button>
               </div>

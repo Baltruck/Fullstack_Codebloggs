@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
 
 const Blogg = () => {
@@ -8,6 +8,39 @@ const Blogg = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+
+  // likes update
+const handleLikeClick = async (postId) => {
+  // Update "likes" in the UI
+  setPosts((prevPosts) => {
+    const newPosts = prevPosts.map((post) => {
+      if (post._id === postId) {
+        return { ...post, likes: post.likes + 1 };
+      }
+      return post;
+    });
+    return newPosts;
+  });
+
+  // Update "likes" in db
+  const updateLikesURL = `http://localhost:5000/like`;
+  try {
+    const response = await fetch(updateLikesURL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ post_id: postId }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error updating likes");
+    }
+  } catch (error) {
+    console.error("Error updating likes:", error);
+  }
+};
 
   const fetchPosts = async () => {
     try {
@@ -33,8 +66,8 @@ const Blogg = () => {
     try {
       const response = await fetch(`http://localhost:5000/userOfPost/${userId}`);
       const userData = await response.json();
-      const firstInitial = userData.UserInfo.first_name.charAt(0);
-      const lastInitial = userData.UserInfo.last_name.charAt(0);
+      const firstInitial = userData.UserInfo.first_name.charAt(0).toUpperCase();
+      const lastInitial = userData.UserInfo.last_name.charAt(0).toUpperCase();
       return { firstInitial, lastInitial };
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -66,17 +99,30 @@ const Blogg = () => {
             </div>
             <Card.Text className="text-black">
               {post.likes}{" "}
-              <span role="img" aria-label="thumbs up">
+              <span role="img" aria-label="thumbs up"
+              onClick={() => handleLikeClick(post._id)}
+              style={{ cursor: "pointer" }}
+            >
+
                 👍
               </span>
             </Card.Text>
             <div className="inside-post-container">
-              <Card.Text className="text-black">Comments:</Card.Text>
-              <ul>
-                {post.comments?.map((comment, index) => (
-                  <li key={index}>{comment.text}</li>
-                ))}
-              </ul>
+            <Card.Text className="text-black">Comments:</Card.Text>
+                  <div className="post-comments">
+              {post.comments.map((comment) => (
+                <Card.Text key={comment._id} className="text-black">
+                  {comment.content} - {formatDate(comment.time_stamp)}
+                  <Button
+                    variant="link"
+                    // onClick={() => handleCommentLikeClick(comment._id)}
+                  >
+                    👍
+                  </Button>
+                  {comment.likes}
+                </Card.Text>
+              ))}
+            </div>
             </div>
           </Card.Body>
         </Card>
