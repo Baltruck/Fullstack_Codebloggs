@@ -24,3 +24,9 @@ npm start
 ## Disclaimer
 
 Use at your own risk; not a supported MongoDB product
+
+### 
+![Logo](./mern/client/public/CodeBloggs.png)
+TYPE | NOM | DESCRIPTIF
+--- | --- | --- |
+POST | /login | Fetch
