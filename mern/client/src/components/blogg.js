@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
 
 const Blogg = () => {
@@ -9,6 +9,38 @@ const Blogg = () => {
     fetchPosts();
   }, []);
 
+  // Update "likes" in the UI and db
+  const handleLikeClick = async (postId) => {
+    setPosts((prevPosts) => {
+      const newPosts = prevPosts.map((post) => {
+        if (post._id === postId) {
+          return { ...post, likes: post.likes + 1 };
+        }
+        return post;
+      });
+      return newPosts;
+    });
+
+    // Update "likes" in db
+    const updateLikesURL = `http://localhost:5000/like`;
+    try {
+      const response = await fetch(updateLikesURL, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ post_id: postId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error updating likes");
+      }
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    }
+  };
+
+  // Fetch posts from db
   const fetchPosts = async () => {
     try {
       const response = await fetch("http://localhost:5000/get-posts");
@@ -29,20 +61,23 @@ const Blogg = () => {
     }
   };
 
+  // Get user initials for each post
   const getUserInitials = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5000/userOfPost/${userId}`);
+      const response = await fetch(
+        `http://localhost:5000/userOfPost/${userId}`
+      );
       const userData = await response.json();
-      const firstInitial = userData.UserInfo.first_name.charAt(0);
-      const lastInitial = userData.UserInfo.last_name.charAt(0);
+      const firstInitial = userData.UserInfo.first_name.charAt(0).toUpperCase();
+      const lastInitial = userData.UserInfo.last_name.charAt(0).toUpperCase();
       return { firstInitial, lastInitial };
     } catch (error) {
       console.error("Error fetching user data:", error);
       return { firstInitial: "", lastInitial: "" };
     }
   };
-  
 
+  // Format date
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -50,9 +85,12 @@ const Blogg = () => {
   };
 
   return (
-    <div className="blogg-container">
+    <div className="blogg-container page-container">
       {posts.map((post) => (
-        <Card key={post.id || post._id} className="blogg-card status-card mainFromLogo animated-border">
+        <Card
+          key={post.id || post._id}
+          className="blogg-card status-card mainFromLogo animated-border"
+        >
           <Card.Body>
             <div style={{ display: "flex" }}>
               <div className="user-initials small-initials-container animated-border-initials-container">
@@ -61,22 +99,40 @@ const Blogg = () => {
               </div>
               <div className="inside-post-container">
                 <Card.Text className="text-black">{post.content}</Card.Text>
-                <Card.Text className="text-black">Post date: {formatDate(post.time_stamp)}</Card.Text>
+                <Card.Text className="text-black">
+                  Post date: {formatDate(post.time_stamp)}
+                </Card.Text>
               </div>
             </div>
             <Card.Text className="text-black">
               {post.likes}{" "}
-              <span role="img" aria-label="thumbs up">
+              <span
+                role="img"
+                aria-label="thumbs up"
+                onClick={() => handleLikeClick(post._id)}
+                style={{ cursor: "pointer" }}
+              >
                 👍
               </span>
             </Card.Text>
             <div className="inside-post-container">
               <Card.Text className="text-black">Comments:</Card.Text>
-              <ul>
-                {post.comments?.map((comment, index) => (
-                  <li key={index}>{comment.text}</li>
+              <div className="post-comments">
+                {post.comments.map((comment) => (
+                  <Card.Text key={comment._id} className="text-black">
+                    {comment.content}
+                    <br />
+                    {formatDate(comment.times_stamp)}
+                    <Button
+                      variant="link"
+                      // onClick={() => handleCommentLikeClick(comment._id)}
+                    >
+                      👍
+                    </Button>
+                    {comment.likes}
+                  </Card.Text>
                 ))}
-              </ul>
+              </div>
             </div>
           </Card.Body>
         </Card>

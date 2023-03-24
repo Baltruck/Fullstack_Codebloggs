@@ -2,10 +2,10 @@
     position: fixed;
     top: 56px; 
     left: 0;
-    height: calc(100%); /* La hauteur totale moins la hauteur de la Navbar */
+    height: calc(100%);
     width: 150px;
     background-color: #f8f9fa;
-    padding-top: 0; /* Ajustez cette valeur à 0 */
+    padding-top: 0;
     z-index: 1000;
     overflow-y: auto;
     margin-top: -56px;
@@ -23,7 +23,7 @@
   }
   
   .sidebar-item:first-child {
-    margin-top: 100px; /* Ajoutez cette ligne */
+    margin-top: 100px; 
   }
   
   .sidebar-item a {
