@@ -16,9 +16,6 @@ const ObjectId = require("mongodb").ObjectId;
 // Middlewares Definitions
 const emailValidator = (req, res, next) => {
   const email = req.body.email;
-  console.log("EMAIL")
-  console.log(email)
-
   if (validator.isEmail(email)) {
     // console.log('Email is valid!');
     next();
@@ -44,11 +41,17 @@ recordRoutes.route("/signup").post( async (req, response) => {
     location: req.body.location,
     occupation: req.body.occupation,
   });
-  console.log(user)
-  db_connect.collection("User").insertOne(user, function (err, res) {
-    if (err) throw err;
-    response.json(user);
-  });
+
+  const notANewUser = await db_connect.collection("User").findOne( {"email": user.email});
+
+  if (!notANewUser) {
+    await db_connect.collection("User").insertOne(user, function (err, res) {
+      if (err) throw err;
+      response.json(user);
+    });
+  } else {
+    response.send("User already exist");
+  }
 });
 
 recordRoutes.route("/login").post( async (req, response) => {
