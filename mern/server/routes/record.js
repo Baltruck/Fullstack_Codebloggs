@@ -3,8 +3,6 @@ const {UserModel, PostModel, CommentModel} = require("../db/schemas") //import s
 const validator = require('validator');
 const { v4: uuidv4 } = require('uuid');
 
-// const { ObjectId, Int32 } = require('mongodb');
-
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /record.
@@ -47,10 +45,10 @@ recordRoutes.route("/signup").post( async (req, response) => {
     birthday: req.body.birthday,
     email: req.body.email,
     password: req.body.password,
-    status: req.body.status,
+    // status: req.body.status,
     location: req.body.location,
     occupation: req.body.occupation,
-    auth_level: req.body.auth_level,
+    // auth_level: req.body.auth_level,
   });
   console.log(user)
   db_connect.collection("User").insertOne(user, function (err, res) {
@@ -148,13 +146,13 @@ recordRoutes.route("/status").patch(async (req, response) => {
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
   const userEmail = req.body.email;
-  console.log("usermail",userEmail)
+  // console.log("usermail",userEmail)
   const content = req.body.content;
-  console.log("content",content)
+  // console.log("content",content)
   const user = await db_connect.collection("User").findOne({ email: userEmail });
   // console.log(user.user);
   const currentDate = new Date();
-  console.log("date",currentDate);
+  // console.log("date",currentDate);
 
   // const hours = currentDate.getHours();
   // const minutes = currentDate.getMinutes();
@@ -165,8 +163,8 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
     content: content,
     user_id: user._id,
     time_stamp: currentDate, //add
-    likes: 0, //add
-    comments: [], //add
+    // likes: 0, //add
+    // comments: [], //add
   });
   console.log(article)
   db_connect.collection("Post").insertOne(article, function (err, res) {
@@ -282,8 +280,6 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
       if (err) throw err;
       response.send( {res});
     });
-    
-
 });
 
 // recordRoutes.route("/get-comments").get( async (req, res) => { //in the posts
@@ -349,24 +345,6 @@ recordRoutes.route("/get-all-users").get(async (req, response) => {
 });
 
 // Likes Section /********************** *//********************** *//********************** */
-// recordRoutes.route("/like").patch( async (req, response) => {
-
-//     let db_connect = dbo.getDb();
-//     const post_id = ObjectId(req.body.post_id);
-//     const comment_id = ObjectId(req.body.comment_id);
-
-//     // const likes = req.body.likes;
-//     const post = await db_connect.collection("Post").find( {_id: post_id}); 
-//     if (!post) {
-//       return response.status(400).json({ message: "Invalid Post" });
-//     }
-//     await db_connect.collection("Post").updateOne(
-//       { _id: post_id},
-//       { $inc: { likes: 1 } }
-//       );
-
-//     const updatedPost = await db_connect.collection("Post").findOne({_id: post_id});
-
 //     //update the comment collection with the new likes
 //     await db_connect.collection("Comment").updateOne(
 //       {_id: comment_id, "post_id._id": post_id._id},
@@ -376,6 +354,7 @@ recordRoutes.route("/get-all-users").get(async (req, response) => {
 //     response.send( {message: "Post  Liked"});
       
 // });
+
 
 recordRoutes.route("/like").patch(async (req, response) => {
   let db_connect = dbo.getDb();
@@ -395,7 +374,6 @@ recordRoutes.route("/like").patch(async (req, response) => {
 
   response.send({ message: "Post Liked" });
 });
-
 
 recordRoutes.route("/like-comment").patch( async (req, response) => {
 
@@ -421,6 +399,7 @@ recordRoutes.route("/like-comment").patch( async (req, response) => {
 
   
   return response.send( {message: "Comment Liked"}); //updater la collection post avec le nouveau like
+});
 
   // console.log(post.comments[0]._id)
   // console.log(post.comments.length); //5
@@ -437,8 +416,6 @@ recordRoutes.route("/like-comment").patch( async (req, response) => {
   //   }
   // }
   
-  return response.send({ message: "Comment not liked" });
-  });
 
 // recordRoutes.route("/userInfo").post( async (req, response) => {//change to get
 //   let db_connect = dbo.getDb();
@@ -456,73 +433,5 @@ recordRoutes.route("/like-comment").patch( async (req, response) => {
 // });
 
 
-// // This section will help you get a list of all the records.
-// recordRoutes.route("/record").get(function (req, res) {
-//   let db_connect = dbo.getDb("employees");
-//   db_connect
-//     .collection("records")
-//     .find({})
-//     .toArray(function (err, result) {
-//       if (err) throw err;
-//       res.json(result);
-//     });
-// });
-
-// // This section will help you get a single record by id
-// recordRoutes.route("/record/:id").get(function (req, res) {
-//   let db_connect = dbo.getDb();
-//   let myquery = { _id: ObjectId( req.params.id )};
-//   db_connect
-//       .collection("records")
-//       .findOne(myquery, function (err, result) {
-//         if (err) throw err;
-//         res.json(result);
-//       });
-// });
-
-// // This section will help you create a new record.
-// recordRoutes.route("/record/add").post(function (req, response) {
-//   let db_connect = dbo.getDb();
-//   let myobj = {
-//     name: req.body.name,
-//     position: req.body.position,
-//     level: req.body.level,
-//   };
-//   db_connect.collection("records").insertOne(myobj, function (err, res) {
-//     if (err) throw err;
-//     response.json(res);
-//   });
-// });
-
-// // This section will help you update a record by id.
-// recordRoutes.route("/update/:id").post(function (req, response) {
-//   let db_connect = dbo.getDb();
-//   let myquery = { _id: ObjectId( req.params.id )};
-//   let newvalues = {
-//     $set: {
-//       name: req.body.name,
-//       position: req.body.position,
-//       level: req.body.level,
-//     },
-//   };
-//   db_connect
-//     .collection("records")
-//     .updateOne(myquery, newvalues, function (err, res) {
-//       if (err) throw err;
-//       console.log("1 document updated");
-//       response.json(res);
-//     });
-// });
-
-// // This section will help you delete a record
-// recordRoutes.route("/:id").delete((req, response) => {
-//   let db_connect = dbo.getDb();
-//   let myquery = { _id: ObjectId( req.params.id )};
-//   db_connect.collection("records").deleteOne(myquery, function (err, obj) {
-//     if (err) throw err;
-//     console.log("1 document deleted");
-//     response.json(obj);
-//   });
-// });
 
 module.exports = recordRoutes;
