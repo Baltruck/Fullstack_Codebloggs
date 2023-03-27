@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import "./mainComponent.css";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const AdminPage = () => {
   const [isAdmin, setIsAdmin] = React.useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const authLevel = Cookies.get("auth_level");
@@ -18,10 +19,20 @@ const AdminPage = () => {
     return <Navigate to="/" />;
   }
 
+  const handleUserManagementClick = () => {
+    navigate("/userManagement");
+  };
+
+  const handleContentManagementClick = () => {
+    navigate("/postManagement");
+  };
+
   return (
     <div className="admin-page-container page-container">
       <div className="admin-card-container">
-        <Card className="admin-card status-card mainFromLogo animated-border">
+        <Card className="admin-card status-card mainFromLogo animated-border"
+        onClick={handleUserManagementClick}
+        >
           <Card.Header>
             <Card.Text className="text-black">User Management</Card.Text>
           </Card.Header>
@@ -38,7 +49,9 @@ const AdminPage = () => {
       </div>
 
       <div className="admin-card-container">
-        <Card className="admin-card status-card mainFromLogo animated-border">
+        <Card className="admin-card status-card mainFromLogo animated-border"
+        onClick={handleContentManagementClick}
+        >
           <Card.Header>
             <Card.Text className="text-black">Content Management</Card.Text>
           </Card.Header>
