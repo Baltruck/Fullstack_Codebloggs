@@ -24,6 +24,19 @@ const UsersList = () => {
       user.last_name.toLowerCase().includes(searchLastName.toLowerCase())
   );
 
+  // refresh user data after edit
+  const refreshUserData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/get-all-users");
+      const data = await response.json();
+      const sortedData = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
+      setUsers(sortedData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+
   useEffect(() => {
     fetch("http://localhost:5000/get-all-users")
       .then((response) => response.json())
@@ -82,28 +95,35 @@ const UsersList = () => {
     setShowDeleteModal(true);
   };
 
-  // To update after edit
-  async function handleUpdate(data) {
-    try {
-      const response = await fetch("http://localhost:5000/update-user", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-  
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      console.error("Error:", error);
-      throw error;
+  // To Edit the user
+async function handleUpdate(data, onSuccess) {
+  try {
+    const response = await fetch("http://localhost:5000/update-user", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
     }
+
+    const result = await response.json();
+
+    // Appeler le rappel onSuccess ici
+    if (onSuccess) {
+      onSuccess();
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
   }
+}
+
   
   
   
@@ -267,7 +287,9 @@ const UsersList = () => {
   showEditModal={showEditModal}
   handleClose={handleClose}
   handleUpdate={handleUpdate}
+  refreshUserData={refreshUserData}
 />
+
 
     </div>
   );
