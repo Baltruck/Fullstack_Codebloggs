@@ -112,7 +112,6 @@ recordRoutes.route("/status").patch(async (req, response) => {
     response.send({ message: "Status Updated", newStatus: statusUpdate });
   }
 });
-
 // Article (Blog Post) Section /********************** *//********************** *//********************** */
 recordRoutes.route("/new-article").post( async (req, response ) => {
   let db_connect = dbo.getDb();
@@ -213,7 +212,6 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
       response.send( {comment});
     });
 });
-
 //Get user informations
 recordRoutes.route("/userInfo").post(async (req, response) => {//change to get
   let db_connect = dbo.getDb();
@@ -303,5 +301,54 @@ recordRoutes.route("/like-comment").patch( async (req, response) => {
 
   return response.send( {message: "Comment Liked"}); //updater la collection post avec le nouveau like
 });
+
+recordRoutes.route("/update-user").patch(function (req, response) {
+  let db_connect = dbo.getDb();
+  // let myquery = { _id: ObjectId(req.params.id) };
+  const userID = ObjectId(req.body.user_id);
+
+  let newvalues = {
+    $set: {
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      birthday: req.body.birthday,
+      email: req.body.email,
+      password: req.body.password,
+      location: req.body.location,
+      occupation: req.body.occupation,
+      },
+  };
+  db_connect
+    .collection("User")
+    .updateOne({_id: userID}, newvalues, function (err, res) {
+      if (err) throw err;
+      console.log("1 document updated");
+      response.json(res);
+    });
+ });
+
+recordRoutes.route("/delete-user").delete((req, response) => {
+  let db_connect = dbo.getDb();
+  // let myquery = { _id: ObjectId(req.params.id) };
+  const userID = ObjectId(req.body.user_id);
+  console.log(userID);
+  db_connect.collection("User").deleteOne( {_id: userID}, function (err, obj) {
+    if (err) throw err;
+    console.log("1 document deleted");
+    response.json(obj);
+  });
+ });
+
+ recordRoutes.route("/delete-post").delete((req, response) => {
+  let db_connect = dbo.getDb();
+  // let myquery = { _id: ObjectId(req.params.id) };
+  const postID = ObjectId(req.body.post_id);
+  console.log(postID);
+  db_connect.collection("Post").deleteOne( {_id: postID}, function (err, obj) {
+    if (err) throw err;
+    console.log("1 document deleted");
+    response.json(obj);
+  });
+ });
 
 module.exports = recordRoutes;
