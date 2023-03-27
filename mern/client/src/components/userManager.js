@@ -6,12 +6,29 @@ import "./mainComponent.css";
 const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [sortAscending, setSortAscending] = useState(true);
+  const [searchFirstName, setSearchFirstName] = useState("");
+const [searchLastName, setSearchLastName] = useState("");
+const [currentPage, setCurrentPage] = useState(1);
+const [usersPerPage] = useState(10);
+
+const filteredUsers = users.filter(
+    (user) =>
+      user.first_name.toLowerCase().includes(searchFirstName.toLowerCase()) &&
+      user.last_name.toLowerCase().includes(searchLastName.toLowerCase())
+  );
+  
 
   useEffect(() => {
     fetch("http://localhost:5000/get-all-users")
       .then((response) => response.json())
-      .then((data) => setUsers(data));
+      .then((data) => {
+        const sortedData = data.sort((a, b) =>
+          a.first_name.localeCompare(b.first_name)
+        );
+        setUsers(sortedData);
+      });
   }, []);
+  
 
   const sortByFirstName = () => {
     setUsers(
@@ -39,6 +56,12 @@ const UsersList = () => {
     setSortAscending(!sortAscending);
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setCurrentPage(1);
+  };
+  
+
   const handleEdit = (user) => {
     // fonction pour gérer l'édition d'un utilisateur
   };
@@ -50,37 +73,82 @@ const UsersList = () => {
   return (
     <div>
       <h1 className="umTitle">Users Management</h1>
+      <form onSubmit={handleSearch} className="div-centered">
+  <input
+    className="search-input"
+    type="text"
+    placeholder="First Name"
+    value={searchFirstName}
+    onChange={(e) => setSearchFirstName(e.target.value)}
+  />
+  <input
+    className="search-input"
+    type="text"
+    placeholder="Last Name"
+    value={searchLastName}
+    onChange={(e) => setSearchLastName(e.target.value)}
+  />
+  <Button className="um-button" type="submit" variant="primary">
+    Search
+  </Button>
+</form>
+
       <div className="container-table">
         <div className="table-wrapper animated-border">
           <Table striped bordered hover className="table-custom table-centered">
             <thead>
               <tr>
-                <th onClick={sortByFirstName} style={{ cursor: "pointer" }}>
+                <th onClick={sortByFirstName} style={{ cursor: "pointer" }} className="no-select">
                   First Name
                 </th>
-                <th onClick={sortByLastName} style={{ cursor: "pointer" }}>
+                <th onClick={sortByLastName} style={{ cursor: "pointer" }} className="no-select">
                   Last Name
                 </th>
-                <th>Action</th>
+                <th className="no-select">Action</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>
-                    <Button variant="primary" onClick={() => handleEdit(user)}>
-                      Edit
-                    </Button>{" "}
-                    <Button variant="danger" onClick={() => handleDelete(user)}>
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {filteredUsers
+    .slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage)
+    .map((user) => (
+      <tr key={user._id}>
+        <td>{user.first_name}</td>
+        <td>{user.last_name}</td>
+        <td>
+          <Button variant="primary" onClick={() => handleEdit(user)}>
+            Edit
+          </Button>{" "}
+          <Button variant="danger" onClick={() => handleDelete(user)}>
+            Delete
+          </Button>
+        </td>
+      </tr>
+    ))}
+</tbody>
           </Table>
+          <div className="div-centered">
+  <Button
+    className="um-button"
+    variant="primary"
+    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+    disabled={currentPage === 1}
+  >
+    Previous
+  </Button>{" "}
+  <Button
+  className="um-button"
+  variant="primary"
+  onClick={() =>
+    setCurrentPage((prev) =>
+      Math.min(prev + 1, Math.ceil(filteredUsers.length / usersPerPage))
+    )
+  }
+  disabled={currentPage === Math.ceil(filteredUsers.length / usersPerPage)}
+>
+  Next
+</Button>
+</div>
+
         </div>
       </div>
     </div>

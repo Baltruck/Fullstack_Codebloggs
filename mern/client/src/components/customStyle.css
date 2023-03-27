@@ -375,3 +375,25 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.div-centered {
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+.um-button {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
