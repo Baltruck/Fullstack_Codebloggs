@@ -304,8 +304,7 @@ recordRoutes.route("/like-comment").patch( async (req, response) => {
 
 recordRoutes.route("/update-user").patch(function (req, response) {
   let db_connect = dbo.getDb();
-  // let myquery = { _id: ObjectId(req.params.id) };
-  const userID = ObjectId(req.body.user_id);
+  const userID = ObjectId(req.body._id);
 
   let newvalues = {
     $set: {
@@ -316,6 +315,8 @@ recordRoutes.route("/update-user").patch(function (req, response) {
       password: req.body.password,
       location: req.body.location,
       occupation: req.body.occupation,
+      status: req.body.status,
+      auth_level: req.body.auth_level,
       },
   };
   db_connect
