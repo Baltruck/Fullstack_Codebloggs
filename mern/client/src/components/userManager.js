@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button } from "react-bootstrap";
+import { Card, Table, Button, Modal } from "react-bootstrap";
 import "./mainComponent.css";
 // import "./userManager.css";
 
@@ -10,6 +10,9 @@ const UsersList = () => {
   const [searchLastName, setSearchLastName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+
 
   const filteredUsers = users.filter(
     (user) =>
@@ -64,8 +67,35 @@ const UsersList = () => {
   };
 
   const handleDelete = (user) => {
-    // fonction pour supprimer un utilisateur
+    setUserToDelete(user);
+    setShowDeleteModal(true);
   };
+
+  const confirmDelete = () => {
+    fetch("http://localhost:5000/delete-user", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: userToDelete._id }),
+    }) 
+      .then((response) => response.json())
+      .then(() => {
+        setUsers(users.filter((user) => user._id !== userToDelete._id));
+        setShowDeleteModal(false);
+        setUserToDelete(null);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const closeModal = () => {
+    setShowDeleteModal(false);
+    setUserToDelete(null);
+  };
+
+  
 
   return (
     <div>
@@ -170,6 +200,29 @@ const UsersList = () => {
           Next
         </Button>
       </div>
+      <Modal show={showDeleteModal} onHide={closeModal}  contentClassName="status-card main-card mainFromLogo animated-border"
+        centered>
+      <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
+    <Modal.Title className="modal-text-title">Confirm delete</Modal.Title>
+  </Modal.Header>
+  <div className="inside-post-container">
+  <Modal.Body
+          style={{ border: "0", padding: "1rem 1rem" }}
+          className="text-black"
+
+  >
+          Are you sure you want to delete : {userToDelete && `${userToDelete.first_name} ${userToDelete.last_name}`} ?
+        </Modal.Body>
+        </div>
+        <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
+          <Button variant="secondary" onClick={closeModal} className="custom-close-btn">
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDelete} className="custom-submit-btn">
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
