@@ -18,6 +18,7 @@ import Blogg from "./components/blogg";
 import Network from "./components/network";
 import AdminPage from "./components/admin";
 import NewPost from "./components/newPost";
+import UsersList from "./components/userManager";
 import "./App.css";
 
 const App = () => {
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/blogg" element={<Blogg />} />
           <Route path="/network" element={<Network />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/userManager" element={<UsersList />} />
         </Routes>
       </div>
     </div>
