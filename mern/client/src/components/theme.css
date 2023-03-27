@@ -66,4 +66,76 @@
     background-color: #333333;
     color: #ffffff;
   }
+
+  /* Table User Management */
+.table-custom {
+  border: px solid #8C8CEC;
   
+}
+
+.table-custom thead {
+  background-color: #8C8CEC;
+  color: black;
+}
+
+.table-custom thead th {
+  cursor: pointer;
+}
+
+.table-custom tbody tr:nth-child(even) {
+  background-color: #8C8CEC;
+}
+
+.table-custom tbody tr:nth-child(odd) {
+  background-color: #ECEC8C;
+}
+
+.table-custom tbody tr:hover {
+  background-color: #CCCCCC;
+}
+
+
+.table-custom td,
+.table-custom th {
+  border: 1px solid #8C8CEC;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 11px solid #8C8CEC;
+  border-radius: 10px;
+  padding: 0px;
+  width:40%
+}
+
+
+
+.table-wrapper {
+  border: 5px solid #8C8CEC;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 45%;
+  margin: 0 auto;
+}
+
+.table-centered {
+  margin: 0 auto;
+}
+
+.umTitle {
+  margin-top: 10%;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 5%;
+} 
+
+.container-table {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+

@@ -9,39 +9,38 @@ const Blogg = () => {
     fetchPosts();
   }, []);
 
+  // Update "likes" in the UI and db
+  const handleLikeClick = async (postId) => {
+    setPosts((prevPosts) => {
+      const newPosts = prevPosts.map((post) => {
+        if (post._id === postId) {
+          return { ...post, likes: post.likes + 1 };
+        }
+        return post;
+      });
+      return newPosts;
+    });
 
-  // likes update
-const handleLikeClick = async (postId) => {
-  // Update "likes" in the UI
-  setPosts((prevPosts) => {
-    const newPosts = prevPosts.map((post) => {
-      if (post._id === postId) {
-        return { ...post, likes: post.likes + 1 };
+    // Update "likes" in db
+    const updateLikesURL = `http://localhost:5000/like`;
+    try {
+      const response = await fetch(updateLikesURL, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ post_id: postId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error updating likes");
       }
-      return post;
-    });
-    return newPosts;
-  });
-
-  // Update "likes" in db
-  const updateLikesURL = `http://localhost:5000/like`;
-  try {
-    const response = await fetch(updateLikesURL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ post_id: postId }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error updating likes");
+    } catch (error) {
+      console.error("Error updating likes:", error);
     }
-  } catch (error) {
-    console.error("Error updating likes:", error);
-  }
-};
+  };
 
+  // Fetch posts from db
   const fetchPosts = async () => {
     try {
       const response = await fetch("http://localhost:5000/get-posts");
@@ -62,9 +61,12 @@ const handleLikeClick = async (postId) => {
     }
   };
 
+  // Get user initials for each post
   const getUserInitials = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5000/userOfPost/${userId}`);
+      const response = await fetch(
+        `http://localhost:5000/userOfPost/${userId}`
+      );
       const userData = await response.json();
       const firstInitial = userData.UserInfo.first_name.charAt(0).toUpperCase();
       const lastInitial = userData.UserInfo.last_name.charAt(0).toUpperCase();
@@ -74,8 +76,8 @@ const handleLikeClick = async (postId) => {
       return { firstInitial: "", lastInitial: "" };
     }
   };
-  
 
+  // Format date
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -83,9 +85,12 @@ const handleLikeClick = async (postId) => {
   };
 
   return (
-    <div className="blogg-container">
+    <div className="blogg-container page-container">
       {posts.map((post) => (
-        <Card key={post.id || post._id} className="blogg-card status-card mainFromLogo animated-border">
+        <Card
+          key={post.id || post._id}
+          className="blogg-card status-card mainFromLogo animated-border"
+        >
           <Card.Body>
             <div style={{ display: "flex" }}>
               <div className="user-initials small-initials-container animated-border-initials-container">
@@ -94,35 +99,40 @@ const handleLikeClick = async (postId) => {
               </div>
               <div className="inside-post-container">
                 <Card.Text className="text-black">{post.content}</Card.Text>
-                <Card.Text className="text-black">Post date: {formatDate(post.time_stamp)}</Card.Text>
+                <Card.Text className="text-black">
+                  Post date: {formatDate(post.time_stamp)}
+                </Card.Text>
               </div>
             </div>
             <Card.Text className="text-black">
               {post.likes}{" "}
-              <span role="img" aria-label="thumbs up"
-              onClick={() => handleLikeClick(post._id)}
-              style={{ cursor: "pointer" }}
-            >
-
+              <span
+                role="img"
+                aria-label="thumbs up"
+                onClick={() => handleLikeClick(post._id)}
+                style={{ cursor: "pointer" }}
+              >
                 👍
               </span>
             </Card.Text>
             <div className="inside-post-container">
-            <Card.Text className="text-black">Comments:</Card.Text>
-                  <div className="post-comments">
-              {post.comments.map((comment) => (
-                <Card.Text key={comment._id} className="text-black">
-                  {comment.content} - {formatDate(comment.time_stamp)}
-                  <Button
-                    variant="link"
-                    // onClick={() => handleCommentLikeClick(comment._id)}
-                  >
-                    👍
-                  </Button>
-                  {comment.likes}
-                </Card.Text>
-              ))}
-            </div>
+              <Card.Text className="text-black">Comments:</Card.Text>
+              <div className="post-comments">
+                {post.comments.map((comment) => (
+                  <Card.Text key={comment._id} className="text-black">
+                    {comment.content}
+                    <br />
+                    {formatDate(comment.times_stamp)}
+                    <Button
+                      variant="link"
+                      // onClick={() => handleCommentLikeClick(comment._id)}
+                    >
+                      👍
+                    </Button>
+                    {comment.likes}
+                  </Card.Text>
+                ))}
+              </div>
             </div>
           </Card.Body>
         </Card>
