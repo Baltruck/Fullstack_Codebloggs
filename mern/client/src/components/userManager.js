@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Table, Button, Modal } from "react-bootstrap";
 import "./mainComponent.css";
+import UserEdit from "./userEdit";
 // import "./userManager.css";
 
 const UsersList = () => {
@@ -12,6 +13,9 @@ const UsersList = () => {
   const [usersPerPage] = useState(10);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userToEdit, setUserToEdit] = useState(null);
+
 
 
   const filteredUsers = users.filter(
@@ -63,13 +67,27 @@ const UsersList = () => {
   };
 
   const handleEdit = (user) => {
-    // fonction pour gérer l'édition d'un utilisateur
+    setUserToEdit(user);
+    setShowEditModal(true);
   };
 
+  // To close the edit modal
+  const handleClose = () => {
+    setShowEditModal(false);
+    setUserToEdit(null);
+  };
+  
   const handleDelete = (user) => {
     setUserToDelete(user);
     setShowDeleteModal(true);
   };
+
+  // To update after edit
+  const handleUpdate = (updatedUser) => {
+    setShowEditModal(false);
+    setUserToEdit(null);
+  };
+  
 
   const confirmDelete = () => {
     fetch("http://localhost:5000/delete-user", {
@@ -160,11 +178,13 @@ const UsersList = () => {
                       <Button
                         variant="primary"
                         onClick={() => handleEdit(user)}
+                        className="custom-edit-btn"
                       >
                         Edit
                       </Button>{" "}
                       <Button
                         variant="danger"
+                        className="custom-delete-btn"
                         onClick={() => handleDelete(user)}
                       >
                         Delete
@@ -223,6 +243,13 @@ const UsersList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <UserEdit
+  user={userToEdit}
+  showEditModal={showEditModal}
+  handleClose={handleClose}
+  handleUpdate={handleUpdate}
+/>
+
     </div>
   );
 };
