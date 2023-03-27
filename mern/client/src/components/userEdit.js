@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
-const UserEdit = ({ user, showEditModal, handleClose, handleUpdate }) => {
+const UserEdit = ({ user, showEditModal, handleClose, handleUpdate, refreshUserData }) => {
+
     const [formData, setFormData] = useState({
       first_name: "",
       last_name: "",
@@ -22,10 +23,12 @@ const UserEdit = ({ user, showEditModal, handleClose, handleUpdate }) => {
             first_name: user.first_name,
             last_name: user.last_name,
             birthday: birthday,
+            status: user.status,
             email: user.email,
             password: user.password,
             location: user.location,
             occupation: user.occupation,
+            auth_level: user.auth_level,
           });
         }
       }, [user]);
@@ -35,10 +38,27 @@ const UserEdit = ({ user, showEditModal, handleClose, handleUpdate }) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
   
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleUpdate(user._id, formData);
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     handleUpdate(user._id, formData);
+    //   };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+      
+        const updatedUser = {
+          ...formData,
+          _id: user._id,
+        };
+        try {
+          await handleUpdate(updatedUser);
+          handleClose();
+          refreshUserData();
+        } catch (error) {
+          console.error("Error:", error);
+        }
       };
+      
       
 
     return (
@@ -131,9 +151,9 @@ const UserEdit = ({ user, showEditModal, handleClose, handleUpdate }) => {
                     onChange={handleChange}
                 />
                 </Form.Group>
-                <Button variant="primary" type="submit" className="custom-submit-btn">
+                {/* <Button variant="primary" type="submit" className="custom-submit-btn">
                 Edit
-                </Button>
+                </Button> */}
             </Form>
             </Modal.Body>
             </div>
