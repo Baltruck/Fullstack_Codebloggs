@@ -15,27 +15,31 @@ const UserEdit = ({ user, showEditModal, handleClose, handleUpdate }) => {
     });
   
     useEffect(() => {
-      if (user) {
-        setFormData({
-          first_name: user.first_name,
-          last_name: user.last_name,
-          birthday: user.birthday,
-          email: user.email,
-          password: user.password,
-          location: user.location,
-          occupation: user.occupation,
-        });
-      }
-    }, [user]);
+        if (user) {
+          const birthday = new Date(user.birthday).toISOString().split("T")[0];
+      
+          setFormData({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            birthday: birthday,
+            email: user.email,
+            password: user.password,
+            location: user.location,
+            occupation: user.occupation,
+          });
+        }
+      }, [user]);
+      
   
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
   
     const handleSubmit = (e) => {
-      e.preventDefault();
-      handleUpdate(formData);
-    };
+        e.preventDefault();
+        handleUpdate(user._id, formData);
+      };
+      
 
     return (
         <Modal show={showEditModal} onHide={handleClose} contentClassName="status-card main-card mainFromLogo animated-border" centered>
@@ -44,7 +48,7 @@ const UserEdit = ({ user, showEditModal, handleClose, handleUpdate }) => {
           </Modal.Header>
           <div className="inside-post-container">
           <Modal.Body className="text-black" style={{ border: "0", padding: "1rem 1rem" }}>
-            <Form onSubmit={handleSubmit}>
+          <Form id="editUserForm" onSubmit={handleSubmit}>
               <Form.Group>
                 <Form.Label>First name</Form.Label>
                 <Form.Control
@@ -137,9 +141,10 @@ const UserEdit = ({ user, showEditModal, handleClose, handleUpdate }) => {
                 <Button variant="secondary" onClick={handleClose} className="custom-close-btn">
                   Cancel
                 </Button>
-                <Button variant="primary" type="submit" form="editUserForm" className="custom-submit-btn">
-                  Save
-                </Button>
+                <Button variant="primary" onClick={handleSubmit} className="custom-submit-btn">
+  Save
+</Button>
+
               </Modal.Footer>
             </Modal>
     );

@@ -83,10 +83,29 @@ const UsersList = () => {
   };
 
   // To update after edit
-  const handleUpdate = (updatedUser) => {
-    setShowEditModal(false);
-    setUserToEdit(null);
-  };
+  async function handleUpdate(data) {
+    try {
+      const response = await fetch("http://localhost:5000/update-user", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+  
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  }
+  
+  
   
 
   const confirmDelete = () => {
