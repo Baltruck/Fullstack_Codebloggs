@@ -389,6 +389,17 @@ body {
 .um-button {
   margin-left: 2%;
   margin-right: 2%;
+  background-color: #ECEC8C!important;
+  border-color: #ECEC8C!important;
+  color: #000000!important;
+  border-radius: 20px;
+}
+.um-button:hover,
+.um-button:focus,
+.um-button:active,
+.um-button:active:focus {
+  background-color: #d4d47a!important;
+  border-color: #d4d47a!important;
 }
 
 .no-select {
