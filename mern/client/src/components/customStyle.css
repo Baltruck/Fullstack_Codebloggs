@@ -79,6 +79,24 @@
   border-radius: 20px;
 }
 
+.custom-delete-btn {
+  background-color: #990404;
+  border-color: #000000;
+  color: #ffffff;
+  border-radius: 20px;
+  margin-left: 10%;
+  /* margin-right: 10%; */
+}
+
+.custom-edit-btn {
+  background-color: #13039e;
+  border-color: #000000;
+  color: #ffffff;
+  border-radius: 20px;
+  margin-left: 18%;
+  margin-right: 10%;
+}
+
 
 .custon-nav-post {
   width: 100%;
