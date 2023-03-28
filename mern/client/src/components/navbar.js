@@ -223,51 +223,47 @@ return (
           />
         </div>
         {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
-        <Navbar.Collapse id="responsive-navbar-nav" className="always-show">
-          <Nav className="mr-auto d-flex justify-content-center w-100">
-            <Nav.Item className="ml-auto">
-              {!shouldDisablePostButton && (
-                <Button
-                  className="custom-submit-btn custom-post-btn post-button"
-                  onClick={handleShowPost}
-                >
-                  Post
-                </Button>
-              )}
-            </Nav.Item>
-            {/* <Nav.Item>
-              <Button className="custom-submit-btn theme-toggle-button" onClick={toggleTheme}>
-                Change mode : {darkMode ? "dark" : "light"}
-              </Button>
-            </Nav.Item> */}
-          </Nav>
-          <div className="user-info-container d-flex justify-content-center w-100">
-            <Nav.Item className="ml-auto">
-              <span className="nav-link">{userName}</span>
-            </Nav.Item>
-            <Nav.Item>
-              {userName ? (
-                <Dropdown>
-                  <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={handleShowLogoutConfirm}>
-                      Disconnect
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={handleAccountSettingClick}>
-                      Account Setting
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={toggleTheme}>
-          Change mode: {darkMode ? "dark" : "light"}
-        </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : (
-                <NavLink className="nav-link" to="/login">
-                  Please Login
-                </NavLink>
-              )}
-            </Nav.Item>
-          </div>
+        <Navbar.Collapse id="responsive-navbar-nav" className="always-show"> 
+        <Nav className="mx-auto">
+  <Nav.Item className="ml-auto">
+    {!shouldDisablePostButton && (
+      <Button
+        className="custom-submit-btn custom-post-btn post-button"
+        onClick={handleShowPost}
+      >
+        Post
+      </Button>
+    )}
+  </Nav.Item>
+  <div className="user-info-container">
+    <Nav.Item>
+      <span className="nav-link user-name">{userName}</span>
+    </Nav.Item>
+    <Nav.Item>
+      {userName ? (
+        <Dropdown>
+          <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleShowLogoutConfirm}>
+              Disconnect
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleAccountSettingClick}>
+              Account Setting
+            </Dropdown.Item>
+            <Dropdown.Item onClick={toggleTheme}>
+              Change mode: {darkMode ? "dark" : "light"}
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      ) : (
+        <NavLink className="nav-link" to="/login">
+          Please Login
+        </NavLink>
+      )}
+    </Nav.Item>
+  </div>
+</Nav>
+
         </Navbar.Collapse>
       </Navbar>
     </div>

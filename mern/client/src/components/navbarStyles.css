@@ -1,12 +1,21 @@
 @media (min-width: 768px) and (max-width: 991px) {
-  /* add styles here */
+  @media (min-width: 768px) {
+    .navbar-custom .navbar-nav {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+    }
+  
+    .navbar-custom .nav-item {
+      margin-left: 1rem;
+    }
+  }
 }
 
 @media (max-width: 767px) {
   .navbar-custom .navbar-collapse {
     background-color: inherit;
     text-align: center;
-    /* align-items: center; */
   }
 
   .navbar-custom .navbar-nav .nav-item {
@@ -26,9 +35,9 @@
     margin: 0; 
   }
 
-  .navbar-custom .nav-item a {
+  /* .navbar-custom .nav-item a {
     padding: 5px 0;
-  }
+  } */
 
   .navbar-custom .navbar-toggler {
     border-color: #ECEC8C; 
@@ -40,23 +49,17 @@
     
   }
 
-  .navbar-custom .custom-post-btn {
+  /* .navbar-custom .custom-post-btn {
     margin: 0;
-    /* align-self: center;
-    align-items: center; */
-  }
+  } */
 
-  .navbar-custom .custom-submit-btn {
+  /* .navbar-custom .custom-submit-btn {
     margin: 0;
-    /* align-self: center;
-    align-items: center; */
-  }
+  } */
 
-  .navbar-custom .post-button {
+  /* .navbar-custom .post-button {
     margin: 0;
-    /* align-self: center;
-    align-items: center; */
-  }
+  } */
   
 
   .navbar-custom .theme-toggle-button {
@@ -122,30 +125,43 @@
     
   }
 
-  /* .nav-items-container {
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 100%;
-  } */
-
   .nav-items-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    width: 100%;
+    flex-basis: 60%;
   }
 
   .user-info-container {
     display: flex;
     align-items: center;
     margin-left: auto;
+    flex-basis: 40%;
   }
 
-  /* .post-button {
-    /* padding-right: -50px; */
-    /* margin: 1%;
-  } */ 
+  .user-name {
+    margin-right: 20%;
+  }
+  
+
+  @media (min-width: 992px) {
+    .navbar-custom .navbar-nav {
+      margin-right: 1rem;
+    }
+    .navbar-custom .user-info-container {
+      margin-left: auto;
+      flex-direction: row;
+    }
+  
+    .navbar-custom .theme-toggle-button {
+      margin-left: 1rem;
+    }
+  }
+
+  .post-button {
+    margin-left: -500%;
+  }  
   
   .theme-toggle-button {
     margin-left: 180px;
@@ -162,9 +178,66 @@
   .always-show {
     display: flex !important;
   }
-  /* .user-info-container {
-    flex: 1;
-    min-width: 15%;
+  
+  .navbar-custom .mx-auto {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .navbar-custom .user-info-container {
+    /* display: flex;
+    align-items: center; */
+    margin: 0;
+  }
+  
+  .navbar-custom .navbar-collapse {
+    background-color: inherit;
+    text-align: center;
+  }
+
+  .navbar-custom .navbar-nav .nav-item {
+    margin: 0;
+  }
+
+  .navbar-custom .nav-link {
+    margin: 0; 
+  }
+
+  .navbar-custom .nav-item {
+    display: block;
+    margin: 0;
+  }
+
+  .navbar-custom .navbar-toggler {
+    border-color: #ECEC8C; 
+    background-color: #ECEC8C;
+  }
+
+  .navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    
+  }
+
+  .navbar-custom .theme-toggle-button {
+    margin: 0; /* work centered */
+  }
+
+  .user-info-container {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+  }
+
+  /* .navbar-custom .post-button {
+    margin: 0;
   } */
-  
-  
+
+  /* .navbar-custom .custom-post-btn {
+    margin: 0;
+  } */
+
+  /* .navbar-custom .custom-submit-btn {
+    margin: 0;
+  }
+   */
