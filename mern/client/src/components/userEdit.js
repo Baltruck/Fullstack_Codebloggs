@@ -240,6 +240,7 @@ const UserEdit = ({
       </div>
       <Modal.Footer>
       <Button
+      className="custom-close-btn"
       variant="secondary"
       onClick={() => setShowPasswordConfirmModal(false)}
     >
@@ -247,6 +248,7 @@ const UserEdit = ({
     </Button>
     <Button
       variant="primary"
+      className="custom-submit-btn"
       onClick={() => {
         const confirmPassword = confirmPasswordFormRef.current.elements.confirm_password.value;
         handlePasswordConfirmation(confirmPassword);
