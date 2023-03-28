@@ -1,9 +1,95 @@
+@media (min-width: 768px) and (max-width: 991px) {
+  /* add styles here */
+}
+
+@media (max-width: 767px) {
+  .navbar-custom .navbar-collapse {
+    background-color: inherit;
+    text-align: center;
+    /* align-items: center; */
+  }
+
+  .navbar-custom .navbar-nav .nav-item {
+    margin: 0;
+  }
+
+  .navbar-custom .nav-link {
+    margin: 0; 
+  }
+
+  .navbar-custom .user-info-container {
+    margin: 0; 
+  }
+
+  .navbar-custom .nav-item {
+    display: block; 
+    margin: 0; 
+  }
+
+  .navbar-custom .nav-item a {
+    padding: 5px 0;
+  }
+
+  .navbar-custom .navbar-toggler {
+    border-color: #ECEC8C; 
+    background-color: #ECEC8C;
+  }
+
+  .navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    
+  }
+
+  .navbar-custom .custom-post-btn {
+    margin: 0;
+    /* align-self: center;
+    align-items: center; */
+  }
+
+  .navbar-custom .custom-submit-btn {
+    margin: 0;
+    /* align-self: center;
+    align-items: center; */
+  }
+
+  .navbar-custom .post-button {
+    margin: 0;
+    /* align-self: center;
+    align-items: center; */
+  }
+  
+
+  .navbar-custom .theme-toggle-button {
+    margin: 0; /* work centered */
+  }
+
+  .user-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .theme-toggle-button {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+
+ 
+}
+
+
 .navbar-fixed-top {
   position: fixed !important;
   top: 0 !important;
   left: 0;
   right: 0;
   z-index: 1030;
+}
+
+.dropdown-menu {
+  right: 100%!important;
+  left: auto!important;
+  top: auto!important;
 }
 
 
@@ -19,8 +105,7 @@
   }
   
   .text-image {
-    margin-left: -50%; 
-    width: 300px; 
+    width: 20%; 
     height: auto; 
   }
   
@@ -57,9 +142,10 @@
     margin-left: auto;
   }
 
-  .post-button {
-    padding-right: -50px;
-  }
+  /* .post-button {
+    /* padding-right: -50px; */
+    /* margin: 1%;
+  } */ 
   
   .theme-toggle-button {
     margin-left: 180px;
@@ -73,7 +159,9 @@
     margin-right: 50px;
   }
 
-
+  .always-show {
+    display: flex !important;
+  }
   /* .user-info-container {
     flex: 1;
     min-width: 15%;

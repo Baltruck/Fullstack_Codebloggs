@@ -24,23 +24,23 @@ const Sidebar = ({ user }) => {
         <div className={`sidebar ${themeClass} ${animationClass}`}>
           <ul className="sidebar-menu">
             <li className="sidebar-item">
-              <NavLink to="/" activeClassName="active-link">
+              <NavLink to="/" activeclassname="active-link">
                 Home
               </NavLink>
             </li>
             <li className="sidebar-item">
-              <NavLink to="/blogg" activeClassName="active-link">
+              <NavLink to="/blogg" activeclassname="active-link">
                 Blogg
               </NavLink>
             </li>
             <li className="sidebar-item">
-              <NavLink to="/network" activeClassName="active-link">
+              <NavLink to="/network" activeclassname="active-link">
                 Network
               </NavLink>
             </li>
             {isAdmin && (
               <li className="sidebar-item">
-                <NavLink to="/admin" activeClassName="active-link">
+                <NavLink to="/admin" activeclassname="active-link">
                   Admin
                 </NavLink>
               </li>
