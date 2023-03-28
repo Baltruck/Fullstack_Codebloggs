@@ -20,6 +20,7 @@ import AdminPage from "./components/admin";
 import NewPost from "./components/newPost";
 import UsersList from "./components/userManager";
 import PostList from "./components/postList";
+import ContentManager from "./components/contentManager";
 import "./App.css";
 
 const App = () => {
@@ -56,7 +57,7 @@ const App = () => {
       <Sidebar />
       <div className="main-content" style={{ margin: 20 }}>
         <Routes>
-          <Route exact path="/" element={<Main />} />
+          <Route exact path="/" element={<ContentManager />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blogg" element={<Blogg />} />
