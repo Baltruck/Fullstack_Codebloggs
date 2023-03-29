@@ -16,6 +16,11 @@
     margin-bottom: 30px;
   }
 
+.modal-content {
+  margin-top: 55%;
+}
+
+
   .text-black {
     color: black;
     font-size: 1.4rem; ;
