@@ -7,7 +7,7 @@
     }
   
     .navbar-custom .nav-item {
-      margin-left: 1rem;
+      /* margin-left: 1rem; */
     }
   }
 }
@@ -16,6 +16,18 @@
   .navbar-custom .navbar-collapse {
     background-color: inherit;
     text-align: center;
+    padding: 0;
+  }
+
+  .nav-items-container {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .nav-buttons-container {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
   }
 
   .navbar-custom .navbar-nav .nav-item {
@@ -33,6 +45,10 @@
   .navbar-custom .nav-item {
     display: block; 
     margin: 0; 
+  }
+
+  .text-image {
+    width: 80px; /* ou une autre taille appropriée */
   }
 
   /* .navbar-custom .nav-item a {
@@ -70,6 +86,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 88%;
   }
 
   .theme-toggle-button {
@@ -87,6 +104,7 @@
   left: 0;
   right: 0;
   z-index: 1030;
+  width: 100%;
 }
 
 .dropdown-menu {
@@ -105,6 +123,7 @@
 .logo-container {
     display: flex;
     align-items: center;
+    width: 88%;
   }
   
   .text-image {
@@ -147,7 +166,7 @@
 
   @media (min-width: 992px) {
     .navbar-custom .navbar-nav {
-      margin-right: 1rem;
+      /* margin-right: 1rem; */
     }
     .navbar-custom .user-info-container {
       margin-left: auto;
@@ -155,7 +174,7 @@
     }
   
     .navbar-custom .theme-toggle-button {
-      margin-left: 1rem;
+      /* margin-left: 1rem; */
     }
   }
 
@@ -182,7 +201,7 @@
   .navbar-custom .mx-auto {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 88%;
   }
 
   .navbar-custom .user-info-container {
