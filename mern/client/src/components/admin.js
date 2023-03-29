@@ -24,7 +24,7 @@ const AdminPage = () => {
   };
 
   const handleContentManagementClick = () => {
-    navigate("/postManagement");
+    navigate("/contentManagement");
   };
 
   return (
