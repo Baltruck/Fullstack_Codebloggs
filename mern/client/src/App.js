@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import Navbar from "./components/navbar";
+import CustomNavbar from "./components/navbar";
 import Sidebar from "./components/sideBar";
 import Login from "./components/login";
 import Register from "./components/register";
@@ -52,7 +52,7 @@ const App = () => {
 
   return (
     <div>
-      <Navbar />
+      <CustomNavbar />
       <Sidebar />
       <div className="main-content" style={{ margin: 20 }}>
         <Routes>

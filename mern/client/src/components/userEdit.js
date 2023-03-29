@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 const UserEdit = ({
@@ -20,6 +20,11 @@ const UserEdit = ({
     auth_level: "",
   });
 
+  const [initialPassword, setInitialPassword] = useState("");
+  const confirmPasswordFormRef = useRef(null);
+  const [showPasswordConfirmModal, setShowPasswordConfirmModal] =
+    useState(false);
+
   useEffect(() => {
     if (user) {
       const birthday = new Date(user.birthday).toISOString().split("T")[0];
@@ -35,6 +40,7 @@ const UserEdit = ({
         occupation: user.occupation,
         auth_level: user.auth_level,
       });
+      setInitialPassword(user.password);
     }
   }, [user]);
 
@@ -47,8 +53,33 @@ const UserEdit = ({
   //     handleUpdate(user._id, formData);
   //   };
 
+  // confirm password
+  const handlePasswordConfirmation = async (confirmPassword) => {
+    if (formData.password !== confirmPassword) {
+      alert("Passwords do not match");
+    } else {
+      const updatedUser = {
+        ...formData,
+        _id: user._id,
+      };
+      try {
+        await handleUpdate(updatedUser);
+        handleClose();
+        refreshUserData();
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+    setShowPasswordConfirmModal(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (formData.password !== initialPassword) {
+      setShowPasswordConfirmModal(true);
+      return;
+    }
 
     const updatedUser = {
       ...formData,
@@ -64,6 +95,7 @@ const UserEdit = ({
   };
 
   return (
+    <>
     <Modal
       show={showEditModal}
       onHide={handleClose}
@@ -152,22 +184,21 @@ const UserEdit = ({
               />
             </Form.Group>
             <Form.Group>
-  <Form.Label>Authorization level</Form.Label>
-  <Form.Select
-    name="auth_level"
-    value={formData.auth_level}
-    onChange={handleChange}
-    style={{ borderRadius: "20px", backgroundColor: "#B5B5F7"}}
-    className="custom-select"
-  >
-    <option value="" disabled>
-      Select authorization level
-    </option>
-    <option value="user">user</option>
-    <option value="admin">admin</option>
-  </Form.Select>
-</Form.Group>
-
+              <Form.Label>Authorization level</Form.Label>
+              <Form.Select
+                name="auth_level"
+                value={formData.auth_level}
+                onChange={handleChange}
+                style={{ borderRadius: "20px", backgroundColor: "#B5B5F7" }}
+                className="custom-select"
+              >
+                <option value="" disabled>
+                  Select authorization level
+                </option>
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+              </Form.Select>
+            </Form.Group>
           </Form>
         </Modal.Body>
       </div>
@@ -188,6 +219,47 @@ const UserEdit = ({
         </Button>
       </Modal.Footer>
     </Modal>
+    <Modal
+    contentClassName="status-card main-card mainFromLogo animated-border"
+      show={showPasswordConfirmModal}
+      onHide={() => setShowPasswordConfirmModal(false)}
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title className="modal-text-title">Confirm Password</Modal.Title>
+      </Modal.Header>
+      <div className="inside-post-container">
+      <Modal.Body className="text-black">
+      <Form ref={confirmPasswordFormRef}>
+        <Form.Group>
+          <Form.Label>Enter your password again to confirm</Form.Label>
+          <Form.Control type="password" name="confirm_password" />
+        </Form.Group>
+        </Form>
+      </Modal.Body>
+      </div>
+      <Modal.Footer>
+      <Button
+      className="custom-close-btn"
+      variant="secondary"
+      onClick={() => setShowPasswordConfirmModal(false)}
+    >
+      Cancel
+    </Button>
+    <Button
+      variant="primary"
+      className="custom-submit-btn"
+      onClick={() => {
+        const confirmPassword = confirmPasswordFormRef.current.elements.confirm_password.value;
+        handlePasswordConfirmation(confirmPassword);
+      }}
+    >
+      Confirm
+    </Button>
+      </Modal.Footer>
+    </Modal>
+  </>
+    
   );
 };
 

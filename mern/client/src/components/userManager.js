@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Table, Button, Modal } from "react-bootstrap";
 import "./mainComponent.css";
 import UserEdit from "./userEdit";
+import Skeleton from "react-loading-skeleton";
 // import "./userManager.css";
 
 const UsersList = () => {
@@ -15,6 +16,7 @@ const UsersList = () => {
   const [userToDelete, setUserToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [userToEdit, setUserToEdit] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -38,6 +40,7 @@ const UsersList = () => {
   
 
   useEffect(() => {
+    setLoading(true);
     fetch("http://localhost:5000/get-all-users")
       .then((response) => response.json())
       .then((data) => {
@@ -45,8 +48,14 @@ const UsersList = () => {
           a.first_name.localeCompare(b.first_name)
         );
         setUsers(sortedData);
+        // setLoading(false); Goood
+        // timeout to simulate loading
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       });
   }, []);
+  
 
   const sortByFirstName = () => {
     setUsers(
@@ -204,34 +213,50 @@ async function handleUpdate(data, onSuccess) {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers
-                .slice(
-                  (currentPage - 1) * usersPerPage,
-                  currentPage * usersPerPage
-                )
-                .map((user) => (
-                  <tr key={user._id}>
-                    <td>{user.first_name}</td>
-                    <td>{user.last_name}</td>
-                    <td>
-                      <Button
-                        variant="primary"
-                        onClick={() => handleEdit(user)}
-                        className="custom-edit-btn"
-                      >
-                        Edit
-                      </Button>{" "}
-                      <Button
-                        variant="danger"
-                        className="custom-delete-btn"
-                        onClick={() => handleDelete(user)}
-                      >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
+  {loading ? (
+    Array.from({ length: usersPerPage }).map((_, i) => (
+      <tr key={i}>
+        <td>
+          <Skeleton width={100} />
+        </td>
+        <td>
+          <Skeleton width={100} />
+        </td>
+        <td>
+          <Skeleton width={150} />
+        </td>
+      </tr>
+    ))
+  ) : (
+    filteredUsers
+      .slice(
+        (currentPage - 1) * usersPerPage,
+        currentPage * usersPerPage
+      )
+      .map((user) => (
+        <tr key={user._id}>
+          <td>{user.first_name}</td>
+          <td>{user.last_name}</td>
+          <td>
+            <Button
+              variant="primary"
+              onClick={() => handleEdit(user)}
+              className="custom-edit-btn"
+            >
+              Edit
+            </Button>{" "}
+            <Button
+              variant="danger"
+              className="custom-delete-btn"
+              onClick={() => handleDelete(user)}
+            >
+              Delete
+            </Button>
+          </td>
+        </tr>
+      ))
+  )}
+</tbody>
           </Table>
         </div>
       </div>
