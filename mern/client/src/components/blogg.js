@@ -92,9 +92,16 @@ const Blogg = () => {
           className="blogg-card status-card mainFromLogo animated-border"
         >
           <Card.Body>
-            <div style={{ display: "flex" }}>
-              <div className="user-initials small-initials-container animated-border-initials-container">
-                {post.user_first_initial}
+            <div style={{ 
+              display: "flex",
+              flexDirection: window.innerWidth <= 767 ? "column" : "row",
+              }}>
+            <div
+  className={`user-initials small-initials-container animated-border-initials-container ${
+    window.innerWidth <= 767 ? "user-initials-container-mobile" : ""
+  }`}
+>
+  {post.user_first_initial}
                 {post.user_last_initial}
               </div>
               <div className="inside-post-container">
