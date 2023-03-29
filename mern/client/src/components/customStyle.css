@@ -347,15 +347,16 @@ body {
   flex-wrap: wrap;
 }
 
-.admin-card-container {
-  display: flex;
-  flex-wrap: wrap;
-}
+.admin-card-container { 
+  width: 45%;
+  justify-content: space-around;
+} 
 
 .admin-page-container {
   display: flex;
-  flex-direction: row;
-  padding: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 2rem;
 }
 
 .user-card {
@@ -365,14 +366,29 @@ body {
 }
 
 .admin-card {
-  width: 400px;
+  width: 30%;
   text-align: center;
-  aspect-ratio: 1 / 1;
-  margin-left: 12%;
-  margin-right: 5%;
+  /* margin-left: 12%; */
+  /* margin-right: 5%; */
   margin-bottom: 1%;
-  margin-top: 10%;
+  margin-top: 5%;
+  /* padding: 1rem; */
+  border-radius: 15px;
 }
+
+.admin-card-header {
+  background-color: inherit;
+  border: none;
+}
+
+/* .admin-card-body {
+  border: none;
+}
+
+.admin-card::before {
+  box-shadow: none;
+} */
+
 
 .modal-text-title {
   font-family: 'Roboto Slab', serif;

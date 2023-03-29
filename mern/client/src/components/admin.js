@@ -29,11 +29,11 @@ const AdminPage = () => {
 
   return (
     <div className="admin-page-container page-container">
-      <div className="admin-card-container">
+      {/* <div className="admin-card-container"> */}
         <Card className="admin-card status-card mainFromLogo animated-border"
         onClick={handleUserManagementClick}
         >
-          <Card.Header>
+          <Card.Header className="admin-card-header">
             <Card.Text className="text-black">User Management</Card.Text>
           </Card.Header>
           <Card.Body
@@ -41,18 +41,21 @@ const AdminPage = () => {
               width: "100%",
               paddingBottom: "100%",
               position: "relative",
+              className: "admin-card-body",
             }}
           >
-            {/* here we add */}
+            <div className="inside-post-container">
+            <Card.Text className="text-black">There you can edit or delete users</Card.Text>
+              </div>
           </Card.Body>
         </Card>
-      </div>
+      {/* </div> */}
 
-      <div className="admin-card-container">
+      {/* <div className="admin-card-container"> */}
         <Card className="admin-card status-card mainFromLogo animated-border"
         onClick={handleContentManagementClick}
         >
-          <Card.Header>
+          <Card.Header className="admin-card-header">
             <Card.Text className="text-black">Content Management</Card.Text>
           </Card.Header>
           <Card.Body
@@ -60,12 +63,15 @@ const AdminPage = () => {
               width: "100%",
               paddingBottom: "100%",
               position: "relative",
+              className: "admin-card-body",
             }}
           >
-            {/* here we add */}
+            <div className="inside-post-container">
+            <Card.Text className="text-black">There you can edit or delete posts</Card.Text>
+              </div>
           </Card.Body>
         </Card>
-      </div>
+       {/* </div> */}
     </div>
   );
 };
