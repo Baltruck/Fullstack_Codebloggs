@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Modal, Button, Dropdown, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useTheme } from "./themeContext";
-import "./navbarStyles.css";
 import "./mainComponent.css";
 import Post from "./post";
 import Cookies from "js-cookie";
 import NewPost from "./newPost";
 import "bootstrap/dist/css/bootstrap.css";
+import "./navbarStyles.css";
 
 export default function CustomNavbar() {
   const { darkMode, toggleTheme } = useTheme();
