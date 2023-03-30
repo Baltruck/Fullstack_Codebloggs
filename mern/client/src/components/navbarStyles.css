@@ -6,9 +6,7 @@
       flex: 1;
     }
   
-    .navbar-custom .nav-item {
-      /* margin-left: 1rem; */
-    }
+    
   }
 }
 
@@ -16,7 +14,6 @@
   .navbar-custom .navbar-collapse {
     background-color: inherit;
     text-align: center;
-    padding: 0;
   }
 
   .nav-items-container {
@@ -47,6 +44,29 @@
     margin: 0; 
   }
 
+  .navbar {
+    padding: 0.2rem!important;
+  }
+
+  .custom-post-btn {
+    font-size: 1rem!important;
+    font-weight: bolder !important;
+    padding: 0!important;
+    border-radius: 30px;
+    margin-top: -170%!important;
+    margin-right: 290%!important;
+    
+  }
+
+  /* .user-name {
+    margin-right: 20%;
+    margin-top: -200%;
+  } */
+
+  .logo-container {
+    width: 100%!important;
+  }
+
   .text-image {
     width: 80px; /* ou une autre taille appropriée */
   }
@@ -58,6 +78,12 @@
   .navbar-custom .navbar-toggler {
     border-color: #ECEC8C; 
     background-color: #ECEC8C;
+  }
+
+  .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+  
   }
 
   .navbar-custom .navbar-toggler-icon {
@@ -86,7 +112,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 88%;
+    width: 100%;
+    margin-top: -10%!important;
   }
 
   .theme-toggle-button {
@@ -136,11 +163,13 @@
   }
 
   .custom-post-btn {
-    font-size: 1.4rem !important;
+    font-size: 1.4rem;
     font-weight: bolder !important;
     padding: 5px 20px;
-    border-radius: 30px !important;
+    border-radius: 30px;
     width: 200%;
+    margin-top: 20%;
+    margin-right: 390%;
     
   }
 

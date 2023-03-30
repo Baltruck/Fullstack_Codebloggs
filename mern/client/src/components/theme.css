@@ -67,7 +67,6 @@
     color: #ffffff;
   }
 
-  /* Table User Management */
 .table-custom {
   border: px solid #8C8CEC;
   
@@ -110,33 +109,11 @@
   width:40%
 }
 
-
-
-.table-wrapper {
-  border: 5px solid #8C8CEC;
-  border-radius: 20px;
-  overflow: hidden;
-  width: 45%;
-  margin: 0 auto;
-}
-
 .table-centered {
   margin: 0 auto;
 }
 
-.umTitle {
-  margin-top: 10%;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 5%;
-} 
 
-.container-table {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
 
 
 

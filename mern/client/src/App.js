@@ -19,7 +19,8 @@ import Network from "./components/network";
 import AdminPage from "./components/admin";
 import NewPost from "./components/newPost";
 import UsersList from "./components/userManager";
-import PostList from "./components/postList";
+// import PostList from "./components/postList";
+import ContentManager from "./components/contentManager";
 import "./App.css";
 
 const App = () => {
@@ -63,7 +64,7 @@ const App = () => {
           <Route path="/network" element={<Network />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/userManagement" element={<UsersList />} />
-          <Route path="/postManagement" element={<PostList />} />
+          <Route path="/contentManagement" element={<ContentManager />} />
         </Routes>
       </div>
     </div>
