@@ -365,6 +365,25 @@ body {
   margin-bottom: 2%;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* margin: 0!important; */
+  /* padding: 0!important; */
+  margin-top: -1%;
+  margin-bottom: 1%;
+}
+
+.cm-likes {
+  display: flex;
+  align-items: center;
+  width: 10%;
+  margin-left: 12%;
+}
+
 .results-per-page-dropdown {
   margin-left: 0px;
   background-color: #ECEC8C;
@@ -379,11 +398,6 @@ body {
   margin-left: 2%;
   margin-bottom: 2%;
   width: 90%;
-}
-
-.cm-bot-btn {
-  margin-top: 300%;
- 
 }
 
 .flex-container {

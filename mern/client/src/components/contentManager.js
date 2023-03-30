@@ -17,39 +17,37 @@ const ContentManager = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [filteredPosts, setFilteredPosts] = useState([]);
 
-
   //calculate index of last post and first post
-const indexOfLastPost = (currentPage + 1) * resultsPerPage;
-const indexOfFirstPost = indexOfLastPost - resultsPerPage;
-const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const indexOfLastPost = (currentPage + 1) * resultsPerPage;
+  const indexOfFirstPost = indexOfLastPost - resultsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-//generate page number
-const generatePageNumbers = () => {
-  const totalPages = Math.ceil(posts.length / resultsPerPage);
+  //generate page number
+  const generatePageNumbers = () => {
+    const totalPages = Math.ceil(posts.length / resultsPerPage);
+    const pageNumbers = [];
+    for (let i = 0; i < totalPages; i++) {
+      pageNumbers.push(i);
+    }
+    return pageNumbers;
+  };
+
+  //change number of results per page
+  const handleResultsPerPageChange = (event) => {
+    setResultsPerPage(parseInt(event.target.value));
+    setCurrentPage(0);
+  };
+
+  //change page
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  //Show button for pages
   const pageNumbers = [];
-  for (let i = 0; i < totalPages; i++) {
+  for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
     pageNumbers.push(i);
   }
-  return pageNumbers;
-};
-
-
-//change number of results per page
-const handleResultsPerPageChange = (event) => {
-  setResultsPerPage(parseInt(event.target.value));
-  setCurrentPage(0);
-};
-
-//change page
-const handlePageChange = (pageNumber) => {
-  setCurrentPage(pageNumber);
-};
-
-//Show button for pages
-const pageNumbers = [];
-for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
-  pageNumbers.push(i);
-}
 
   useEffect(() => {
     fetchPosts();
@@ -156,23 +154,24 @@ for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
           onChange={handleDateToChange}
         />
         <a className="text-date">OR:</a>
-        <button className="date-picker-btn" onClick={showAll}>All</button>
+        <button className="date-picker-btn" onClick={showAll}>
+          All
+        </button>
         <a className="text-date2">Posts per page:</a>
         <select
-  value={resultsPerPage}
-  onChange={handleResultsPerPageChange}
-  className="results-per-page-dropdown"
->
-  <option value="5">5</option>
-  <option value="10">10</option>
-  <option value="20">20</option>
-  <option value="30">30</option>
-</select>
-
+          value={resultsPerPage}
+          onChange={handleResultsPerPageChange}
+          className="results-per-page-dropdown"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
       </div>
-      
+
       {currentPosts
-      .filter((post) => {
+        .filter((post) => {
           const postDate = new Date(post.time_stamp);
           const fromDate = new Date(dateFrom);
           fromDate.setDate(fromDate.getDate() + 1);
@@ -198,17 +197,9 @@ for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
                     Post date: {formatDate(post.time_stamp)}
                   </Card.Text>
                 </div>
-                <div style={{ marginLeft: "auto" }}>
-                  <Button
-                    variant="danger"
-                    className="custom-delete-btn um-bot-btn cm-bot-btn"
-                    onClick={() => handleDeletePost(post._id)}
-                  >
-                    Delete
-                  </Button>
-                </div>
               </div>
-              <Card.Text className="text-black">
+              <div className="button-container">
+              <Card.Text className="text-black cm-likes">
                 {post.likes}{" "}
                 <span
                   role="img"
@@ -218,6 +209,15 @@ for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
                   👍
                 </span>
               </Card.Text>
+             
+                  <Button
+                    variant="danger"
+                    className="custom-delete-btn um-bot-btn cm-bot-btn"
+                    onClick={() => handleDeletePost(post._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               <div className="inside-post-container">
                 <Card.Text className="text-black">Comments:</Card.Text>
                 <div className="post-comments">
@@ -236,18 +236,18 @@ for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
             </Card.Body>
           </Card>
         ))}
-       {/* Pagination */}
-<div className="pagination-container">
-  {generatePageNumbers().map((pageNumber) => (
-    <button
-      key={pageNumber}
-      className="pagination-btn"
-      onClick={() => handlePageChange(pageNumber)}
-    >
-      {pageNumber + 1}
-    </button>
-  ))}
-</div>
+      {/* Pagination */}
+      <div className="pagination-container">
+        {generatePageNumbers().map((pageNumber) => (
+          <button
+            key={pageNumber}
+            className="pagination-btn"
+            onClick={() => handlePageChange(pageNumber)}
+          >
+            {pageNumber + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
