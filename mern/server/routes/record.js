@@ -66,7 +66,7 @@ recordRoutes.route("/login").post( async (req, response) => {
   await db_connect.collection("Session").deleteMany({ ["user.email"]: user.email });
   const session_token = uuidv4();
   const session = { session_id: session_token,
-     user: {first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
+     user: {_id: user._id,first_name: user.first_name, last_name: user.last_name, birthday: user.birthday, email: user.email, password: user.password, status: user.status, location: user.location, occupation: user.occupation, auth_level: user.auth_level},
       session_date: new Date() };
   await db_connect.collection("Session").insertOne(session);
   return response.send({message: "Login Successful", User: session});
@@ -227,6 +227,7 @@ recordRoutes.route("/userInfo").post(async (req, response) => {//change to get
 recordRoutes.route("/userOfPost/:userId").get(async (req, response) => {
   let db_connect = dbo.getDb();
   const userId = ObjectId(req.params.userId);
+  // console.log(req.params.userId);
   const user = await db_connect.collection("User").findOne({ _id: userId });
   if (!user) {
     console.log('User not found'); // Log user not found
@@ -234,6 +235,22 @@ recordRoutes.route("/userOfPost/:userId").get(async (req, response) => {
   }
   response.send({ UserInfo: user });
 });
+
+recordRoutes.route("/findUserId").post(async (req, response) => {
+  let db_connect = dbo.getDb();
+  if (!ObjectId.isValid(req.body.userId)) {
+    console.log('Invalid userId'); 
+    return response.status(400).json({ message: "Invalid userId" });
+  }
+  const userId = ObjectId(req.body.userId);
+  const user = await db_connect.collection("User").findOne({ _id: userId });
+  if (!user) {
+    console.log('User not found'); 
+    return response.status(404).json({ message: "User not found" });
+  }
+  response.send({ UserInfo: user });
+});
+
 
 recordRoutes.route("/get-all-users").get(async (req, response) => {
   let db_connect = dbo.getDb("CodeBlogg");
