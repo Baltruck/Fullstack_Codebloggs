@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
-import 'react-loading-skeleton/dist/skeleton.css'
-import CardSkeleton from './CardSkeleton'
+// import 'react-loading-skeleton/dist/skeleton.css'
+// import CardSkeleton from './CardSkeleton'
 
 const Blogg = () => {
   const [posts, setPosts] = useState([]);
@@ -90,7 +90,7 @@ const Blogg = () => {
   return (
     <div className="blogg-container page-container">
 
-      {isLoading && <CardSkeleton cards={10}/>}
+      {/* {isLoading && <CardSkeleton cards={10}/>} */}
       {/* <Skeleton /> */}
       {posts.map((post) => (
         
