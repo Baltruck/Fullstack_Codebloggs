@@ -3,7 +3,7 @@ import { Card, Table, Button, Modal } from "react-bootstrap";
 import "./mainComponent.css";
 import UserEdit from "./userEdit";
 import Skeleton from "react-loading-skeleton";
-// import "./userManager.css";
+import "./Skeleton.css";
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -47,11 +47,11 @@ const UsersList = () => {
           a.first_name.localeCompare(b.first_name)
         );
         setUsers(sortedData);
-        // setLoading(false); Goood
+        setLoading(false); 
         // timeout to simulate loading
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
+        // setTimeout(() => {
+        //   setLoading(false);
+        // }, 3000);
       });
   }, []);
 
@@ -209,13 +209,13 @@ const UsersList = () => {
                 ? Array.from({ length: usersPerPage }).map((_, i) => (
                     <tr key={i}>
                       <td>
-                        <Skeleton width={100} />
+                        <Skeleton className="skeleton-text" width={100} />
                       </td>
                       <td>
-                        <Skeleton width={100} />
+                        <Skeleton className="skeleton-text" width={100} />
                       </td>
                       <td>
-                        <Skeleton width={150} />
+                        <Skeleton className="skeleton-text" width={150} />
                       </td>
                     </tr>
                   ))

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
+import Skeleton from "react-loading-skeleton";
+import "./Skeleton.css";
+
 
 const ContentManager = () => {
   const [posts, setPosts] = useState([]);
@@ -134,6 +137,54 @@ const ContentManager = () => {
     setDateTo(new Date().toISOString().slice(0, 10));
   };
 
+  const PostSkeleton = () => (
+    <Card className="mainFromLogo animated-border cm-card flex-container">
+      <Card.Body>
+        <div style={{ display: "flex" }}>
+          <div className="user-initials small-initials-container animated-border-initials-container">
+          <Skeleton className="skeleton-circle" circle={true} height={80} width={80} />
+          </div>
+          <div className="cm-inside-post-container">
+            <Card.Text className="text-black">
+              <Skeleton className="skeleton-text" />
+            </Card.Text>
+            <Card.Text className="text-black">
+              <Skeleton className="skeleton-text" />
+            </Card.Text>
+            <Card.Text className="text-black">
+              <Skeleton className="skeleton-text" />
+            </Card.Text>
+            <Card.Text className="text-black">
+              <Skeleton className="skeleton-text" width={"60%"} />
+            </Card.Text>
+          </div>
+        </div>
+        <div className="button-container">
+          <Card.Text className="text-black cm-likes">
+            <Skeleton className="skeleton-text" width={"10%"} />
+          </Card.Text>
+          <Button variant="danger" className="custom-delete-btn um-bot-btn cm-bot-btn">
+            <Skeleton width={"100%"} height={"100%"} />
+          </Button>
+        </div>
+        <div className="inside-post-container">
+          <Card.Text className="text-black">Comments:</Card.Text>
+          <div className="post-comments">
+            <Card.Text className="text-black">
+              <Skeleton className="skeleton-text" />
+            </Card.Text>
+            <Card.Text className="text-black">
+              <Skeleton className="skeleton-text" />
+            </Card.Text>
+          </div>
+        </div>
+      </Card.Body>
+    </Card>
+  );
+  
+  
+  
+
   return (
     <div className="cont-man-container">
       <div className="date-bar blogg-card status-card mainFromLogo animated-border blogg-card-mobile">
@@ -170,7 +221,11 @@ const ContentManager = () => {
         </select>
       </div>
 
-      {currentPosts
+
+      {isLoading ? (
+  <PostSkeleton />
+) : (
+      currentPosts
         .filter((post) => {
           const postDate = new Date(post.time_stamp);
           const fromDate = new Date(dateFrom);
@@ -208,8 +263,7 @@ const ContentManager = () => {
                 >
                   👍
                 </span>
-              </Card.Text>
-             
+              </Card.Text>           
                   <Button
                     variant="danger"
                     className="custom-delete-btn um-bot-btn cm-bot-btn"
@@ -230,12 +284,13 @@ const ContentManager = () => {
                       <Button variant="link">👍</Button>
                       {comment.likes}
                     </Card.Text>
-                  ))}
+                  ))}                
                 </div>
               </div>
             </Card.Body>
           </Card>
-        ))}
+        ))
+      )}
       {/* Pagination */}
       <div className="pagination-container">
         {generatePageNumbers().map((pageNumber) => (
