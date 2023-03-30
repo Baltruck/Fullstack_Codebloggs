@@ -3,12 +3,12 @@
     top: 56px; 
     left: 0;
     height: calc(100%);
-    width: 150px;
+    /* width: 100%; */
     background-color: #f8f9fa;
     padding-top: 0;
     z-index: 1000;
     overflow-y: auto;
-    margin-top: -56px;
+    /* margin-top: -56px; */
   }
   
   
@@ -43,3 +43,34 @@
     
   }
   
+  
+
+/* Écrans smartphones */
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 9%;
+    left: 0;
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    margin-top: 7%;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    justify-content: space-around;
+    width: 88%;
+  }
+
+  .sidebar-item {
+    padding: 0;
+  }
+
+  .sidebar-item:first-child {
+    margin-top: 0;
+  }
+}

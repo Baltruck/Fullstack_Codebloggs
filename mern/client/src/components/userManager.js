@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Table, Button, Modal } from "react-bootstrap";
 import "./mainComponent.css";
 import UserEdit from "./userEdit";
+import Skeleton from "react-loading-skeleton";
 // import "./userManager.css";
 
 const UsersList = () => {
@@ -15,8 +16,7 @@ const UsersList = () => {
   const [userToDelete, setUserToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [userToEdit, setUserToEdit] = useState(null);
-
-
+  const [loading, setLoading] = useState(true);
 
   const filteredUsers = users.filter(
     (user) =>
@@ -29,15 +29,17 @@ const UsersList = () => {
     try {
       const response = await fetch("http://localhost:5000/get-all-users");
       const data = await response.json();
-      const sortedData = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
+      const sortedData = data.sort((a, b) =>
+        a.first_name.localeCompare(b.first_name)
+      );
       setUsers(sortedData);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  
 
   useEffect(() => {
+    setLoading(true);
     fetch("http://localhost:5000/get-all-users")
       .then((response) => response.json())
       .then((data) => {
@@ -45,6 +47,11 @@ const UsersList = () => {
           a.first_name.localeCompare(b.first_name)
         );
         setUsers(sortedData);
+        // setLoading(false); Goood
+        // timeout to simulate loading
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       });
   }, []);
 
@@ -89,44 +96,40 @@ const UsersList = () => {
     setShowEditModal(false);
     setUserToEdit(null);
   };
-  
+
   const handleDelete = (user) => {
     setUserToDelete(user);
     setShowDeleteModal(true);
   };
 
   // To Edit the user
-async function handleUpdate(data, onSuccess) {
-  try {
-    const response = await fetch("http://localhost:5000/update-user", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  async function handleUpdate(data, onSuccess) {
+    try {
+      const response = await fetch("http://localhost:5000/update-user", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // Appeler le rappel onSuccess ici
+      if (onSuccess) {
+        onSuccess();
+      }
+
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
     }
-
-    const result = await response.json();
-
-    // Appeler le rappel onSuccess ici
-    if (onSuccess) {
-      onSuccess();
-    }
-
-    return result;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
   }
-}
-
-  
-  
-  
 
   const confirmDelete = () => {
     fetch("http://localhost:5000/delete-user", {
@@ -135,7 +138,7 @@ async function handleUpdate(data, onSuccess) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ user_id: userToDelete._id }),
-    }) 
+    })
       .then((response) => response.json())
       .then(() => {
         setUsers(users.filter((user) => user._id !== userToDelete._id));
@@ -151,8 +154,6 @@ async function handleUpdate(data, onSuccess) {
     setShowDeleteModal(false);
     setUserToDelete(null);
   };
-
-  
 
   return (
     <div>
@@ -173,7 +174,7 @@ async function handleUpdate(data, onSuccess) {
           onChange={(e) => setSearchLastName(e.target.value)}
         />
         <Button
-          className="um-button custom-submit-btn"
+          className="um-button custom-submit-btn admin-btn"
           type="submit"
           variant="primary"
         >
@@ -183,7 +184,7 @@ async function handleUpdate(data, onSuccess) {
 
       <div className="container-table">
         <div className="table-wrapper animated-border">
-          <Table striped bordered hover className="table-custom table-centered">
+          <Table striped bordered hover className="table-custom table-centered um-custom-table">
             <thead>
               <tr>
                 <th
@@ -204,40 +205,54 @@ async function handleUpdate(data, onSuccess) {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers
-                .slice(
-                  (currentPage - 1) * usersPerPage,
-                  currentPage * usersPerPage
-                )
-                .map((user) => (
-                  <tr key={user._id}>
-                    <td>{user.first_name}</td>
-                    <td>{user.last_name}</td>
-                    <td>
-                      <Button
-                        variant="primary"
-                        onClick={() => handleEdit(user)}
-                        className="custom-edit-btn"
-                      >
-                        Edit
-                      </Button>{" "}
-                      <Button
-                        variant="danger"
-                        className="custom-delete-btn"
-                        onClick={() => handleDelete(user)}
-                      >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+              {loading
+                ? Array.from({ length: usersPerPage }).map((_, i) => (
+                    <tr key={i}>
+                      <td>
+                        <Skeleton width={100} />
+                      </td>
+                      <td>
+                        <Skeleton width={100} />
+                      </td>
+                      <td>
+                        <Skeleton width={150} />
+                      </td>
+                    </tr>
+                  ))
+                : filteredUsers
+                    .slice(
+                      (currentPage - 1) * usersPerPage,
+                      currentPage * usersPerPage
+                    )
+                    .map((user) => (
+                      <tr key={user._id}>
+                        <td className="userListMan">{user.first_name}</td>
+                        <td className="userListMan">{user.last_name}</td>
+                        <td>
+                          <Button
+                            variant="primary"
+                            onClick={() => handleEdit(user)}
+                            className="custom-edit-btn um-bot-btn"
+                          >
+                            Edit
+                          </Button>{" "}
+                          <Button
+                            variant="danger"
+                            className="custom-delete-btn um-bot-btn"
+                            onClick={() => handleDelete(user)}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
             </tbody>
           </Table>
         </div>
       </div>
       <div className="div-centered">
         <Button
-          className="um-button custom-submit-btn"
+          className="um-button custom-submit-btn admin-btn"
           variant="primary"
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
@@ -245,7 +260,7 @@ async function handleUpdate(data, onSuccess) {
           Previous
         </Button>{" "}
         <Button
-          className="um-button custom-submit-btn"
+          className="um-button custom-submit-btn admin-btn"
           variant="primary"
           onClick={() =>
             setCurrentPage((prev) =>
@@ -259,38 +274,50 @@ async function handleUpdate(data, onSuccess) {
           Next
         </Button>
       </div>
-      <Modal show={showDeleteModal} onHide={closeModal}  contentClassName="status-card main-card mainFromLogo animated-border"
-        centered>
-      <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
-    <Modal.Title className="modal-text-title">Confirm delete</Modal.Title>
-  </Modal.Header>
-  <div className="inside-post-container">
-  <Modal.Body
-          style={{ border: "0", padding: "1rem 1rem" }}
-          className="text-black"
-
-  >
-          Are you sure you want to delete : {userToDelete && `${userToDelete.first_name} ${userToDelete.last_name}`} ?
-        </Modal.Body>
+      <Modal
+        show={showDeleteModal}
+        onHide={closeModal}
+        contentClassName="status-card main-card mainFromLogo animated-border"
+        centered
+      >
+        <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
+          <Modal.Title className="modal-text-title">Confirm delete</Modal.Title>
+        </Modal.Header>
+        <div className="inside-post-container">
+          <Modal.Body
+            style={{ border: "0", padding: "1rem 1rem" }}
+            className="text-black"
+          >
+            Are you sure you want to delete :{" "}
+            {userToDelete &&
+              `${userToDelete.first_name} ${userToDelete.last_name}`}{" "}
+            ?
+          </Modal.Body>
         </div>
         <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
-          <Button variant="secondary" onClick={closeModal} className="custom-close-btn">
+          <Button
+            variant="secondary"
+            onClick={closeModal}
+            className="custom-close-btn"
+          >
             Cancel
           </Button>
-          <Button variant="danger" onClick={confirmDelete} className="custom-submit-btn">
+          <Button
+            variant="danger"
+            onClick={confirmDelete}
+            className="custom-submit-btn"
+          >
             Delete
           </Button>
         </Modal.Footer>
       </Modal>
       <UserEdit
-  user={userToEdit}
-  showEditModal={showEditModal}
-  handleClose={handleClose}
-  handleUpdate={handleUpdate}
-  refreshUserData={refreshUserData}
-/>
-
-
+        user={userToEdit}
+        showEditModal={showEditModal}
+        handleClose={handleClose}
+        handleUpdate={handleUpdate}
+        refreshUserData={refreshUserData}
+      />
     </div>
   );
 };

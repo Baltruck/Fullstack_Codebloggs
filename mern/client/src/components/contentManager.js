@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
+
 import "react-loading-skeleton/dist/skeleton.css";
 import CardSkeleton from "./CardSkeleton";
+
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const ContentManager = () => {
   const [posts, setPosts] = useState([]);
@@ -10,6 +15,7 @@ const ContentManager = () => {
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
+
   });
   const [postPerPage] = useState(10);
   const [dateFrom, setDateFrom] = useState("1970-01-01");
@@ -20,6 +26,7 @@ const ContentManager = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
+
 
   // Fetch posts from db
   const fetchPosts = async () => {
@@ -36,17 +43,21 @@ const ContentManager = () => {
         post.user_last_initial = initials.lastInitial;
       }
       setPosts(sortedPosts);
+
       setIsLoading(false);
+
     } catch (error) {
       console.error("Error fetching posts:", error);
       console.log("Using hard-coded data.");
     }
   };
 
+
   // Get user initials for each post
   const getUserInitials = async (userId) => {
     // console.log("USER INITIAL CALL");
     // console.log(userId);
+
     try {
       const response = await fetch(
         `http://localhost:5000/userOfPost/${userId}`
@@ -67,6 +78,7 @@ const ContentManager = () => {
     const date = new Date(dateString);
     return date.toISOString().substring(0, 10);
   };
+
 
   // Delete post
   const handleDeletePost = async (postId) => {
@@ -100,6 +112,7 @@ const ContentManager = () => {
     setDateTo(event.target.value);
   };
 
+
   const showAll = (event) => {
     setDateFrom("1970-01-01");
     setDateTo(new Date().toISOString().slice(0, 10));
@@ -122,6 +135,7 @@ const ContentManager = () => {
         />
         <button onClick={showAll}>Show All</button>
       </div>
+
       {isLoading && <CardSkeleton cards={10} />}
       {posts
         .filter((post) => {
@@ -143,6 +157,7 @@ const ContentManager = () => {
           //   console.log("postDate <= toDate");
           //   console.log(postDate <= toDate);
           //   console.log("==============================")
+
           return postDate >= fromDate && postDate <= toDate;
         })
         .map((post) => (
@@ -189,7 +204,9 @@ const ContentManager = () => {
                       {comment.content}
                       <br />
                       {formatDate(comment.times_stamp)}
+
                       <Button variant="link">👍</Button>
+
                       {comment.likes}
                     </Card.Text>
                   ))}
@@ -202,4 +219,6 @@ const ContentManager = () => {
   );
 };
 
+
 export default ContentManager;
+

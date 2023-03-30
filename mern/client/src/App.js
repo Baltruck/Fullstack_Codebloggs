@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import Navbar from "./components/navbar";
+import CustomNavbar from "./components/navbar";
 import Sidebar from "./components/sideBar";
 import Login from "./components/login";
 import Register from "./components/register";
@@ -19,7 +19,7 @@ import Network from "./components/network";
 import AdminPage from "./components/admin";
 import NewPost from "./components/newPost";
 import UsersList from "./components/userManager";
-import PostList from "./components/postList";
+
 import ContentManager from "./components/contentManager";
 import "./App.css";
 import { da, el } from "date-fns/locale";

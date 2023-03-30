@@ -44,7 +44,7 @@ const Network = () => {
             className="user-card status-card mainFromLogo animated-border blogg-card"
           >
             <Card.Body>
-              <div style={{ display: "flex" }}>
+            <div className="user-details">
                 <div className="user-initials small-initials-container animated-border-initials-container">
                   {user.first_name.charAt(0).toUpperCase()}
                   {user.last_name.charAt(0).toUpperCase()}

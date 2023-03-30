@@ -36,3 +36,8 @@ COMPARAISAON:
 La conception réactive est plus simple à mettre en œuvre et à maintenir, car elle nécessite généralement la création d'une seule version du site Web. Cependant, la conception adaptative offre une expérience utilisateur plus personnalisée et optimisée pour chaque type d'appareil, car elle permet de créer des versions distinctes du site pour chaqun. La conception réactive est donc plus adaptée aux sites Web qui doivent être accessibles sur une large gamme d'appareils, tandis que la conception adaptative est plus adaptée aux sites Web qui doivent être optimisés pour un type d'appareil spécifique.
 
 COMMENT NOUS LES IMPLÉMENTONS DANS LE PROJET:
+
+# CHOIX DE 2 RÉSOLUTIONS D'ÉCRAN DIFFÉRENTES
+Selon le site: https://gs.statcounter.com/screen-resolution-stats/mobile/worldwide
+Le 360X800 est la résolution la plus utilisée pour les smartphones tandis que le 768x1024 est la résolution la plus utilisée pour les tablettes.
+Il est donc important de s'assurer que notre site web est compatible avec ces deux résolutions.
