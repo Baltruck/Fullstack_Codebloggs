@@ -139,7 +139,7 @@ for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
   return (
     <div className="cont-man-container">
       <div className="date-bar blogg-card status-card mainFromLogo animated-border blogg-card-mobile">
-        <a className="text-date">FROM</a>
+        <a className="text-date">FROM:</a>
         <input
           id="dateFrom"
           type="date"
@@ -147,7 +147,7 @@ for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
           className="date-input"
           onChange={handleDateFromChange}
         />
-        <a className="text-date">TO</a>
+        <a className="text-date">TO:</a>
         <input
           id="dateTo"
           type="date"
@@ -155,8 +155,9 @@ for (let i = 0; i < Math.ceil(posts.length / postPerPage); i++) {
           className="date-input"
           onChange={handleDateToChange}
         />
-        <a className="text-date">OR</a>
-        <button className="date-picker-btn" onClick={showAll}>Show All</button>
+        <a className="text-date">OR:</a>
+        <button className="date-picker-btn" onClick={showAll}>All</button>
+        <a className="text-date2">Posts per page:</a>
         <select
   value={resultsPerPage}
   onChange={handleResultsPerPageChange}

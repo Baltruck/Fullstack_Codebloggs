@@ -329,7 +329,7 @@ body {
   align-items: center;
   justify-content: space-evenly ;
   width: 100%;
-  padding: 0.1%;
+  padding: 0.25%;
 }
 
 .date-input {
@@ -351,6 +351,12 @@ body {
   margin-right: 0%;
 }
 
+.text-date2 {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #000;
+  margin-right: 0%;
+}
 .cm-card {
   width: 90%;
   margin: 0 auto;
@@ -360,7 +366,8 @@ body {
 }
 
 .results-per-page-dropdown {
-  margin-left: 10px;
+  margin-left: 0px;
+  background-color: #ECEC8C;
 }
 
 
@@ -704,6 +711,56 @@ body {
  .page-container {
   margin-top: 5%;
   
+}
+
+.cont-man-container {
+  margin-top: 45%;
+}
+
+.date-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 3%;
+}
+
+.date-bar > * {
+  margin: 0.1rem;
+}
+
+.date-input {
+  background-color: #ECEC8C;
+  border-radius: 15px;
+  border: none;
+  width: 40%;
+}
+
+.date-picker-btn {
+  background-color: #ECEC8C;
+  border-radius: 15px;
+  border: #ECEC8C;
+}
+
+.text-date {
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: #000;
+  margin-right: 0%;
+}
+
+.text-date2 {
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: #000;
+  margin-right: 0%;
+}
+
+.cm-card {
+  width: 100%;
+
 }
   
 }
