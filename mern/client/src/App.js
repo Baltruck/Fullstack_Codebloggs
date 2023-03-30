@@ -105,6 +105,7 @@ const App = () => {
       <div className="main-content" style={{ margin: 20 }}>
         <Routes>
           <Route exact path="/home/:id" element={<Main />} />
+          <Route exact path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blogg" element={<Blogg />} />
@@ -119,4 +120,4 @@ const App = () => {
 };
 
 export default App;
-Footer
+
