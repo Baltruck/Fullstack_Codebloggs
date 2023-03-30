@@ -97,16 +97,21 @@ recordRoutes.route("/login").post( async (req, response) => {
 
 recordRoutes.route("/status").patch(async (req, response) => {
   let db_connect = dbo.getDb();
-  const userEmail = req.body.email;
+
+  if (!ObjectId.isValid(req.body.userId)) {
+    console.log('Invalid userId'); 
+    return response.status(400).json({ message: "Invalid userId" });
+  }
+  const userId = ObjectId(req.body.userId);
   const statusUpdate = req.body.status;
 
-  const user = await db_connect.collection("User").findOne({ email: userEmail});
+  const user = await db_connect.collection("User").findOne({ _id: userId});
 
   if (!user) {
     return response.status(400).json({ message: "No user found" });
   } else {
     await db_connect.collection("User").updateOne(
-      { email: userEmail },
+      { _id: userId },
       { $set: { "status": statusUpdate } }
     );
     response.send({ message: "Status Updated", newStatus: statusUpdate });
@@ -134,10 +139,14 @@ recordRoutes.route("/new-article").post( async (req, response ) => {
 
 recordRoutes.route("/get-articles").post(async (req, response) => {
   let db_connect = dbo.getDb("CodeBlogg");
-  const userEmail = req.body.email;
-  console.log("reqbody", req.body);
+  if (!ObjectId.isValid(req.body.userId)) {
+    console.log('Invalid userId'); 
+    return response.status(400).json({ message: "Invalid userId" });
+  }
+  const userId = ObjectId(req.body.userId);
+  // console.log("reqbody", req.body.userId);
 
-  const user = await db_connect.collection("User").findOne({ email: userEmail });
+  const user = await db_connect.collection("User").findOne({ _id: userId });
 
   if (!user) {
     response.status(404).json({ message: "User not found" });
@@ -213,12 +222,18 @@ recordRoutes.route("/new-comment").post( async (req, response ) => {
     });
 });
 //Get user informations
-recordRoutes.route("/userInfo").post(async (req, response) => {//change to get
+recordRoutes.route("/userInfo").post(async (req, response) => {
   let db_connect = dbo.getDb();
-  const userEmail = req.body.email;
-  const user = await db_connect.collection("User").findOne({ email: userEmail });
+
+  if (!ObjectId.isValid(req.body.userId)) {
+    console.log('Invalid userId'); 
+    return response.status(400).json({ message: "Invalid userId" });
+  }
+  console.log("You PASSED THE TEST")
+  const userId = ObjectId(req.body.userId);
+  const user = await db_connect.collection("User").findOne({ _id: userId });
   if (!user) {
-    console.log('User not found'); // Log user not found
+    console.log('User not found'); 
     return response.status(404).json({ message: "User not found" });
   }
   response.send({ UserInfo: user });
