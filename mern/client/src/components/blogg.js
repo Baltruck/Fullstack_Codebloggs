@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
+import 'react-loading-skeleton/dist/skeleton.css'
+import CardSkeleton from './CardSkeleton'
 
 const Blogg = () => {
   const [posts, setPosts] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -55,6 +57,7 @@ const Blogg = () => {
         post.user_last_initial = initials.lastInitial;
       }
       setPosts(sortedPosts);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching posts:", error);
       console.log("Using hard-coded data.");
@@ -86,12 +89,17 @@ const Blogg = () => {
 
   return (
     <div className="blogg-container page-container">
+
+      {isLoading && <CardSkeleton cards={10}/>}
+      {/* <Skeleton /> */}
       {posts.map((post) => (
-        <Card
+        
+        <Card 
           key={post.id || post._id}
           className="blogg-card status-card mainFromLogo animated-border blogg-card-mobile"
         >
           <Card.Body>
+
             <div style={{ 
               display: "flex",
               flexDirection: window.innerWidth <= 767 ? "column" : "row",
@@ -102,6 +110,7 @@ const Blogg = () => {
   }`}
 >
   {post.user_first_initial}
+
                 {post.user_last_initial}
               </div>
               <div className="inside-post-container">

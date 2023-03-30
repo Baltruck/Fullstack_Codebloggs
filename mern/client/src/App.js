@@ -19,9 +19,10 @@ import Network from "./components/network";
 import AdminPage from "./components/admin";
 import NewPost from "./components/newPost";
 import UsersList from "./components/userManager";
-// import PostList from "./components/postList";
+
 import ContentManager from "./components/contentManager";
 import "./App.css";
+import { da, el } from "date-fns/locale";
 
 const App = () => {
   const { darkMode } = useTheme();
@@ -37,6 +38,10 @@ const App = () => {
   // ACTIVATE AFTER LOGIN
   useEffect(() => {
     const token = Cookies.get("userToken");
+    const userId = Cookies.get("userId");
+    const userAuthLevel = Cookies.get("auth_level");
+    // console.log("userId");
+    // console.log(userId);
     if (
       !token &&
       location.pathname !== "/login" &&
@@ -47,7 +52,49 @@ const App = () => {
       token &&
       (location.pathname === "/login" || location.pathname === "/register")
     ) {
-      navigate("/");
+      navigate(`/home/${userId}`);
+    } else if (
+      userAuthLevel == "admin" &&
+      token &&
+      location.pathname.startsWith("/home") &&
+      location.pathname.split("/")[2] !== userId
+    ) {
+      const pathSegments = location.pathname.split("/");
+      const userIdQuery = pathSegments[2].toString();
+      fetch(`http://localhost:5000/findUserId`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: userIdQuery }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("MY FETCH DATA");
+          console.log(data);
+          if (!data.UserInfo) { //no userinfo object found
+            window.alert("User not found");
+            navigate(`/home/${userId}`);
+          } else if (data.UserInfo._id != location.pathname.split("/")[2]) { //the userid in the userinfo object does not
+            window.alert("User not found");                                   //match the id in the url
+            navigate(`/home/${userId}`);
+          } else if (data.message == "Invalid userId") { //invalid id in url
+            window.alert("User not found");
+            navigate(`/home/${userId}`);
+          }
+          else {
+            // Cookies.set //sets the cookies the the user?
+            navigate(`/home/${location.pathname.split("/")[2]}`);
+          }
+        });
+    } else if (
+      userAuthLevel == "user" &&
+      token &&
+      location.pathname.startsWith("/home") &&
+      location.pathname.split("/")[2] !== userId
+    ) {
+      window.alert("Not autorise");
+      navigate(`/home/${userId}`);
     }
   }, [location]);
 
@@ -57,7 +104,7 @@ const App = () => {
       <Sidebar />
       <div className="main-content" style={{ margin: 20 }}>
         <Routes>
-          <Route exact path="/" element={<Main />} />
+          <Route exact path="/home/:id" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blogg" element={<Blogg />} />
@@ -72,3 +119,4 @@ const App = () => {
 };
 
 export default App;
+Footer

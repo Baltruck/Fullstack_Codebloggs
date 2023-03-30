@@ -36,9 +36,10 @@ const Connection = () => {
           Cookies.set("first_name", userData.user.first_name);
           Cookies.set("last_name", userData.user.last_name);
           Cookies.set("email", userData.user.email);
+          Cookies.set("userId", userData.user._id);
 
           // Redirect the user to the home page
-          window.location.replace("/");
+          window.location.replace(`/home/${userData.user._id}`);
         } else {
           alert("User info not found or incorrect");
         }
