@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import "./mainComponent.css";
 import Skeleton from "react-loading-skeleton";
 import "./Skeleton.css";
@@ -19,6 +19,9 @@ const ContentManager = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
+
 
   //calculate index of last post and first post
   const indexOfLastPost = (currentPage + 1) * resultsPerPage;
@@ -101,26 +104,32 @@ const ContentManager = () => {
     return date.toISOString().substring(0, 10);
   };
 
+  const confirmDelete = () => {
+    handleDeletePost(postToDelete._id);
+    setShowDeleteModal(false);
+    setPostToDelete(null);
+  };
+  
+  const closeModal = () => {
+    setShowDeleteModal(false);
+    setPostToDelete(null);
+  };
+
   // Delete post
   const handleDeletePost = async (postId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this post?"
-    );
-    if (confirmDelete) {
-      try {
-        const response = await fetch("http://localhost:5000/delete-post", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ post_id: postId }),
-        });
-        const data = await response.json();
-        console.log("Post deleted:", data);
-        fetchPosts();
-      } catch (error) {
-        console.error("Error deleting post:", error);
-      }
+    try {
+      const response = await fetch("http://localhost:5000/delete-post", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ post_id: postId }),
+      });
+      const data = await response.json();
+      console.log("Post deleted:", data);
+      fetchPosts();
+    } catch (error) {
+      console.error("Error deleting post:", error);
     }
   };
 
@@ -264,13 +273,17 @@ const ContentManager = () => {
                   👍
                 </span>
               </Card.Text>           
-                  <Button
-                    variant="danger"
-                    className="custom-delete-btn um-bot-btn cm-bot-btn"
-                    onClick={() => handleDeletePost(post._id)}
-                  >
-                    Delete
-                  </Button>
+              <Button
+  variant="danger"
+  className="custom-delete-btn um-bot-btn cm-bot-btn"
+  onClick={() => {
+    setShowDeleteModal(true);
+    setPostToDelete(post);
+  }}
+>
+  Delete
+</Button>
+
                 </div>
               <div className="inside-post-container">
                 <Card.Text className="text-black">Comments:</Card.Text>
@@ -303,6 +316,41 @@ const ContentManager = () => {
           </button>
         ))}
       </div>
+      <Modal
+  show={showDeleteModal}
+  onHide={closeModal}
+  contentClassName="status-card main-card mainFromLogo animated-border"
+  centered
+>
+  <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
+    <Modal.Title className="modal-text-title">Confirm delete</Modal.Title>
+  </Modal.Header>
+  <div className="inside-post-container">
+    <Modal.Body
+      style={{ border: "0", padding: "1rem 1rem" }}
+      className="text-black"
+    >
+      Are you sure you want to delete this post?
+    </Modal.Body>
+  </div>
+  <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
+    <Button
+      variant="secondary"
+      onClick={closeModal}
+      className="custom-close-btn"
+    >
+      Cancel
+    </Button>
+    <Button
+      variant="danger"
+      onClick={confirmDelete}
+      className="custom-submit-btn"
+    >
+      Delete
+    </Button>
+  </Modal.Footer>
+</Modal>
+
     </div>
   );
 };
