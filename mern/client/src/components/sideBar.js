@@ -66,4 +66,3 @@ const Sidebar = ({ user }) => {
     };
 
 export default Sidebar;
-

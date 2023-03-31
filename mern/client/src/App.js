@@ -53,6 +53,7 @@ const App = () => {
       (location.pathname === "/login" || location.pathname === "/register")
     ) {
       navigate(`/home/${userId}`);
+      // window.location.reload();
     } else if (
       userAuthLevel == "admin" &&
       token &&
@@ -70,23 +71,21 @@ const App = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("MY FETCH DATA");
-          console.log(data);
-          if (!data.UserInfo) { //no userinfo object found
+          // console.log("MY FETCH DATA");
+          // console.log(data);
+          if (!data.UserInfo || data.message == "Invalid userId") {
+            //no userinfo object found
             window.alert("User not found");
             navigate(`/home/${userId}`);
-          } else if (data.UserInfo._id != location.pathname.split("/")[2]) { //the userid in the userinfo object does not
-            window.alert("User not found");                                   //match the id in the url
-            navigate(`/home/${userId}`);
-          } else if (data.message == "Invalid userId") { //invalid id in url
-            window.alert("User not found");
-            navigate(`/home/${userId}`);
-          }
-          else {
-            // Cookies.set //sets the cookies the the user?
-            navigate(`/home/${location.pathname.split("/")[2]}`);
+            window.location.reload();
+          } else if (location.pathname.split("/")[2] == userId) {
+            console.log("YOU stuck in a loop") 
+
+            navigate(`/home/${data.UserInfo._id}`);
+            // window.location.reload();
           }
         });
+
     } else if (
       userAuthLevel == "user" &&
       token &&
@@ -95,6 +94,8 @@ const App = () => {
     ) {
       window.alert("Not autorise");
       navigate(`/home/${userId}`);
+      window.location.reload();
+      
     }
   }, [location]);
 
@@ -120,4 +121,3 @@ const App = () => {
 };
 
 export default App;
-

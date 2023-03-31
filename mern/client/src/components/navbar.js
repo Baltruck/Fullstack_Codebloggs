@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { Modal, Button, Dropdown, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  Dropdown,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 import { useTheme } from "./themeContext";
 import "./mainComponent.css";
 import Post from "./post";
@@ -167,27 +174,100 @@ return (
               className="text-black"
               style={{ border: "0", padding: "1rem 1rem" }}
             >
-              Are you sure you want to disconnect?
-            </Modal.Body>
+              <img
+                style={{ width: 10 + "%" }}
+                src={process.env.PUBLIC_URL + "/CodeBloggs graphic.png"}
+              />
+            </NavLink>{" "}
+            <img
+              className={`text-image ${themeClass}`}
+              src={process.env.PUBLIC_URL + "/CodeBloggsV2.png"}
+              alt="Text Image"
+            />
           </div>
-          <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
-            <Button
-              variant="secondary"
-              onClick={handleCloseLogoutConfirm}
-              className="custom-close-btn"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="danger"
-              onClick={handleLogout}
-              className="custom-submit-btn"
-            >
-              Disconnect
-            </Button>
-          </Modal.Footer>
-        </Modal>
+          {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
+          <Navbar.Collapse id="responsive-navbar-nav" className="always-show">
+            <Nav className="mx-auto">
+              <Nav.Item className="ml-auto">
+                {!shouldDisablePostButton && (
+                  <Button
+                    className="custom-submit-btn custom-post-btn post-button"
+                    onClick={handleShowPost}
+                  >
+                    Post
+                  </Button>
+                )}
+              </Nav.Item>
+              <div className="user-info-container">
+                <Nav.Item>
+                  <span className="nav-link user-name">{userName}</span>
+                </Nav.Item>
+                <Nav.Item>
+                  {userName ? (
+                    <Dropdown>
+                      <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={handleShowLogoutConfirm}>
+                          Disconnect
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={handleAccountSettingClick}>
+                          Account Setting
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={toggleTheme}>
+                          Change mode: {darkMode ? "dark" : "light"}
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  ) : (
+                    <NavLink className="nav-link" to="/login">
+                      Please Login
+                    </NavLink>
+                  )}
+                </Nav.Item>
+              </div>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       </div>
-    );
+      <NewPost
+        show={showPost}
+        handleClose={handleClosePost}
+        handleSubmit={handlePostSubmit}
+      />
+      <Modal
+        show={showLogoutConfirm}
+        onHide={handleCloseLogoutConfirm}
+        contentClassName="status-card main-card mainFromLogo animated-border"
+        centered
+      >
+        <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
+          <Modal.Title className="modal-text-title">Confirm Logout</Modal.Title>
+        </Modal.Header>
+        <div className="inside-post-container">
+          <Modal.Body
+            className="text-black"
+            style={{ border: "0", padding: "1rem 1rem" }}
+          >
+            Are you sure you want to disconnect?
+          </Modal.Body>
+        </div>
+        <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
+          <Button
+            variant="secondary"
+            onClick={handleCloseLogoutConfirm}
+            className="custom-close-btn"
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={handleLogout}
+            className="custom-submit-btn"
+          >
+            Disconnect
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
 }
-

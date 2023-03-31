@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import "./mainComponent.css";
+import {
+  Route,
+  Routes,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 
 // Main component
 const Main = () => {
@@ -19,9 +26,12 @@ const Main = () => {
   const [totalPosts, setTotalPosts] = useState(0);
   const [lastPostDate, setLastPostDate] = useState("");
   const [likedPosts, setLikedPosts] = useState([]);
-
+  const location = useLocation();
   //Get all Post by user
-  console.log("Calling loadUserArticles");
+  // console.log("User ID Param ");
+  // console.log(location.pathname.split("/")[2]);
+  const userId = location.pathname.split("/")[2];
+
   const loadUserArticles = async () => {
     console.log("email in loadUserArticles:", email);
     try {
@@ -31,7 +41,7 @@ const Main = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
+          userId: userId,
         }),
       });
       console.log("Response:", response);
@@ -79,7 +89,7 @@ const Main = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
+          userId: userId,
           status: newStatus,
         }),
       });
@@ -157,31 +167,61 @@ const Main = () => {
   };
 
   // Get user info and inbitials
+  // useEffect(() => {
+  //   const userName = Cookies.get("userName");
+  //   if (userName) {
+  //     const nameParts = userName.split(" ");
+
+  //     if (nameParts.length === 2) {
+  //       const firstInitial = nameParts[0].charAt(0).toUpperCase();
+  //       const secondInitial = nameParts[1].charAt(0).toUpperCase();
+  //       const userInitials = `${firstInitial}${secondInitial}`;
+  //       setInitials(userInitials);
+  //       console.log("User initials:", userInitials);
+  //     }
+  //   }
+  //   console.log("firstName:", firstName);
+  //   console.log("lastName:", lastName);
+  //   console.log("email:", email);
+
+  //   if (firstName && lastName) {
+  //     fetch("http://localhost:5000/userInfo", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         userId: userId,
+  //       }),
+  //     })
+  //       .then((response) => {
+  //         if (response.ok) {
+  //           return response.json();
+  //         } else {
+  //           throw new Error("Error fetching user info");
+  //         }
+  //       })
+  //       .then((data) => {
+  //         setUserInfo(data.UserInfo);
+
+  //         if (data.UserInfo.user_id) {
+  //           loadUserArticles();
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching user info:", error);
+  //       });
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const userName = Cookies.get("userName");
-    if (userName) {
-      const nameParts = userName.split(" ");
-
-      if (nameParts.length === 2) {
-        const firstInitial = nameParts[0].charAt(0).toUpperCase();
-        const secondInitial = nameParts[1].charAt(0).toUpperCase();
-        const userInitials = `${firstInitial}${secondInitial}`;
-        setInitials(userInitials);
-        console.log("User initials:", userInitials);
-      }
-    }
-    console.log("firstName:", firstName);
-    console.log("lastName:", lastName);
-    console.log("email:", email);
-
-    if (firstName && lastName) {
       fetch("http://localhost:5000/userInfo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
+          userId: userId,
         }),
       })
         .then((response) => {
@@ -192,16 +232,35 @@ const Main = () => {
           }
         })
         .then((data) => {
+          // console.log("data.UserInfo");
+
           setUserInfo(data.UserInfo);
 
-          if (data.UserInfo.user_id) {
+          // console.log("data.UserInfo.user_id");
+          // console.log(data.UserInfo._id);
+
+
+          if (data.UserInfo._id) {
+            const fullName = data.UserInfo.first_name + ' ' + data.UserInfo.last_name;
+            // console.log("FULLNAME LOG");
+            // console.log(fullName);
+            const nameParts = fullName.split(" ");
+
+            if (nameParts.length === 2) {
+              const firstInitial = nameParts[0].charAt(0).toUpperCase();
+              const secondInitial = nameParts[1].charAt(0).toUpperCase();
+              const userInitials = `${firstInitial}${secondInitial}`;
+              setInitials(userInitials);
+              console.log("User initials:", userInitials);
+            }
+
             loadUserArticles();
           }
         })
         .catch((error) => {
           console.error("Error fetching user info:", error);
         });
-    }
+    
   }, []);
 
   useEffect(() => {
