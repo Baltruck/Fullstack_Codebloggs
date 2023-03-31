@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./customStyle.css";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
-import { users } from "./hardCoding"; // Import temp data for testing
 
 const Connection = () => {
   const [email, setEmail] = useState("");
@@ -36,9 +35,10 @@ const Connection = () => {
           Cookies.set("first_name", userData.user.first_name);
           Cookies.set("last_name", userData.user.last_name);
           Cookies.set("email", userData.user.email);
+          Cookies.set("userId", userData.user._id);
 
           // Redirect the user to the home page
-          window.location.replace("/");
+          window.location.replace(`/home/${userData.user._id}`);
         } else {
           alert("User info not found or incorrect");
         }
@@ -51,7 +51,7 @@ const Connection = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
+    <Container className="d-flex justify-content-center align-items-center vh-100 login-container">
       <Card className="connection-card mainFromLogo animated-border">
         <Card.Body>
           <Card.Title className="text-center  card-title dusterA">
@@ -59,7 +59,6 @@ const Connection = () => {
           </Card.Title>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email" className="form-field">
-              {/* <Form.Label>Email</Form.Label> */}
               <Form.Control
                 type="email"
                 placeholder="Enter email"
@@ -69,7 +68,6 @@ const Connection = () => {
             </Form.Group>
 
             <Form.Group controlId="password" className="form-field">
-              {/* <Form.Label>Password</Form.Label> */}
               <Form.Control
                 type="password"
                 placeholder="Password"

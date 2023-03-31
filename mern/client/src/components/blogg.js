@@ -4,7 +4,7 @@ import "./mainComponent.css";
 
 const Blogg = () => {
   const [posts, setPosts] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -55,6 +55,7 @@ const Blogg = () => {
         post.user_last_initial = initials.lastInitial;
       }
       setPosts(sortedPosts);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching posts:", error);
       console.log("Using hard-coded data.");
@@ -89,17 +90,29 @@ const Blogg = () => {
       {posts.map((post) => (
         <Card
           key={post.id || post._id}
-          className="blogg-card status-card mainFromLogo animated-border"
+          className="blogg-card status-card mainFromLogo animated-border blogg-card-mobile"
         >
           <Card.Body>
-            <div style={{ display: "flex" }}>
-              <div className="user-initials small-initials-container animated-border-initials-container">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: window.innerWidth <= 767 ? "column" : "row",
+              }}
+            >
+              <div
+                className={`user-initials small-initials-container animated-border-initials-container ${
+                  window.innerWidth <= 767
+                    ? "user-initials-container-mobile"
+                    : ""
+                }`}
+              >
                 {post.user_first_initial}
+
                 {post.user_last_initial}
               </div>
               <div className="inside-post-container">
                 <Card.Text className="text-black">{post.content}</Card.Text>
-                <Card.Text className="text-black">
+                <Card.Text className="text-black post-date">
                   Post date: {formatDate(post.time_stamp)}
                 </Card.Text>
               </div>
@@ -115,20 +128,20 @@ const Blogg = () => {
                 👍
               </span>
             </Card.Text>
-            <div className="inside-post-container">
-              <Card.Text className="text-black">Comments:</Card.Text>
+            <div className="inside-post-container blogg-comments">
+              <Card.Text className="text-black post-comments">
+                Comments:
+              </Card.Text>
               <div className="post-comments">
                 {post.comments.map((comment) => (
-                  <Card.Text key={comment._id} className="text-black">
+                  <Card.Text
+                    key={comment._id}
+                    className="text-black post-comments"
+                  >
                     {comment.content}
                     <br />
                     {formatDate(comment.times_stamp)}
-                    <Button
-                      variant="link"
-                      // onClick={() => handleCommentLikeClick(comment._id)}
-                    >
-                      👍
-                    </Button>
+                    <Button variant="link">👍</Button>
                     {comment.likes}
                   </Card.Text>
                 ))}

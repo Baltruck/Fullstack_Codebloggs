@@ -4,7 +4,21 @@
   }
 
 .main-content {
-    margin-left: 150px !important; 
+    margin-left: 6% !important; 
     padding-top: 0px; 
   }
   
+  html {
+    box-sizing: border-box!important;
+  }
+  
+  *, *:before, *:after {
+    box-sizing: inherit!important;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden!important; /* Empêche le défilement horizontal */
+    max-width: 100%!important; /* Force le contenu à ne pas dépasser 100% de la largeur de l'écran */
+  } 

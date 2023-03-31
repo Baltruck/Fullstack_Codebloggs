@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { Modal, Button, Dropdown, Nav } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  Dropdown,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 import { useTheme } from "./themeContext";
-import "./navbarStyles.css";
 import "./mainComponent.css";
 import Post from "./post";
 import Cookies from "js-cookie";
 import NewPost from "./newPost";
 import "bootstrap/dist/css/bootstrap.css";
+import "./navbarStyles.css";
 
-export default function Navbar() {
+export default function CustomNavbar() {
+  const userId = Cookies.get("userId");
   const { darkMode, toggleTheme } = useTheme();
   const themeClass = darkMode ? "dark" : "light";
   const userName = Cookies.get("userName");
@@ -63,6 +71,7 @@ export default function Navbar() {
   const handleLogout = () => {
     Cookies.remove("userName");
     Cookies.remove("userToken");
+    Cookies.remove("auth_level");
     navigate("/login");
     handleCloseLogoutConfirm();
   };
@@ -80,13 +89,19 @@ export default function Navbar() {
   return (
     <div>
       <div className="nav-items-container">
-        <nav
-          className={`navbar navbar-expand-lg navbar-custom navbar-fixed-top ${
+        <Navbar
+          expand="lg"
+          className={`navbar navbar-custom navbar-fixed-top ${
             darkMode ? "navbar-custom-dark" : "navbar-custom-light"
           } animated-border-navbar`}
         >
           <div className="logo-container">
-            <NavLink className="navbar-brand" to="/">
+            <NavLink
+              className="navbar-brand"
+              to={
+                location.pathname.startsWith("/home") ? "#" : `/home/${userId}`
+              }
+            >
               <img
                 style={{ width: 10 + "%" }}
                 src={process.env.PUBLIC_URL + "/CodeBloggs graphic.png"}
@@ -98,74 +113,58 @@ export default function Navbar() {
               alt="Text Image"
             />
           </div>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <Nav className="mr-auto">
-  <Nav.Item>
-    {!shouldDisablePostButton && (
-      <Button
-        className="custom-submit-btn custom-post-btn post-button"
-        onClick={handleShowPost}
-      >
-        Post
-      </Button>
-    )}
-  </Nav.Item>
-</Nav>
-<Nav className="mr-auto">
-  <Nav.Item>
-    <Button className="custom-submit-btn theme-toggle-button" onClick={toggleTheme}>
-      Change mode : {darkMode ? "dark" : "light"}
-    </Button>
-  </Nav.Item>
-</Nav>
-<div className="user-info-container">
-  <Nav.Item>
-    <span className="nav-link">{userName}</span>
-  </Nav.Item>
-  <Nav.Item>
-    {userName ? (
-      <Dropdown>
-        <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={handleShowLogoutConfirm}>
-            Disconnect
-          </Dropdown.Item>
-          <Dropdown.Item onClick={handleAccountSettingClick}>
-            Account Setting
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    ) : (
-      <NavLink className="nav-link" to="/login">
-        Please Login
-      </NavLink>
-    )}
-  </Nav.Item>
-</div>
-            <NewPost
-              show={showPost}
-              handleClose={handleClosePost}
-              handleSubmit={handlePostSubmit}
-            />
-          </div>
-        </nav>
+          <Navbar.Collapse id="responsive-navbar-nav" className="always-show">
+            <Nav className="mx-auto">
+              <Nav.Item className="ml-auto">
+                {!shouldDisablePostButton && (
+                  <Button
+                    className="custom-submit-btn custom-post-btn post-button"
+                    onClick={handleShowPost}
+                  >
+                    Post
+                  </Button>
+                )}
+              </Nav.Item>
+              <div className="user-info-container">
+                <Nav.Item>
+                  <span className="nav-link user-name">{userName}</span>
+                </Nav.Item>
+                <Nav.Item>
+                  {userName ? (
+                    <Dropdown>
+                      <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={handleShowLogoutConfirm}>
+                          Disconnect
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={handleAccountSettingClick}>
+                          Account Setting
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={toggleTheme}>
+                          Change mode: {darkMode ? "dark" : "light"}
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  ) : (
+                    <NavLink className="nav-link" to="/login">
+                      Please Login
+                    </NavLink>
+                  )}
+                </Nav.Item>
+              </div>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       </div>
+      <NewPost
+        show={showPost}
+        handleClose={handleClosePost}
+        handleSubmit={handlePostSubmit}
+      />
       <Modal
         show={showLogoutConfirm}
         onHide={handleCloseLogoutConfirm}
-        contentClassName="status-card main-card mainFromLogo animated-border"
+        contentClassName="status-card main-card mainFromLogo animated-border confirm-logout-modal"
         centered
       >
         <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>

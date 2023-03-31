@@ -1,0 +1,39 @@
+/* PostSkeleton.css */
+@keyframes loading-text {
+  0% {
+    background-color: #ffffff;
+  }
+
+  50% {
+    background-color: #cacaca;
+  }
+
+  100% {
+    background-color: #838181;
+  }
+}
+
+.skeleton-text {
+  display: inline-block !important;
+  background-color: #ffffff;
+  animation: loading-text 1.5s infinite !important;
+}
+
+
+@keyframes loading-circle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.skeleton-circle {
+  display: inline-block !important;
+  background: radial-gradient(circle, #f0f0f0 25%, #e0e0e0 50%, #bbbbbb 75%) !important;
+  background-size: 200% 100% !important;
+  animation: loading-circle 1.5s infinite linear !important;
+  border-radius: 50%;
+}

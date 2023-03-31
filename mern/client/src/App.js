@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import Navbar from "./components/navbar";
+import CustomNavbar from "./components/navbar";
 import Sidebar from "./components/sideBar";
 import Login from "./components/login";
 import Register from "./components/register";
@@ -18,7 +18,11 @@ import Blogg from "./components/blogg";
 import Network from "./components/network";
 import AdminPage from "./components/admin";
 import NewPost from "./components/newPost";
+import UsersList from "./components/userManager";
+
+import ContentManager from "./components/contentManager";
 import "./App.css";
+import { da, el } from "date-fns/locale";
 
 const App = () => {
   const { darkMode } = useTheme();
@@ -34,6 +38,8 @@ const App = () => {
   // ACTIVATE AFTER LOGIN
   useEffect(() => {
     const token = Cookies.get("userToken");
+    const userId = Cookies.get("userId");
+    const userAuthLevel = Cookies.get("auth_level");
     if (
       !token &&
       location.pathname !== "/login" &&
@@ -44,22 +50,67 @@ const App = () => {
       token &&
       (location.pathname === "/login" || location.pathname === "/register")
     ) {
-      navigate("/");
+      navigate(`/home/${userId}`);
+    } else if (
+      userAuthLevel == "admin" &&
+      token &&
+      location.pathname.startsWith("/home") &&
+      location.pathname.split("/")[2] !== userId
+    ) {
+      const pathSegments = location.pathname.split("/");
+      const userIdQuery = pathSegments[2].toString();
+      fetch(`http://localhost:5000/findUserId`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: userIdQuery }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data.UserInfo || data.message == "Invalid userId") {
+            window.alert("User not found");
+            navigate(`/home/${userId}`);
+            window.location.reload();
+          } else if (location.pathname.split("/")[2] == userId) {
+            console.log("YOU stuck in a loop");
+
+            navigate(`/home/${data.UserInfo._id}`);
+          }
+        });
+    } else if (
+      userAuthLevel == "user" &&
+      token &&
+      location.pathname.startsWith("/home") &&
+      location.pathname.split("/")[2] !== userId
+    ) {
+      window.alert("Not autorise");
+      navigate(`/home/${userId}`);
+      window.location.reload();
     }
   }, [location]);
 
+  useEffect(() => {
+    const userId = Cookies.get("userId");
+    if (userId && location.pathname === "/") {
+      navigate(`/home/${userId}`);
+    }
+  }, []);
+
   return (
     <div>
-      <Navbar />
+      <CustomNavbar />
       <Sidebar />
       <div className="main-content" style={{ margin: 20 }}>
         <Routes>
-          <Route exact path="/" element={<Main />} />
+          <Route exact path="/home/:id" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blogg" element={<Blogg />} />
           <Route path="/network" element={<Network />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/userManagement" element={<UsersList />} />
+          <Route path="/contentManagement" element={<ContentManager />} />
         </Routes>
       </div>
     </div>
