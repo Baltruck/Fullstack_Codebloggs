@@ -3,9 +3,11 @@ import { useTheme } from "./themeContext";
 import "./sideBar.css";
 import Cookies from "js-cookie";
 import { NavLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = ({ user }) => {
   const { darkMode } = useTheme();
+  const userId = Cookies.get("userId");
   const themeClass = darkMode ? "sidebar-dark" : "sidebar-light";
   const animationClass = darkMode
     ? "animated-border-sideBar"
@@ -13,6 +15,7 @@ const Sidebar = ({ user }) => {
 
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const location = useLocation();
 
 
     useEffect(() => {
@@ -33,7 +36,10 @@ const Sidebar = ({ user }) => {
         <div className={`sidebar ${themeClass} ${animationClass} ${loggedInClass}`}>
           <ul className="sidebar-menu">
             <li className="sidebar-item">
-              <NavLink to="/" activeclassname="active-link">
+              <NavLink 
+              to={location.pathname.startsWith("/home") ? "#" : `/home/${userId}`}
+              disabled={location.pathname.startsWith("/home")}
+              activeclassname="active-link">
                 Home
               </NavLink>
             </li>
