@@ -22,11 +22,11 @@ const NewPost = ({ show, handleClose, handleSubmit }) => {
         });
   
         if (response.ok) {
-          console.log('Post submitted successfully');
-          setPostContent('');
+          console.log("Post submitted successfully");
+          setPostContent("");
           handleClose();
         } else {
-          console.log('Error submitting post');
+          console.log("Error submitting post");
         }
       } catch (error) {
         console.error('Error submitting post:', error);
@@ -36,7 +36,6 @@ const NewPost = ({ show, handleClose, handleSubmit }) => {
     if (!show) {
         return null;
       }
-  
 
       return (
         <div className="new-post-container">

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import "./mainComponent.css";
-import { users as HardCodedUsers, Post as HardCodedPosts } from "./hardCoding";
 
 const Network = () => {
   const [userList, setUserList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    // Fetch all users from the API
     const fetchAllUsers = async () => {
       try {
         const response = await fetch("http://localhost:5000/get-all-users");
@@ -21,30 +21,77 @@ const Network = () => {
         console.error("Error fetching users:", error.message);
       }
     };
+  
+    const findLatestPost = async (userId) => {
+      const fetchUserPosts = async (userId) => {
+        try {
+          const response = await fetch("http://localhost:5000/get-articles", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId }),
+          });
+  
+          if (response.ok) {
+            const userPosts = await response.json();
+            return userPosts;
+          } else {
+            console.error("Error fetching user posts");
+            return [];
+          }
+        } catch (error) {
+          console.error("Error fetching user posts:", error.message);
+          return [];
+        }
+      };
+  
+      const userPosts = await fetchUserPosts(userId);
+  
+      if (userPosts.length > 0) {
+        userPosts.sort((a, b) => new Date(b.time_stamp) - new Date(a.time_stamp));
+        return userPosts[0];
+      }
+  
+      return null;
+    };
+  
+    const fetchAllData = async () => {
+      setLoading(true);
+      await fetchAllUsers();
+    
+      // Fetch the latest post for each user and store them in an array
+      const latestPostsPromises = userList.map(async (user) => {
+        const latestPost = await findLatestPost(user._id);
+        return { ...user, latestPost };
+      });
 
-    fetchAllUsers();
-  }, []);
+      // Wait for all promises to resolve and update the userList with the latest posts
+      const usersWithLatestPosts = await Promise.all(latestPostsPromises);
+      setUserList(usersWithLatestPosts);
+      setLoading(false);
+      setDataLoaded(true);
+    };
 
-  const findLatestPost = (userId) => {
-    const userPosts = HardCodedPosts.filter((post) => post.user_id === userId);
-    if (userPosts.length > 0) {
-      userPosts.sort((a, b) => new Date(b.time_stamp) - new Date(a.time_stamp));
-      return userPosts[0];
+    if (!dataLoaded) {
+      fetchAllData();
     }
-    return null;
-  };
+  }, [userList, dataLoaded]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+    
   return (
     <div className="network-container page-container">
       {userList.map((user) => {
-        const latestPost = findLatestPost(user.id);
         return (
           <Card
-            key={user.id}
+            key={user._id}
             className="user-card status-card mainFromLogo animated-border blogg-card"
           >
             <Card.Body>
-            <div className="user-details">
+              <div className="user-details">
                 <div className="user-initials small-initials-container net-user-initials animated-border-initials-container">
                   {user.first_name.charAt(0).toUpperCase()}
                   {user.last_name.charAt(0).toUpperCase()}
@@ -73,10 +120,10 @@ const Network = () => {
                   {user.status}
                 </Card.Text>
               </div>
-              {latestPost && (
+              {user.latestPost && (
                 <div className="latest-post inside-post-container">
                   <Card.Text className="text-black text-center">
-                    Last Post: {latestPost.content}
+                    Last Post: {user.latestPost.content}
                   </Card.Text>
                 </div>
               )}
@@ -87,5 +134,6 @@ const Network = () => {
     </div>
   );
 };
+  
 
 export default Network;

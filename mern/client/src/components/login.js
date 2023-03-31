@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./customStyle.css";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
-import { users } from "./hardCoding"; // Import temp data for testing
 
 const Connection = () => {
   const [email, setEmail] = useState("");
@@ -60,7 +59,6 @@ const Connection = () => {
           </Card.Title>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email" className="form-field">
-              {/* <Form.Label>Email</Form.Label> */}
               <Form.Control
                 type="email"
                 placeholder="Enter email"
@@ -70,7 +68,6 @@ const Connection = () => {
             </Form.Group>
 
             <Form.Group controlId="password" className="form-field">
-              {/* <Form.Label>Password</Form.Label> */}
               <Form.Control
                 type="password"
                 placeholder="Password"

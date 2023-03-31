@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import "./mainComponent.css";
-// import 'react-loading-skeleton/dist/skeleton.css'
-// import CardSkeleton from './CardSkeleton'
 
 const Blogg = () => {
   const [posts, setPosts] = useState([]);
@@ -89,27 +87,26 @@ const Blogg = () => {
 
   return (
     <div className="blogg-container page-container">
-
-      {/* {isLoading && <CardSkeleton cards={10}/>} */}
-      {/* <Skeleton /> */}
       {posts.map((post) => (
-        
-        <Card 
+        <Card
           key={post.id || post._id}
           className="blogg-card status-card mainFromLogo animated-border blogg-card-mobile"
         >
           <Card.Body>
-
-            <div style={{ 
-              display: "flex",
-              flexDirection: window.innerWidth <= 767 ? "column" : "row",
-              }}>
             <div
-  className={`user-initials small-initials-container animated-border-initials-container ${
-    window.innerWidth <= 767 ? "user-initials-container-mobile" : ""
-  }`}
->
-  {post.user_first_initial}
+              style={{
+                display: "flex",
+                flexDirection: window.innerWidth <= 767 ? "column" : "row",
+              }}
+            >
+              <div
+                className={`user-initials small-initials-container animated-border-initials-container ${
+                  window.innerWidth <= 767
+                    ? "user-initials-container-mobile"
+                    : ""
+                }`}
+              >
+                {post.user_first_initial}
 
                 {post.user_last_initial}
               </div>
@@ -132,19 +129,19 @@ const Blogg = () => {
               </span>
             </Card.Text>
             <div className="inside-post-container blogg-comments">
-              <Card.Text className="text-black post-comments">Comments:</Card.Text>
+              <Card.Text className="text-black post-comments">
+                Comments:
+              </Card.Text>
               <div className="post-comments">
                 {post.comments.map((comment) => (
-                  <Card.Text key={comment._id} className="text-black post-comments">
+                  <Card.Text
+                    key={comment._id}
+                    className="text-black post-comments"
+                  >
                     {comment.content}
                     <br />
                     {formatDate(comment.times_stamp)}
-                    <Button
-                      variant="link"
-                      // onClick={() => handleCommentLikeClick(comment._id)}
-                    >
-                      👍
-                    </Button>
+                    <Button variant="link">👍</Button>
                     {comment.likes}
                   </Card.Text>
                 ))}
