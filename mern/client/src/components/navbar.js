@@ -63,6 +63,7 @@ export default function CustomNavbar() {
   const handleLogout = () => {
     Cookies.remove("userName");
     Cookies.remove("userToken");
+    Cookies.remove("auth_level");
     navigate("/login");
     handleCloseLogoutConfirm();
   };
@@ -275,7 +276,7 @@ return (
     <Modal
       show={showLogoutConfirm}
       onHide={handleCloseLogoutConfirm}
-      contentClassName="status-card main-card mainFromLogo animated-border"
+      contentClassName="status-card main-card mainFromLogo animated-border confirm-logout-modal"
       centered
     >
                 <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>

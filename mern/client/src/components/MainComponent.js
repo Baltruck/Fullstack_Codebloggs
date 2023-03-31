@@ -287,7 +287,7 @@ const Main = () => {
         <Modal
           show={showModal}
           onHide={() => setShowModal(false)}
-          contentClassName="status-card main-card mainFromLogo animated-border"
+          contentClassName="status-card main-card mainFromLogo animated-border new-status-modal"
         >
           <Modal.Header>
             <Modal.Title>Update Status</Modal.Title>
