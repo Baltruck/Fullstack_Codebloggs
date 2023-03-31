@@ -4,6 +4,10 @@
     text-align: center;
   }
 
+  .modal-post {
+    margin-left:10%!important;
+  }
+
   .nav-items-container {
     margin-right: 0;
     width: 100%;

@@ -1012,4 +1012,12 @@ body {
     margin-top: 0%;
   }
 
+  .modal-content {
+    margin-top: 55%!important;
+    margin-left: 10%!important;
+  }
+
+  .new-post-container {
+    margin-left: 6.5%;
+  }
 }
