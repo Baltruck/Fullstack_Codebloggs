@@ -52,7 +52,7 @@ const Connection = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
+    <Container className="d-flex justify-content-center align-items-center vh-100 login-container">
       <Card className="connection-card mainFromLogo animated-border">
         <Card.Body>
           <Card.Title className="text-center  card-title dusterA">

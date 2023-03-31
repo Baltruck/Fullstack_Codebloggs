@@ -11,8 +11,6 @@
   }
   .status-card,
   .info-card {
-    /* background-color: #f0f0f0; */
-    /* padding: 10px; */
     border-radius: 20px;
     margin-bottom: 30px;
   }
@@ -69,5 +67,12 @@
   .main-container {
     flex-direction: row;
     justify-content: space-evenly;
+    margin-top: 18%!important;
+    margin-left: 10%;
   }
+  /* .modal-content {
+    margin-top: 55%!important;
+    margin-left: 10%;
+  } */
+
 }

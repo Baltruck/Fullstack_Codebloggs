@@ -45,7 +45,7 @@ const Network = () => {
           >
             <Card.Body>
             <div className="user-details">
-                <div className="user-initials small-initials-container animated-border-initials-container">
+                <div className="user-initials small-initials-container net-user-initials animated-border-initials-container">
                   {user.first_name.charAt(0).toUpperCase()}
                   {user.last_name.charAt(0).toUpperCase()}
                 </div>

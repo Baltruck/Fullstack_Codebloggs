@@ -71,6 +71,7 @@ export default function CustomNavbar() {
   const handleLogout = () => {
     Cookies.remove("userName");
     Cookies.remove("userToken");
+    Cookies.remove("auth_level");
     navigate("/login");
     handleCloseLogoutConfirm();
   };
@@ -208,21 +209,95 @@ export default function CustomNavbar() {
   //   );
   // }
 
-  return (
-    <div>
-      <div className="nav-items-container">
-        <Navbar
-          expand="lg"
-          className={`navbar navbar-custom navbar-fixed-top ${
-            darkMode ? "navbar-custom-dark" : "navbar-custom-light"
-          } animated-border-navbar`}
-        >
-          <div className="logo-container">
+return (
+  <div>
+    <div className="nav-items-container">
+      <Navbar
+        expand="lg"
+        className={`navbar navbar-custom navbar-fixed-top ${
+          darkMode ? "navbar-custom-dark" : "navbar-custom-light"
+        } animated-border-navbar`}
+      >
+        <div className="logo-container">
             <NavLink
               className="navbar-brand"
               to={
                 location.pathname.startsWith("/home") ? "#" : `/home/${userId}`
               }
+            <img
+              style={{ width: 10 + "%" }}
+              src={process.env.PUBLIC_URL + "/CodeBloggs graphic.png"}
+            ></img>
+          </NavLink>
+          <img
+            className={`text-image ${themeClass}`}
+            src={process.env.PUBLIC_URL + "/CodeBloggsV2.png"}
+            alt="Text Image"
+          />
+        </div>
+        {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
+        <Navbar.Collapse id="responsive-navbar-nav" className="always-show"> 
+        <Nav className="mx-auto">
+  <Nav.Item className="ml-auto">
+    {!shouldDisablePostButton && (
+      <Button
+        className="custom-submit-btn custom-post-btn post-button"
+        onClick={handleShowPost}
+      >
+        Post
+      </Button>
+    )}
+  </Nav.Item>
+  <div className="user-info-container">
+    <Nav.Item>
+      <span className="nav-link user-name">{userName}</span>
+    </Nav.Item>
+    <Nav.Item>
+      {userName ? (
+        <Dropdown>
+          <Dropdown.Toggle as={Nav.Link}></Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleShowLogoutConfirm}>
+              Disconnect
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleAccountSettingClick}>
+              Account Setting
+            </Dropdown.Item>
+            <Dropdown.Item onClick={toggleTheme}>
+              Change mode: {darkMode ? "dark" : "light"}
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      ) : (
+        <NavLink className="nav-link" to="/login">
+          Please Login
+        </NavLink>
+      )}
+    </Nav.Item>
+  </div>
+</Nav>
+
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
+    <NewPost
+      show={showPost}
+      handleClose={handleClosePost}
+      handleSubmit={handlePostSubmit}
+    />
+    <Modal
+      show={showLogoutConfirm}
+      onHide={handleCloseLogoutConfirm}
+      contentClassName="status-card main-card mainFromLogo animated-border confirm-logout-modal"
+      centered
+    >
+                <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
+            <Modal.Title className="modal-text-title">Confirm Logout</Modal.Title>
+          </Modal.Header>
+          <div className="inside-post-container">
+            <Modal.Body
+              className="text-black"
+              style={{ border: "0", padding: "1rem 1rem" }}
             >
               <img
                 style={{ width: 10 + "%" }}

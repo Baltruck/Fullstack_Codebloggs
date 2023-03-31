@@ -53,7 +53,7 @@ const Register = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
+    <Container className="d-flex justify-content-center align-items-center vh-100 reg-container">
       <Card className="register-card mainFromLogo animated-border">
         <Card.Body>
         {showAlert && (
