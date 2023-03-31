@@ -40,8 +40,6 @@ const App = () => {
     const token = Cookies.get("userToken");
     const userId = Cookies.get("userId");
     const userAuthLevel = Cookies.get("auth_level");
-    // console.log("userId");
-    // console.log(userId);
     if (
       !token &&
       location.pathname !== "/login" &&
@@ -53,7 +51,6 @@ const App = () => {
       (location.pathname === "/login" || location.pathname === "/register")
     ) {
       navigate(`/home/${userId}`);
-      // window.location.reload();
     } else if (
       userAuthLevel == "admin" &&
       token &&
@@ -71,21 +68,16 @@ const App = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // console.log("MY FETCH DATA");
-          // console.log(data);
           if (!data.UserInfo || data.message == "Invalid userId") {
-            //no userinfo object found
             window.alert("User not found");
             navigate(`/home/${userId}`);
             window.location.reload();
           } else if (location.pathname.split("/")[2] == userId) {
-            console.log("YOU stuck in a loop") 
+            console.log("YOU stuck in a loop");
 
             navigate(`/home/${data.UserInfo._id}`);
-            // window.location.reload();
           }
         });
-
     } else if (
       userAuthLevel == "user" &&
       token &&
@@ -95,9 +87,15 @@ const App = () => {
       window.alert("Not autorise");
       navigate(`/home/${userId}`);
       window.location.reload();
-      
     }
   }, [location]);
+
+  useEffect(() => {
+    const userId = Cookies.get("userId");
+    if (userId && location.pathname === "/") {
+      navigate(`/home/${userId}`);
+    }
+  }, []);
 
   return (
     <div>
@@ -106,7 +104,6 @@ const App = () => {
       <div className="main-content" style={{ margin: 20 }}>
         <Routes>
           <Route exact path="/home/:id" element={<Main />} />
-          <Route exact path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blogg" element={<Blogg />} />
