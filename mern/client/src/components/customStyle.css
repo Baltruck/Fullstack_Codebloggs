@@ -1,7 +1,6 @@
-
 .page-container {
   margin-top: 110px;
-  
+
 }
 
 .blogg-container {
@@ -17,7 +16,7 @@
   text-align: center;
   font-size: 2rem;
   margin-bottom: 1%;
-} 
+}
 
 .connection-card {
   width: 100%;
@@ -327,7 +326,7 @@ body {
 .date-bar {
   display: flex;
   align-items: center;
-  justify-content: space-evenly ;
+  justify-content: space-evenly;
   width: 100%;
   padding: 0.25%;
 }
@@ -357,6 +356,7 @@ body {
   color: #000;
   margin-right: 0%;
 }
+
 .cm-card {
   width: 90%;
   margin: 0 auto;
@@ -474,6 +474,7 @@ body {
 .admin-image {
   width: 100%;
 }
+
 .admin-inside {
   margin-top: 10%;
 }
@@ -562,17 +563,18 @@ body {
 .um-button {
   margin-left: 2%;
   margin-right: 2%;
-  background-color: #ECEC8C!important;
-  border-color: #ECEC8C!important;
-  color: #000000!important;
+  background-color: #ECEC8C !important;
+  border-color: #ECEC8C !important;
+  color: #000000 !important;
   border-radius: 20px;
 }
+
 .um-button:hover,
 .um-button:focus,
 .um-button:active,
 .um-button:active:focus {
-  background-color: #d4d47a!important;
-  border-color: #d4d47a!important;
+  background-color: #d4d47a !important;
+  border-color: #d4d47a !important;
 }
 
 .no-select {
@@ -585,13 +587,15 @@ body {
 .user-details {
   display: flex;
 }
+
 /* PHONE 360*800  */
 @media (max-width: 767px) {
   .blogg-container {
     display: flex;
     align-items: center;
-    margin-top: 45%!important;
+    margin-top: 45% !important;
   }
+
   .small-initials-container {
     width: 50px;
     height: 50px;
@@ -609,22 +613,25 @@ body {
     margin-top: 1%;
 
   }
+
   .inside-post-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: 0%;
   }
+
   .user-initials-container-mobile {
     margin-bottom: 10px;
     margin-left: 38%;
   }
+
   .post-date {
-    font-size: 15px; 
+    font-size: 15px;
   }
 
   .blogg-card-mobile {
-    width: 90%; 
+    width: 90%;
     margin-left: 3.5%;
     margin-right: 6.5%;
     margin-bottom: 3%;
@@ -648,8 +655,9 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-    margin-top: 47%!important;
+    margin-top: 47% !important;
   }
+
   .blogg-card .card-body {
     display: flex;
     flex-direction: column;
@@ -661,16 +669,16 @@ body {
     align-items: center;
   }
 
- .admin-page-container {
-      flex-direction: column;
-      align-items: center;
-      margin-top: 45%!important;
-    }
-  
- .admin-card {
+  .admin-page-container {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 45% !important;
+  }
+
+  .admin-card {
     width: 100%;
     text-align: center;
-  } 
+  }
 
   .container-table {
     width: 100%;
@@ -683,11 +691,11 @@ body {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 3%;
-  } 
+  }
 
   .div-centered {
-   flex-direction: column;
-   align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .search-input {
@@ -704,79 +712,82 @@ body {
     font-size: 80%;
     width: 30%;
   }
+
   .no-select {
     font-size: 80%;
   }
+
   .userListMan {
     font-size: 80%;
     font-weight: bold;
   }
+
   .um-bot-btn {
-  font-size: 0.6rem;
-  padding: 0.065rem 0.015rem;
-  margin-right: 0%;
+    font-size: 0.6rem;
+    padding: 0.065rem 0.015rem;
+    margin-right: 0%;
   }
 
   .um-custom-table th,
   .um-custom-table td {
     padding: 0.1rem;
- }
+  }
 
- .page-container {
-  margin-top: 5%;
-  
-}
+  .page-container {
+    margin-top: 5%;
 
-.cont-man-container {
-  margin-top: 45%;
-}
+  }
 
-.date-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 0;
-  margin-bottom: 3%;
-}
+  .cont-man-container {
+    margin-top: 45%;
+  }
 
-.date-bar > * {
-  margin: 0.1rem;
-}
+  .date-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 3%;
+  }
 
-.date-input {
-  background-color: #ECEC8C;
-  border-radius: 15px;
-  border: none;
-  width: 40%;
-}
+  .date-bar>* {
+    margin: 0.1rem;
+  }
 
-.date-picker-btn {
-  background-color: #ECEC8C;
-  border-radius: 15px;
-  border: #ECEC8C;
-}
+  .date-input {
+    background-color: #ECEC8C;
+    border-radius: 15px;
+    border: none;
+    width: 40%;
+  }
 
-.text-date {
-  font-size: 0.6rem;
-  font-weight: bold;
-  color: #000;
-  margin-right: 0%;
-}
+  .date-picker-btn {
+    background-color: #ECEC8C;
+    border-radius: 15px;
+    border: #ECEC8C;
+  }
 
-.text-date2 {
-  font-size: 0.5rem;
-  font-weight: bold;
-  color: #000;
-  margin-right: 0%;
-}
+  .text-date {
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #000;
+    margin-right: 0%;
+  }
 
-.cm-card {
-  width: 100%;
+  .text-date2 {
+    font-size: 0.5rem;
+    font-weight: bold;
+    color: #000;
+    margin-right: 0%;
+  }
 
-}
-  
+  .cm-card {
+    width: 100%;
+
+  }
+
 }
 
 /* Tablet 768*1024 */
@@ -784,9 +795,10 @@ body {
   .blogg-container {
     display: flex;
     align-items: center;
-    margin-top: 25%!important;
+    margin-top: 25% !important;
     margin-left: 13%;
   }
+
   .small-initials-container {
     width: 50px;
     height: 50px;
@@ -804,6 +816,7 @@ body {
     margin-top: 1%;
 
   }
+
   .inside-post-container {
     display: flex;
     flex-direction: column;
@@ -816,12 +829,13 @@ body {
     margin-bottom: 10px;
     margin-left: 38%;
   }
+
   .post-date {
-    font-size: 15px; 
+    font-size: 15px;
   }
 
   .blogg-card-mobile {
-    width: 90%; 
+    width: 90%;
     margin-left: 3.5%;
     margin-right: 6.5%;
     margin-bottom: 3%;
@@ -849,7 +863,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-    margin-top: 47%!important;
+    margin-top: 47% !important;
   }
 
   .user-details {
@@ -857,16 +871,16 @@ body {
     align-items: center;
   }
 
- .admin-page-container {
-      flex-direction: column;
-      align-items: center;
-      margin-top: 45%!important;
-    }
-  
- .admin-card {
+  .admin-page-container {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 45% !important;
+  }
+
+  .admin-card {
     width: 100%;
     text-align: center;
-  } 
+  }
 
   .container-table {
     width: 100%;
@@ -879,11 +893,11 @@ body {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 3%;
-  } 
+  }
 
   .div-centered {
-   flex-direction: column;
-   align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .search-input {
@@ -900,83 +914,90 @@ body {
     font-size: 80%;
     width: 30%;
   }
+
   .no-select {
     font-size: 80%;
   }
+
   .userListMan {
     font-size: 80%;
     font-weight: bold;
   }
+
   .um-bot-btn {
-  font-size: 0.6rem;
-  padding: 0.065rem 0.015rem;
-  margin-right: 0%;
+    font-size: 0.6rem;
+    padding: 0.065rem 0.015rem;
+    margin-right: 0%;
   }
 
   .um-custom-table th,
   .um-custom-table td {
     padding: 0.1rem;
- }
+  }
 
- .page-container {
-  margin-top: 5%;
-  
-}
+  .page-container {
+    margin-top: 5%;
 
-.cont-man-container {
-  margin-top: 45%;
-}
+  }
 
-.date-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 0;
-  margin-bottom: 3%;
-}
+  .cont-man-container {
+    margin-top: 45%;
+  }
 
-.date-bar > * {
-  margin: 0.1rem;
-}
+  .date-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 3%;
+  }
 
-.date-input {
-  background-color: #ECEC8C;
-  border-radius: 15px;
-  border: none;
-  width: 40%;
-}
+  .date-bar>* {
+    margin: 0.1rem;
+  }
 
-.date-picker-btn {
-  background-color: #ECEC8C;
-  border-radius: 15px;
-  border: #ECEC8C;
-}
+  .date-input {
+    background-color: #ECEC8C;
+    border-radius: 15px;
+    border: none;
+    width: 40%;
+  }
 
-.text-date {
-  font-size: 0.6rem;
-  font-weight: bold;
-  color: #000;
-  margin-right: 0%;
-}
+  .date-picker-btn {
+    background-color: #ECEC8C;
+    border-radius: 15px;
+    border: #ECEC8C;
+  }
 
-.text-date2 {
-  font-size: 0.5rem;
-  font-weight: bold;
-  color: #000;
-  margin-right: 0%;
-}
+  .text-date {
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #000;
+    margin-right: 0%;
+  }
 
-.cm-card {
-  width: 100%;
+  .text-date2 {
+    font-size: 0.5rem;
+    font-weight: bold;
+    color: #000;
+    margin-right: 0%;
+  }
 
-}
+  .cm-card {
+    width: 100%;
 
-.initials-container {
-  width: 140px;
-  height: 140px;
-  font-size: 60px;
-  margin-left: 25%;
-}
+  }
+
+  .initials-container {
+    width: 140px;
+    height: 140px;
+    font-size: 60px;
+    margin-left: 25%;
+  }
+
+  .main-card {
+    margin-top: 6%;
+  }
 }
