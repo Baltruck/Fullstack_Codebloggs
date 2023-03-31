@@ -73,12 +73,11 @@ const App = () => {
             navigate(`/home/${userId}`);
             window.location.reload();
           } else if (location.pathname.split("/")[2] == userId) {
-            console.log("YOU stuck in a loop") 
+            console.log("YOU stuck in a loop");
 
             navigate(`/home/${data.UserInfo._id}`);
           }
         });
-
     } else if (
       userAuthLevel == "user" &&
       token &&
@@ -88,7 +87,6 @@ const App = () => {
       window.alert("Not autorise");
       navigate(`/home/${userId}`);
       window.location.reload();
-      
     }
   }, [location]);
 
@@ -106,7 +104,6 @@ const App = () => {
       <div className="main-content" style={{ margin: 20 }}>
         <Routes>
           <Route exact path="/home/:id" element={<Main />} />
-          {/* <Route exact path="/" element={<Main />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blogg" element={<Blogg />} />
