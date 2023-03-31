@@ -131,7 +131,7 @@ const Blogg = () => {
                 👍
               </span>
             </Card.Text>
-            <div className="inside-post-container">
+            <div className="inside-post-container blogg-comments">
               <Card.Text className="text-black post-comments">Comments:</Card.Text>
               <div className="post-comments">
                 {post.comments.map((comment) => (
