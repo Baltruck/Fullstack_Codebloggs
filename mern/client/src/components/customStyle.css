@@ -1,6 +1,5 @@
 .page-container {
   margin-top: 110px;
-
 }
 
 .blogg-container {
@@ -53,7 +52,6 @@
   background-color: #ECEC8C;
   font-size: 1.5em;
   font-weight: bold;
-
 }
 
 .table-wrapper {
@@ -77,7 +75,6 @@
 
 .mainFromLogo {
   background-color: #8C8CEC;
-
 }
 
 .custom-submit-btn {
@@ -100,7 +97,6 @@
   color: #ffffff;
   border-radius: 20px;
   margin-left: 10%;
-  /* margin-right: 10%; */
 }
 
 .custom-edit-btn {
@@ -175,7 +171,6 @@
 /* Font for body */
 body {
   font-family: 'Roboto Slab', serif;
-  /* font-family: 'Noto Serif Georgian', serif; */
 }
 
 /* Font for title and more */
@@ -371,8 +366,6 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  /* margin: 0!important; */
-  /* padding: 0!important; */
   margin-top: -1%;
   margin-bottom: 1%;
 }
@@ -458,11 +451,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* .admin-card-container { 
-  width: 45%;
-  justify-content: space-around;
-}  */
-
 .admin-page-container {
   display: flex;
   flex-wrap: wrap;
@@ -487,11 +475,8 @@ body {
 .admin-card {
   width: 30%;
   text-align: center;
-  /* margin-left: 12%; */
-  /* margin-right: 5%; */
   margin-bottom: 1%;
   margin-top: 5%;
-  /* padding: 1rem; */
   border-radius: 15px;
 }
 
@@ -499,15 +484,6 @@ body {
   background-color: inherit;
   border: none;
 }
-
-/* .admin-card-body {
-  border: none;
-}
-
-.admin-card::before {
-  box-shadow: none;
-} */
-
 
 .modal-text-title {
   font-family: 'Roboto Slab', serif;
@@ -527,8 +503,6 @@ body {
   width: calc(33% - 2rem);
   margin-left: auto;
   margin-right: auto;
-  /* margin-left: 2.8%; */
-  /* margin-right: 2.8%; */
   margin-bottom: 2%;
   border-radius: 20px;
 }
@@ -537,7 +511,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* margin-left: 2.3%; */
 }
 
 .comment-content {
@@ -610,7 +583,6 @@ body {
     font-weight: bolder;
     margin-bottom: 7%;
     margin-top: 1%;
-
   }
 
   .inside-post-container {
@@ -646,7 +618,6 @@ body {
     margin-right: auto;
     margin-bottom: 0;
     margin-top: 0;
-
   }
 
   .network-container {
@@ -734,7 +705,6 @@ body {
 
   .page-container {
     margin-top: 5%;
-
   }
 
   .cont-man-container {
@@ -789,9 +759,7 @@ body {
 
   .reg-container {
     margin-top: 15%;
-    /* margin-left: 10.5%; */
-    /* width: auto; */
-  } 
+  }
 
 }
 
@@ -820,7 +788,6 @@ body {
     margin-bottom: 7%;
     margin-top: 5%;
     margin-right: 2%;
-
   }
 
   .inside-post-container {
@@ -861,7 +828,6 @@ body {
     margin-right: auto;
     margin-bottom: 0;
     margin-top: 0;
-
   }
 
   .network-container {
@@ -947,7 +913,6 @@ body {
 
   .page-container {
     margin-top: 5%;
-
   }
 
   .cont-man-container {
@@ -1005,14 +970,13 @@ body {
 
   .cm-card {
     width: 100%;
-    margin:0%;
+    margin: 0%;
     margin-bottom: 3%;
-
   }
 
-.new-status-modal {
-    margin-top: 35%!important;
-    margin-left: 10%!important;
+  .new-status-modal {
+    margin-top: 35% !important;
+    margin-left: 10% !important;
   }
 
   .initials-container {
@@ -1035,12 +999,12 @@ body {
   }
 
   .modal-content {
-    margin-left: 10%!important;
+    margin-left: 10% !important;
   }
 
   .confirm-logout-modal {
-    margin-top: -20%!important;
-    margin-left: 16%!important;
+    margin-top: -20% !important;
+    margin-left: 16% !important;
   }
 
   .new-post-container {

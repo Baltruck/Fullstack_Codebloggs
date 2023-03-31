@@ -13,56 +13,56 @@ const Sidebar = ({ user }) => {
     ? "animated-border-sideBar"
     : "animated-border-navbar";
 
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const location = useLocation();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
 
-
-    useEffect(() => {
-      const authLevel = Cookies.get("auth_level");
-      if (authLevel) {
-        setIsLoggedIn(true);
-        if (authLevel === "admin") {
-          setIsAdmin(true);
-        }
-      } else {
-        setIsLoggedIn(false);
+  useEffect(() => {
+    const authLevel = Cookies.get("auth_level");
+    if (authLevel) {
+      setIsLoggedIn(true);
+      if (authLevel === "admin") {
+        setIsAdmin(true);
       }
-    }, []);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
-    const loggedInClass = isLoggedIn ? "" : "logged-out";
+  const loggedInClass = isLoggedIn ? "" : "logged-out";
 
-      return (
-        <div className={`sidebar ${themeClass} ${animationClass} ${loggedInClass}`}>
-          <ul className="sidebar-menu">
-            <li className="sidebar-item">
-              <NavLink 
-              to={location.pathname.startsWith("/home") ? "#" : `/home/${userId}`}
-              disabled={location.pathname.startsWith("/home")}
-              activeclassname="active-link">
-                Home
-              </NavLink>
-            </li>
-            <li className="sidebar-item">
-              <NavLink to="/blogg" activeclassname="active-link">
-                Blogg
-              </NavLink>
-            </li>
-            <li className="sidebar-item">
-              <NavLink to="/network" activeclassname="active-link">
-                Network
-              </NavLink>
-            </li>
-            {isAdmin && (
-              <li className="sidebar-item">
-                <NavLink to="/admin" activeclassname="active-link">
-                  Admin
-                </NavLink>
-              </li>
-            )}
-          </ul>
-        </div>
-      );
-    };
+  return (
+    <div className={`sidebar ${themeClass} ${animationClass} ${loggedInClass}`}>
+      <ul className="sidebar-menu">
+        <li className="sidebar-item">
+          <NavLink
+            to={location.pathname.startsWith("/home") ? "#" : `/home/${userId}`}
+            disabled={location.pathname.startsWith("/home")}
+            activeclassname="active-link"
+          >
+            Home
+          </NavLink>
+        </li>
+        <li className="sidebar-item">
+          <NavLink to="/blogg" activeclassname="active-link">
+            Blogg
+          </NavLink>
+        </li>
+        <li className="sidebar-item">
+          <NavLink to="/network" activeclassname="active-link">
+            Network
+          </NavLink>
+        </li>
+        {isAdmin && (
+          <li className="sidebar-item">
+            <NavLink to="/admin" activeclassname="active-link">
+              Admin
+            </NavLink>
+          </li>
+        )}
+      </ul>
+    </div>
+  );
+};
 
 export default Sidebar;

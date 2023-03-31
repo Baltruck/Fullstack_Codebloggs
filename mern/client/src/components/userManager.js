@@ -47,11 +47,7 @@ const UsersList = () => {
           a.first_name.localeCompare(b.first_name)
         );
         setUsers(sortedData);
-        setLoading(false); 
-        // timeout to simulate loading
-        // setTimeout(() => {
-        //   setLoading(false);
-        // }, 3000);
+        setLoading(false);
       });
   }, []);
 
@@ -119,7 +115,6 @@ const UsersList = () => {
 
       const result = await response.json();
 
-      // Appeler le rappel onSuccess ici
       if (onSuccess) {
         onSuccess();
       }
@@ -184,7 +179,12 @@ const UsersList = () => {
 
       <div className="container-table">
         <div className="table-wrapper animated-border">
-          <Table striped bordered hover className="table-custom table-centered um-custom-table">
+          <Table
+            striped
+            bordered
+            hover
+            className="table-custom table-centered um-custom-table"
+          >
             <thead>
               <tr>
                 <th

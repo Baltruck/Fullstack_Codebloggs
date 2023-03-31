@@ -27,9 +27,6 @@ const Main = () => {
   const [lastPostDate, setLastPostDate] = useState("");
   const [likedPosts, setLikedPosts] = useState([]);
   const location = useLocation();
-  //Get all Post by user
-  // console.log("User ID Param ");
-  // console.log(location.pathname.split("/")[2]);
   const userId = location.pathname.split("/")[2];
 
   const loadUserArticles = async () => {
@@ -107,7 +104,7 @@ const Main = () => {
           };
         });
       } else {
-        // put error message here
+        throw new Error("Error updating status");
       }
     } catch (error) {
       setLoading(false);
@@ -166,101 +163,47 @@ const Main = () => {
     }
   };
 
-  // Get user info and inbitials
-  // useEffect(() => {
-  //   const userName = Cookies.get("userName");
-  //   if (userName) {
-  //     const nameParts = userName.split(" ");
-
-  //     if (nameParts.length === 2) {
-  //       const firstInitial = nameParts[0].charAt(0).toUpperCase();
-  //       const secondInitial = nameParts[1].charAt(0).toUpperCase();
-  //       const userInitials = `${firstInitial}${secondInitial}`;
-  //       setInitials(userInitials);
-  //       console.log("User initials:", userInitials);
-  //     }
-  //   }
-  //   console.log("firstName:", firstName);
-  //   console.log("lastName:", lastName);
-  //   console.log("email:", email);
-
-  //   if (firstName && lastName) {
-  //     fetch("http://localhost:5000/userInfo", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         userId: userId,
-  //       }),
-  //     })
-  //       .then((response) => {
-  //         if (response.ok) {
-  //           return response.json();
-  //         } else {
-  //           throw new Error("Error fetching user info");
-  //         }
-  //       })
-  //       .then((data) => {
-  //         setUserInfo(data.UserInfo);
-
-  //         if (data.UserInfo.user_id) {
-  //           loadUserArticles();
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching user info:", error);
-  //       });
-  //   }
-  // }, []);
-
   useEffect(() => {
-      fetch("http://localhost:5000/userInfo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: userId,
-        }),
+    fetch("http://localhost:5000/userInfo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error fetching user info");
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Error fetching user info");
+      .then((data) => {
+        console.log("data.UserInfo");
+
+        setUserInfo(data.UserInfo);
+
+        if (data.UserInfo._id) {
+          const fullName =
+            data.UserInfo.first_name + " " + data.UserInfo.last_name;
+          const nameParts = fullName.split(" ");
+
+          if (nameParts.length === 2) {
+            const firstInitial = nameParts[0].charAt(0).toUpperCase();
+            const secondInitial = nameParts[1].charAt(0).toUpperCase();
+            const userInitials = `${firstInitial}${secondInitial}`;
+            setInitials(userInitials);
+            console.log("User initials:", userInitials);
           }
-        })
-        .then((data) => {
-          // console.log("data.UserInfo");
 
-          setUserInfo(data.UserInfo);
-
-          // console.log("data.UserInfo.user_id");
-          // console.log(data.UserInfo._id);
-
-
-          if (data.UserInfo._id) {
-            const fullName = data.UserInfo.first_name + ' ' + data.UserInfo.last_name;
-            // console.log("FULLNAME LOG");
-            // console.log(fullName);
-            const nameParts = fullName.split(" ");
-
-            if (nameParts.length === 2) {
-              const firstInitial = nameParts[0].charAt(0).toUpperCase();
-              const secondInitial = nameParts[1].charAt(0).toUpperCase();
-              const userInitials = `${firstInitial}${secondInitial}`;
-              setInitials(userInitials);
-              console.log("User initials:", userInitials);
-            }
-
-            loadUserArticles();
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching user info:", error);
-        });
-    
+          loadUserArticles();
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user info:", error);
+      });
   }, []);
 
   useEffect(() => {
@@ -372,12 +315,7 @@ const Main = () => {
                     {post.comments.map((comment) => (
                       <Card.Text key={comment._id} className="text-black">
                         {comment.content} - {formatDate(comment.times_stamp)}
-                        <Button
-                          variant="link"
-                          // onClick={() => handleCommentLikeClick(comment._id)}
-                        >
-                          👍
-                        </Button>
+                        <Button variant="link">👍</Button>
                         {comment.likes}
                       </Card.Text>
                     ))}
