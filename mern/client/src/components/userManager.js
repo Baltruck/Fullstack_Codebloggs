@@ -156,7 +156,7 @@ const UsersList = () => {
   };
 
   return (
-    <div>
+    <div className="um-main-container">
       <h1 className="umTitle">Users Management</h1>
       <form onSubmit={handleSearch} className="div-centered">
         <input
