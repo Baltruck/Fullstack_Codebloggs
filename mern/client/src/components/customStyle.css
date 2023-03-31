@@ -787,6 +787,12 @@ body {
 
   }
 
+  .reg-container {
+    margin-top: 15%;
+    /* margin-left: 10.5%; */
+    /* width: auto; */
+  } 
+
 }
 
 /* Tablet 768*1024 */
@@ -1004,6 +1010,11 @@ body {
 
   }
 
+.new-status-modal {
+    margin-top: 35%!important;
+    margin-left: 10%!important;
+  }
+
   .initials-container {
     width: 140px;
     height: 140px;
@@ -1024,15 +1035,31 @@ body {
   }
 
   .modal-content {
-    margin-top: 55%!important;
     margin-left: 10%!important;
+  }
+
+  .confirm-logout-modal {
+    margin-top: -20%!important;
+    margin-left: 16%!important;
   }
 
   .new-post-container {
     margin-left: 6.5%;
     margin-top: -10%;
   }
+
   .um-main-container {
     margin-left: 10.5%;
+  }
+
+  .login-container {
+    margin-top: 0%;
+    margin-left: 5.5%;
+  }
+
+  .reg-container {
+    margin-top: 0%;
+    margin-left: 10.5%;
+    width: auto;
   }
 }

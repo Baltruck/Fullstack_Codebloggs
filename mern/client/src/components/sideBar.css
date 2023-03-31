@@ -60,6 +60,12 @@
     margin-top: 7%;
   }
 
+  .sidebar.logged-out {
+    margin-top:0%;
+    
+  }
+  
+
   .sidebar-menu {
     display: flex;
     justify-content: space-around;
