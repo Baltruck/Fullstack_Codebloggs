@@ -843,4 +843,140 @@ body {
     margin-top: 0;
 
   }
+
+  .network-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 47%!important;
+  }
+
+  .user-details {
+    flex-direction: column;
+    align-items: center;
+  }
+
+ .admin-page-container {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 45%!important;
+    }
+  
+ .admin-card {
+    width: 100%;
+    text-align: center;
+  } 
+
+  .container-table {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 4%;
+  }
+
+  .umTitle {
+    margin-top: 45%;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 3%;
+  } 
+
+  .div-centered {
+   flex-direction: column;
+   align-items: center;
+  }
+
+  .search-input {
+    max-width: 80%;
+    margin-bottom: 3%;
+  }
+
+  .table-wrapper {
+    width: 100%;
+  }
+
+  .admin-btn {
+    margin-top: 3%;
+    font-size: 80%;
+    width: 30%;
+  }
+  .no-select {
+    font-size: 80%;
+  }
+  .userListMan {
+    font-size: 80%;
+    font-weight: bold;
+  }
+  .um-bot-btn {
+  font-size: 0.6rem;
+  padding: 0.065rem 0.015rem;
+  margin-right: 0%;
+  }
+
+  .um-custom-table th,
+  .um-custom-table td {
+    padding: 0.1rem;
+ }
+
+ .page-container {
+  margin-top: 5%;
+  
+}
+
+.cont-man-container {
+  margin-top: 45%;
+}
+
+.date-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 3%;
+}
+
+.date-bar > * {
+  margin: 0.1rem;
+}
+
+.date-input {
+  background-color: #ECEC8C;
+  border-radius: 15px;
+  border: none;
+  width: 40%;
+}
+
+.date-picker-btn {
+  background-color: #ECEC8C;
+  border-radius: 15px;
+  border: #ECEC8C;
+}
+
+.text-date {
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: #000;
+  margin-right: 0%;
+}
+
+.text-date2 {
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: #000;
+  margin-right: 0%;
+}
+
+.cm-card {
+  width: 100%;
+
+}
+
+.initials-container {
+  width: 140px;
+  height: 140px;
+  font-size: 60px;
+  margin-left: 25%;
+}
 }

@@ -69,5 +69,7 @@
   .main-container {
     flex-direction: row;
     justify-content: space-evenly;
+    margin-top: 18%!important;
+    margin-left: 10%;
   }
 }
