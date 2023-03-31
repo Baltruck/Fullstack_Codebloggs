@@ -21,7 +21,7 @@ const Network = () => {
         console.error("Error fetching users:", error.message);
       }
     };
-  
+
     const findLatestPost = async (userId) => {
       const fetchUserPosts = async (userId) => {
         try {
@@ -32,7 +32,7 @@ const Network = () => {
             },
             body: JSON.stringify({ userId }),
           });
-  
+
           if (response.ok) {
             const userPosts = await response.json();
             return userPosts;
@@ -45,21 +45,23 @@ const Network = () => {
           return [];
         }
       };
-  
+
       const userPosts = await fetchUserPosts(userId);
-  
+
       if (userPosts.length > 0) {
-        userPosts.sort((a, b) => new Date(b.time_stamp) - new Date(a.time_stamp));
+        userPosts.sort(
+          (a, b) => new Date(b.time_stamp) - new Date(a.time_stamp)
+        );
         return userPosts[0];
       }
-  
+
       return null;
     };
-  
+
     const fetchAllData = async () => {
       setLoading(true);
       await fetchAllUsers();
-    
+
       // Fetch the latest post for each user and store them in an array
       const latestPostsPromises = userList.map(async (user) => {
         const latestPost = await findLatestPost(user._id);
@@ -81,7 +83,7 @@ const Network = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
-    
+
   return (
     <div className="network-container page-container">
       {userList.map((user) => {
@@ -134,6 +136,5 @@ const Network = () => {
     </div>
   );
 };
-  
 
 export default Network;
