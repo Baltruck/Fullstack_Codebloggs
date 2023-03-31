@@ -4,7 +4,6 @@ import "./mainComponent.css";
 import Skeleton from "react-loading-skeleton";
 import "./Skeleton.css";
 
-
 const ContentManager = () => {
   const [posts, setPosts] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -21,7 +20,6 @@ const ContentManager = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
-
 
   //calculate index of last post and first post
   const indexOfLastPost = (currentPage + 1) * resultsPerPage;
@@ -109,7 +107,7 @@ const ContentManager = () => {
     setShowDeleteModal(false);
     setPostToDelete(null);
   };
-  
+
   const closeModal = () => {
     setShowDeleteModal(false);
     setPostToDelete(null);
@@ -151,7 +149,12 @@ const ContentManager = () => {
       <Card.Body>
         <div style={{ display: "flex" }}>
           <div className="user-initials small-initials-container animated-border-initials-container">
-          <Skeleton className="skeleton-circle" circle={true} height={80} width={80} />
+            <Skeleton
+              className="skeleton-circle"
+              circle={true}
+              height={80}
+              width={80}
+            />
           </div>
           <div className="cm-inside-post-container">
             <Card.Text className="text-black">
@@ -172,7 +175,10 @@ const ContentManager = () => {
           <Card.Text className="text-black cm-likes">
             <Skeleton className="skeleton-text" width={"10%"} />
           </Card.Text>
-          <Button variant="danger" className="custom-delete-btn um-bot-btn cm-bot-btn">
+          <Button
+            variant="danger"
+            className="custom-delete-btn um-bot-btn cm-bot-btn"
+          >
             <Skeleton width={"100%"} height={"100%"} />
           </Button>
         </div>
@@ -190,9 +196,6 @@ const ContentManager = () => {
       </Card.Body>
     </Card>
   );
-  
-  
-  
 
   return (
     <div className="cont-man-container">
@@ -230,79 +233,77 @@ const ContentManager = () => {
         </select>
       </div>
 
-
       {isLoading ? (
-  <PostSkeleton />
-) : (
-      currentPosts
-        .filter((post) => {
-          const postDate = new Date(post.time_stamp);
-          const fromDate = new Date(dateFrom);
-          fromDate.setDate(fromDate.getDate() + 1);
-          const toDate = new Date(dateTo);
-          toDate.setDate(toDate.getDate() + 1);
+        <PostSkeleton />
+      ) : (
+        currentPosts
+          .filter((post) => {
+            const postDate = new Date(post.time_stamp);
+            const fromDate = new Date(dateFrom);
+            fromDate.setDate(fromDate.getDate() + 1);
+            const toDate = new Date(dateTo);
+            toDate.setDate(toDate.getDate() + 1);
 
-          return postDate >= fromDate && postDate <= toDate;
-        })
-        .map((post) => (
-          <Card
-            key={post.id || post._id}
-            className="mainFromLogo animated-border cm-card flex-container"
-          >
-            <Card.Body>
-              <div style={{ display: "flex" }}>
-                <div className="user-initials small-initials-container animated-border-initials-container">
-                  {post.user_first_initial}
-                  {post.user_last_initial}
-                </div>
-                <div className="cm-inside-post-container">
-                  <Card.Text className="text-black">{post.content}</Card.Text>
-                  <Card.Text className="text-black">
-                    Post date: {formatDate(post.time_stamp)}
-                  </Card.Text>
-                </div>
-              </div>
-              <div className="button-container">
-              <Card.Text className="text-black cm-likes">
-                {post.likes}{" "}
-                <span
-                  role="img"
-                  aria-label="thumbs up"
-                  style={{ cursor: "pointer" }}
-                >
-                  👍
-                </span>
-              </Card.Text>           
-              <Button
-  variant="danger"
-  className="custom-delete-btn um-bot-btn cm-bot-btn"
-  onClick={() => {
-    setShowDeleteModal(true);
-    setPostToDelete(post);
-  }}
->
-  Delete
-</Button>
-
-                </div>
-              <div className="inside-post-container">
-                <Card.Text className="text-black">Comments:</Card.Text>
-                <div className="post-comments">
-                  {post.comments.map((comment) => (
-                    <Card.Text key={comment._id} className="text-black">
-                      {comment.content}
-                      <br />
-                      {formatDate(comment.times_stamp)}
-
-                      <Button variant="link">👍</Button>
-                      {comment.likes}
+            return postDate >= fromDate && postDate <= toDate;
+          })
+          .map((post) => (
+            <Card
+              key={post.id || post._id}
+              className="mainFromLogo animated-border cm-card flex-container"
+            >
+              <Card.Body>
+                <div style={{ display: "flex" }}>
+                  <div className="user-initials small-initials-container animated-border-initials-container">
+                    {post.user_first_initial}
+                    {post.user_last_initial}
+                  </div>
+                  <div className="cm-inside-post-container">
+                    <Card.Text className="text-black">{post.content}</Card.Text>
+                    <Card.Text className="text-black">
+                      Post date: {formatDate(post.time_stamp)}
                     </Card.Text>
-                  ))}                
+                  </div>
                 </div>
-              </div>
-            </Card.Body>
-          </Card>
-        ))
+                <div className="button-container">
+                  <Card.Text className="text-black cm-likes">
+                    {post.likes}{" "}
+                    <span
+                      role="img"
+                      aria-label="thumbs up"
+                      style={{ cursor: "pointer" }}
+                    >
+                      👍
+                    </span>
+                  </Card.Text>
+                  <Button
+                    variant="danger"
+                    className="custom-delete-btn um-bot-btn cm-bot-btn"
+                    onClick={() => {
+                      setShowDeleteModal(true);
+                      setPostToDelete(post);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
+                <div className="inside-post-container">
+                  <Card.Text className="text-black">Comments:</Card.Text>
+                  <div className="post-comments">
+                    {post.comments.map((comment) => (
+                      <Card.Text key={comment._id} className="text-black">
+                        {comment.content}
+                        <br />
+                        {formatDate(comment.times_stamp)}
+
+                        <Button variant="link">👍</Button>
+                        {comment.likes}
+                      </Card.Text>
+                    ))}
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          ))
       )}
       {/* Pagination */}
       <div className="pagination-container">
@@ -317,40 +318,39 @@ const ContentManager = () => {
         ))}
       </div>
       <Modal
-  show={showDeleteModal}
-  onHide={closeModal}
-  contentClassName="status-card main-card mainFromLogo animated-border"
-  centered
->
-  <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
-    <Modal.Title className="modal-text-title">Confirm delete</Modal.Title>
-  </Modal.Header>
-  <div className="inside-post-container">
-    <Modal.Body
-      style={{ border: "0", padding: "1rem 1rem" }}
-      className="text-black"
-    >
-      Are you sure you want to delete this post?
-    </Modal.Body>
-  </div>
-  <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
-    <Button
-      variant="secondary"
-      onClick={closeModal}
-      className="custom-close-btn"
-    >
-      Cancel
-    </Button>
-    <Button
-      variant="danger"
-      onClick={confirmDelete}
-      className="custom-submit-btn"
-    >
-      Delete
-    </Button>
-  </Modal.Footer>
-</Modal>
-
+        show={showDeleteModal}
+        onHide={closeModal}
+        contentClassName="status-card main-card mainFromLogo animated-border"
+        centered
+      >
+        <Modal.Header style={{ border: "0", padding: "1rem 1rem" }}>
+          <Modal.Title className="modal-text-title">Confirm delete</Modal.Title>
+        </Modal.Header>
+        <div className="inside-post-container">
+          <Modal.Body
+            style={{ border: "0", padding: "1rem 1rem" }}
+            className="text-black"
+          >
+            Are you sure you want to delete this post?
+          </Modal.Body>
+        </div>
+        <Modal.Footer style={{ border: "0", padding: "1rem 1rem" }}>
+          <Button
+            variant="secondary"
+            onClick={closeModal}
+            className="custom-close-btn"
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={confirmDelete}
+            className="custom-submit-btn"
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
