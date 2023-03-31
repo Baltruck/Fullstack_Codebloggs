@@ -103,7 +103,12 @@ const Network = () => {
                     {user.first_name} {user.last_name}
                   </Card.Text>
                   <Card.Text className="text-black text-center">
-                    Birthday: {user.birthday}
+                    Birthday:{" "}
+                    {new Date(user.birthday).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
                   </Card.Text>
                   <Card.Text className="text-black text-center">
                     Email: {user.email}

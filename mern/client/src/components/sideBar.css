@@ -3,14 +3,11 @@
     top: 56px; 
     left: 0;
     height: calc(100%);
-    /* width: 100%; */
     background-color: #f8f9fa;
     padding-top: 0;
     z-index: 1000;
     overflow-y: auto;
-    /* margin-top: -56px; */
   }
-  
   
   .sidebar-menu {
     list-style-type: none;
@@ -39,13 +36,10 @@
 
   .sidebar-item .active {
     color: #8c8cec !important;
-    font-weight: bolder !important;
-    
+    font-weight: bolder !important; 
   }
   
-  
-
-/* Écrans smartphones */
+/* PHONE */
 @media (max-width: 767px) {
   .sidebar {
     position: fixed;
@@ -61,11 +55,9 @@
   }
 
   .sidebar.logged-out {
-    margin-top:0%;
-    
+    margin-top:0%; 
   }
   
-
   .sidebar-menu {
     display: flex;
     justify-content: space-around;
